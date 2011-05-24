@@ -1,0 +1,16 @@
+file browser
+	treeview
+	folder(new rename delete)
+	file(new rename delete)
+
+editor panel
+	html editor
+	code editor
+	
+inspector panel
+	link file (css js)
+	resource brawser (image flash video)
+	snippets
+	
+	
+	

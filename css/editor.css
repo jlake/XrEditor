@@ -1,0 +1,29 @@
+body {
+	margin: 5px;
+}
+
+div {
+	background: url(../icons/lbl/div.gif) no-repeat 2px 2px;
+	padding-top:8px;
+	border:1px dashed #0C0 !important;
+}
+
+form {
+	background: url(../icons/lbl/form.gif) no-repeat 2px 2px;
+	padding-top:8px;
+	border:1px dashed #0C0 !important;
+}
+
+table {
+	/*
+	background: url(../icons/lbl/table.gif) no-repeat 2px 2px;
+	padding-top:8px;
+	*/
+	border:1px dashed #CCC !important;
+	margin:0;
+	border-spacing:2px;
+}
+
+table td {
+	border: 1px dashed #CCC;
+}
