@@ -27,7 +27,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		});
 		this.callParent(arguments);
 	},
-    createToolbar : function(editor){
-		super.createToolbar(editor);
+
+	createToolbar : function(editor){
 	}
 });

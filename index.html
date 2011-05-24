@@ -2,32 +2,38 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>XrEditor Example</title>
-    <link rel="stylesheet" type="text/css" href="../ext4/resources/css/ext-all.css" />
-    <script type="text/javascript" src="../ext4/ext-all.js"></script>
-    <script type="text/javascript" src="./js/App.js"></script>
-    <script type="text/javascript">
-        Ext.Loader.setConfig({
+	<title>XrEditor Example</title>
+	<link rel="stylesheet" type="text/css" href="../ext4/resources/css/ext-all.css" />
+	<link rel="stylesheet" type="text/css" href="css/app-all.css" />
+	<script type="text/javascript" src="../ext4/bootstrap.js"></script>
+	<script type="text/javascript" src="./js/App.js"></script>
+	<script type="text/javascript">
+		Ext.Loader.setConfig({
 			enabled: true,
 			paths: {
 				XrEditor: 'js'
 			}
 		});
 
-        Ext.require([
-            'Ext.layout.container.*',
-            'Ext.resizer.Splitter',
-            'Ext.fx.target.Element',
-            'Ext.fx.target.Component',
-            'Ext.window.Window',
+		Ext.require([
+			'Ext.layout.container.*',
+			'Ext.resizer.Splitter',
+			'Ext.fx.target.Element',
+			'Ext.fx.target.Component',
+			'Ext.window.Window',
+			'XrEditor.FileBrowser',
+			'XrEditor.EditorFrame',
+			'XrEditor.Inspector',
+			'XrEditor.Util',
 			'XrEditor.Html',
-            //'Ext.app.TabEditor',
-       ]);
+			'XrEditor.Selection',
+			'XrEditor.Range',
+	   ]);
 
-        Ext.onReady(function(){
-            Ext.create('XrEditor.App');
-        });
-    </script>
+		Ext.onReady(function(){
+			Ext.create('XrEditor.App');
+		});
+	</script>
 </head>
 <body>
 </body>

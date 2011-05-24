@@ -21,43 +21,42 @@ Ext.define('XrEditor.App', {
 			},
 			items: [{
 				region: 'north',
-				collapsible: true,
 				title: 'North',
+				collapsible: true,
 				split: true,
 				height: 100,
 				html: 'north panel'
 			},{
 				region: 'west',
+				title: 'File browser',
 				collapsible: true,
-				title: 'Starts at width 30%',
 				split: true,
-				width: '30%',
-				html: 'west panel'
+				width: '25%',
+				items: new XrEditor.FileBrowser
 			},{
 				region: 'center',
 				//layout: 'border',
 				//border: false,
-				html: 'center panel'
+				items: new XrEditor.EditorFrame
 			},{
 				region: 'east',
+				title: 'Inspector',
 				collapsible: true,
 				floatable: true,
 				split: true,
-				width: 200,
-				title: 'East',
-				html: 'east panel'
+				width: 250,
+				items: new XrEditor.Inspector
 			},{
 				region: 'south',
 				collapsible: true,
 				split: true,
-				height: 200,
+				height: 100,
 				title: 'South',
 				html: 'south panel'
 			}],
 			listeners: {
 				render: function() {
-					//alert("Hello");
-					XrEditor.Html.sayHello();
+					//XrEditor.Html.sayHello();
 				}
 			}
 		});
