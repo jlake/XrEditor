@@ -1,0 +1,29 @@
+/*
+ * UI style for app
+*/
+
+/* Message Box */
+.msg .x-box-mc {
+	font-size:14px;
+}
+
+#flash-msg {
+	position:absolute;
+	left:35%;
+	top:20px;
+	width:360px;
+	z-index:20000;
+}
+
+/* Icons */
+.icon-help {
+	background-image:url(../images/icon/question.png) !important;
+}
+
+.icon-save {
+	background-image:url(../images/icon/disk.png) !important;
+}
+
+.icon-saveall {
+	background-image:url(../images/icon/disks.png) !important;
+}
