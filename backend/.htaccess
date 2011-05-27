@@ -1,6 +1,6 @@
 RewriteEngine On
+RewriteBase /xreditor/backend
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteBase /xreditor/backend
 RewriteRule ^(.*)$ index.php [QSA,L]
 
