@@ -7,26 +7,26 @@ Ext.define('XrEditor.Html', {
 	//*******************************************************
 	// HTML 特殊文字変換
 	//*******************************************************
-	encodeHtml: function(sHtml){
-		return (sHtml + '').replace(/&(?!amp;|lt;|gt;|quot;)/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/\"/g, '&quot;');
+	escapeHtml: function(sHtml){
+		return (sHtml + '').replace(/&(?!amp;|lt;|gt;|quot;)/gm, '&amp;')
+			.replace(/</gm, '&lt;')
+			.replace(/>/gm, '&gt;')
+			.replace(/\"/gm, '&quot;');
 	},
 	//*******************************************************
 	// 色文字列 "rgb(d, d, d)" を "#hhhhhh" 形式に変換
 	//*******************************************************
-	decToHex: function(nDec) {
-		if(!nDec) return '00';
-		nDec = parseInt(nDec);
-		if (nDec == 0 || isNaN(nDec)) return '00';
-		nDec = Math.max(0, nDec);
-		nDec = Math.min(nDec, 255);
-		nDec = Math.round(nDec);
-		var sHex = '0123456789ABCDEF';
-		return sHex.charAt((nDec - nDec % 16)/16) + sHex.charAt(nDec % 16);
-	},
 	rgbToHex: function(sHtml) {
+		var decToHex = function(nDec) {
+			if(!nDec) return '00';
+			nDec = parseInt(nDec);
+			if (nDec == 0 || isNaN(nDec)) return '00';
+			nDec = Math.max(0, nDec);
+			nDec = Math.min(nDec, 255);
+			nDec = Math.round(nDec);
+			var sHex = '0123456789ABCDEF';
+			return sHex.charAt((nDec - nDec % 16)/16) + sHex.charAt(nDec % 16);
+		};
 		return sHtml.replace(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/ig, function($0, r, g, b) {
 			return '#' + this.toHex(r) + this.toHex(g) + this.toHex(b);
 		});
@@ -34,7 +34,7 @@ Ext.define('XrEditor.Html', {
 	//*******************************************************
 	// HTML→XHTML変換
 	//*******************************************************
-	toXhtml: function(sHtml) {
+	formatXhtml: function(sHtml) {
 		//属性の文字列変換
 		function formatAttr(name, value){
 			name = name.trim().toLowerCase();
