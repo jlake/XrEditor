@@ -18,14 +18,14 @@ Ext.define('XrEditor.EditorFrame', {
 	autoScroll: true,
 	border: false,
 
+	htmlEditor: null,
+	
 	initComponent: function(){
+		this.htmlEditor = new XrEditor.HtmlEditor;
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()],
 			height: '100%',
-			items: [{
-				title: 'Untitled',
-				html: 'Untitle document'
-			}]
+			items: [this.htmlEditor]
 		});
 		this.callParent(arguments);
 	},

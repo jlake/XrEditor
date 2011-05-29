@@ -10,7 +10,7 @@
  * @author ouzhiwei@gmail.com (Jlake Ou)
  */
 Ext.define('XrEditor.Inspector', {
-	extend: 'Ext.tab.Panel',
+	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrinspector',
 	
 	//title: 'Inspector',
@@ -18,14 +18,17 @@ Ext.define('XrEditor.Inspector', {
 	autoScroll: true,
 	border: false,
 
+	title: 'Inspector',
+	
 	initComponent: function(){
 		Ext.apply(this, {
-			dockedItems: [this.createToolbar()],
+			//dockedItems: [this.createToolbar()],
 			height: '100%',
 			html: 'not ready'
 		});
 		this.callParent(arguments);
 	},
+
 	/**
 	 * Create the top toolbar
 	 * @private
@@ -42,6 +45,7 @@ Ext.define('XrEditor.Inspector', {
 		};
 		return Ext.create('widget.toolbar', config);
 	},
+
 	showHelp: function() {
 		XrEditor.Util.showMsg('show Help', 'INFO', 'メッセージ');
 	}

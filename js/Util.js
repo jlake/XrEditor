@@ -44,7 +44,7 @@ XrEditor.Util = function() {
 		 */
 		showMsg: function(sMsg, sLevel, sTitle, args) {
 			var params = {
-				title: sTitle || 'エラー',
+				title: sTitle || 'メッセージ',
 				msg: sMsg,
 				buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox[sLevel] || Ext.MessageBox.WARNING

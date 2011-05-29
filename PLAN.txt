@@ -9,7 +9,10 @@ editor panel
 	
 inspector panel
 	link file (css js)
-	resource brawser (image flash video)
+	tag property list
+
+toolbox panel
+	resource browser (image flash video)
 	snippets
 	
 	

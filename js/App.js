@@ -21,11 +21,11 @@ Ext.define('XrEditor.App', {
 			},
 			items: [{
 				region: 'north',
-				title: 'North',
-				collapsible: true,
+				//title: 'North',
+				//collapsible: true,
 				split: true,
-				height: 100,
-				html: 'north panel'
+				height: 50,
+				html: '<h1>XrEditor</h1>'
 			},{
 				region: 'west',
 				title: 'File browser',
@@ -35,24 +35,27 @@ Ext.define('XrEditor.App', {
 				items: new XrEditor.FileBrowser
 			},{
 				region: 'center',
-				//layout: 'border',
+				layout: 'border',
 				//border: false,
-				items: new XrEditor.EditorFrame
+				items: [{
+					region: 'center',
+					border: false,
+					items: new XrEditor.EditorFrame
+				},{
+					region: 'south',
+					//collapsible: true,
+					split: true,
+					height: 100,
+					items: new XrEditor.Inspector
+				}]
 			},{
 				region: 'east',
-				title: 'Inspector',
+				title: 'Toolbox',
 				collapsible: true,
 				floatable: true,
 				split: true,
 				width: 250,
-				items: new XrEditor.Inspector
-			},{
-				region: 'south',
-				collapsible: true,
-				split: true,
-				height: 100,
-				title: 'South',
-				html: 'south panel'
+				items: new XrEditor.Toolbox
 			}],
 			listeners: {
 				render: function() {
