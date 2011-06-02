@@ -1,11 +1,21 @@
 <?php
-defined('ROOT_PATH')
-    || define('ROOT_PATH', realpath(dirname(__FILE__)));
+error_reporting(E_ALL | E_STRICT);
 
-require_once ROOT_PATH . '/config/global.inc.php';
+defined('APP_ROOT')
+    || define('APP_ROOT', realpath(dirname(__FILE__)));
+
+defined('EDITOR_DOCROOT')
+    || define('EDITOR_DOCROOT',  APP_ROOT . '/var/docroot');
+
+set_include_path(implode(PATH_SEPARATOR, array(
+    APP_ROOT.'/lib',
+    get_include_path()
+)));
+
+require_once APP_ROOT . '/config/global.inc.php';
 k()
   // Enable file logging
-  ->setLog(ROOT_PATH . '/log/debug.log')
+  ->setLog(APP_ROOT . '/log/debug.log')
   // Uncomment the next line to enable in-browser debugging
   //->setDebug()
   // Dispatch request

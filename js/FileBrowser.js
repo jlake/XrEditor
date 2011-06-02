@@ -15,15 +15,39 @@ Ext.define('XrEditor.FileBrowser', {
 	autoScroll: true,
 	border: true,
 	//title: 'Fire Browser',
-	initComponent: function(){
+	nodeUrl: 'backend/file/nodes.json',
+	initComponent: function() {
+		var store = Ext.create('Ext.data.TreeStore', {
+			proxy: {
+				type: 'ajax',
+				url: this.nodeUrl
+			},
+			root: {
+				text: 'Root',
+				id: '.',
+				expanded: true
+			},
+			folderSort: true,
+			sorters: [{
+				property: 'text',
+				direction: 'ASC'
+			}]
+		});
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()],
 			height: '100%',
-			html: 'not ready'
+			store: store,
+			viewConfig: {
+				plugins: {
+					ptype: 'treeviewdragdrop',
+					appendOnly: true
+				}
+			}
 		});
 		this.callParent(arguments);
 	},
-	/**
+
+		/**
 	 * Create the top toolbar
 	 * @private
 	 * @return {Ext.toolbar.Toolbar} toolbar

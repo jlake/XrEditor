@@ -5,3 +5,6 @@
   <a href="<?php e(url('dummy')); ?>">Dummy</a>
 </p>
 
+<p>
+  <a href="<?php e(url('file')); ?>">File</a>
+</p>

@@ -12,7 +12,16 @@
 	left:35%;
 	top:20px;
 	width:360px;
-	z-index:20000;
+	z-index:9999;
+}
+
+/* Override */
+.folder .x-tree-node-icon {
+	background:transparent url(../images/icon/folder.png);
+}
+
+.x-tree-node-expanded .x-tree-node-icon {
+	background:transparent url(../images/icon/folder-open.png);
 }
 
 /* Icons */
@@ -26,4 +35,14 @@
 
 .icon-saveall {
 	background-image:url(../images/icon/disks.png) !important;
+}
+
+.icon-folder-add {
+	background-image:url(../images/icon/folder-plus.gif) !important;
+}
+.icon-folder-del {
+	background-image:url(../images/icon/folder-minus.gif) !important;
+}
+.icon-folder-edit {
+	background-image:url(../images/icon/folder-pencil.gif) !important;
 }
