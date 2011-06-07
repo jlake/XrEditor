@@ -22,14 +22,15 @@ Ext.define('XrEditor.HtmlEditor', {
 	border: true,
 
 	title: 'Html Editor',
+
 	iframe: null,
 	doc: null,
 	win: null,
-	
+	cssPath : '/xreditor/css',
 	initComponent: function(){
-		this.iframe = this.createIframe();
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()]
+			
 		});
 		this.callParent(arguments);
 	},
@@ -37,14 +38,17 @@ Ext.define('XrEditor.HtmlEditor', {
 	createToolbar: function(editor){
 		var config = {
 			items: [{
+				itemId: 'Bold',
 				handler: this.clickButton,
 				text: 'B',
 				//iconCls: 'icon-save'
 			}, {
+				itemId: 'Italic',
 				handler: this.clickButton,
 				text: 'I',
 				//iconCls: 'icon-save'
 			}, {
+				itemId: 'UnderLine',
 				handler: this.clickButton,
 				text: 'U',
 				//iconCls: 'icon-save'
@@ -54,41 +58,42 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 	
 	clickButton: function(btn, e) {
-		XrEditor.Util.showMsg('button clicked');
+		XrEditor.Util.showMsg('itemId: ' + btn.itemId);
 	},
 	
 	createIframe: function() {
-		var obj = document.createElement('iframe');
-		obj.setAttribute('id', 'iframe-' + this.id);
-		obj.setAttribute('frameBorder', '0');
-		obj.setAttribute('scrolling', 'auto');
+		var iframe = document.createElement('iframe');
+		iframe.setAttribute('id', 'iframe-' + this.id);
+		iframe.setAttribute('frameBorder', '0');
+		iframe.setAttribute('scrolling', 'auto');
 
-		obj.style.position = 'relative';
-		obj.style.width = '100%';
-		obj.style.height = '100%';
-
-		console.log(obj);
-		this.win = obj.contentWindow;
-		//this.doc = obj.contentDocument || obj.contentWindow.document;
-		// this.doc.contentEditable = true;
-		// this.doc.designMode = 'on';
-		// this.doc.open();
-		// var sHtml = '<html></header>'
-		// 		//+ '<link rel="stylesheet" type="text/css" href="' + _config.cssPath + 'reset.css"/>'
-		// 		+ '<link rel="stylesheet" type="text/css" href="' + _config.cssPath + 'editor.css"/>'
-		// 		+ '</header><body>'
-		// 		+ '<div>div tag test</div>'
-		// 		+ '<form>form tag test</form>'
-		// 		+ '<table><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
-		// 		+ '</body>';
-		// this.doc.write(sHtml);
-		// this.doc.close();
-		
-		return obj;
+		iframe.style.position = 'relative';
+		iframe.style.width = '100%';
+		iframe.style.height = '100%';
+		return iframe;
 	},
 	
 	afterRender: function() {
+		this.iframe = this.createIframe();
 		this.body.appendChild(this.iframe);
+
+		//console.log(obj);
+		this.win = this.iframe.contentWindow;
+		this.doc = this.iframe.contentDocument || this.iframe.contentWindow.document;
+		this.doc.contentEditable = true;
+		this.doc.designMode = 'on';
+		this.doc.open();
+		var sHtml = '<html></header>'
+				//+ '<link rel="stylesheet" type="text/css" href="' + this.cssPath + '/reset.css"/>'
+				+ '<link rel="stylesheet" type="text/css" href="' + this.cssPath + '/editor.css"/>'
+				+ '</header><body>'
+				+ '<div>div tag test</div>'
+				+ '<form>form tag test</form>'
+				+ '<table><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
+				+ '</body>';
+		this.doc.write(sHtml);
+		this.doc.close();
+
 		return this.callParent(arguments);
 	}
 });

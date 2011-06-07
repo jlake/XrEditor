@@ -37,6 +37,7 @@ Ext.define('XrEditor.FileBrowser', {
 			dockedItems: [this.createToolbar()],
 			height: '100%',
 			store: store,
+			rootVisible: false,
 			viewConfig: {
 				plugins: {
 					ptype: 'treeviewdragdrop',
@@ -64,6 +65,10 @@ Ext.define('XrEditor.FileBrowser', {
 		return Ext.create('widget.toolbar', config);
 	},
 	showHelp: function() {
-		XrEditor.Util.showMsg('show Help', 'INFO', 'メッセージ');
+		//XrEditor.Util.showMsg('show Help', 'INFO', 'メッセージ');
+		XrEditor.Util.showLoadingMask('Loading', this.body, 'BIG');
+		setTimeout(function() {
+			XrEditor.Util.hideLoadingMask();
+		}, 1000);
 	}
 });

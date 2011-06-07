@@ -3,27 +3,49 @@ body {
 }
 
 div {
-	background: url(../icons/lbl/div.gif) no-repeat 2px 2px;
+	background: url(../images/label/div.gif) no-repeat 2px 2px;
 	padding-top:8px;
 	border:1px dashed #0C0 !important;
 }
 
 form {
-	background: url(../icons/lbl/form.gif) no-repeat 2px 2px;
+	background: url(../images/label/form.gif) no-repeat 2px 2px;
 	padding-top:8px;
 	border:1px dashed #0C0 !important;
 }
 
 table {
-	/*
-	background: url(../icons/lbl/table.gif) no-repeat 2px 2px;
+	background: url(../images/label/table.gif) no-repeat 2px 2px;
 	padding-top:8px;
-	*/
-	border:1px dashed #CCC !important;
+	border:1px dashed #0C0 !important;
 	margin:0;
 	border-spacing:2px;
 }
 
+p {
+	background: url(../images/label/p.gif) no-repeat 2px 2px;
+	padding-top:8px;
+	border:1px dashed #0C0 !important;
+}
+
+ul {
+	background: url(../images/label/ul.gif) no-repeat 2px 2px;
+	padding-top:8px;
+	border:1px dashed #0C0 !important;
+}
+
+ol {
+	background: url(../images/label/ol.gif) no-repeat 2px 2px;
+	padding-top:8px;
+	border:1px dashed #0C0 !important;
+}
+
+dl {
+	background: url(../images/label/dl.gif) no-repeat 2px 2px;
+	padding-top:8px;
+	border:1px dashed #0C0 !important;
+}
+
 table td {
-	border: 1px dashed #CCC;
+	border: 1px dashed #0C0;
 }

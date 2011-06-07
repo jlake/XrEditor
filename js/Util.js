@@ -10,14 +10,14 @@
  * @author ouzhiwei@gmail.com (Jlake Ou)
  */
 XrEditor.Util = function() {
-	var _loadMask = {};
+	var _loadMask = [];
 	var _msgCt;
 	
 	return {
 		/**
 		 * Loadingマスクの表示
 		 */
-		showMask: function(sMsg, el, sSize, n){
+		showLoadingMask: function(sMsg, el, sSize, n){
 			sMsg = sMsg || 'Loading';
 			el = el || document.body;
 			n = n || 0;
@@ -33,7 +33,7 @@ XrEditor.Util = function() {
 		/**
 		 * Loadingマスクの非表示
 		 */
-		hideMask: function(n){
+		hideLoadingMask: function(n){
 			n = n || 0;
 			if(_loadMask[n]) {
 				_loadMask[n].hide();
