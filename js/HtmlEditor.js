@@ -84,12 +84,15 @@ Ext.define('XrEditor.HtmlEditor', {
 		this.doc.designMode = 'on';
 		this.doc.open();
 		var sHtml = '<html></header>'
-				//+ '<link rel="stylesheet" type="text/css" href="' + this.cssPath + '/reset.css"/>'
 				+ '<link rel="stylesheet" type="text/css" href="' + this.cssPath + '/editor.css"/>'
 				+ '</header><body>'
 				+ '<div>div tag test</div>'
+				+ '<p>p tag test</p>'
 				+ '<form>form tag test</form>'
-				+ '<table><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
+				+ '<table width="100%"><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
+				+ '<ol><li>item 1</li><li>item 2</li><li>item 3</li></ol>'
+				+ '<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>'
+				+ '<dl><dt>title 1</dt><dd>datail 1</dd><dt>title 2</dt><dd>datail 2</dd></dl>'
 				+ '</body>';
 		this.doc.write(sHtml);
 		this.doc.close();
