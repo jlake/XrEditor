@@ -65,6 +65,21 @@ XrEditor.Util = function() {
 			var m = Ext.core.DomHelper.append(_msgCt, sHtml, true);
 			m.hide();
 			m.slideIn('t').ghost("t", { delay: 1000, remove: true});
+		},
+
+		getMousePosition: function(e) {
+			var x = 0, y = 0;
+			var e = e || window.event;
+			if (e.clientX || e.clientY) {
+				//console.log(2);
+				x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+				y = e.clientY + document.body.scrollTop  + document.documentElement.scrollTop;
+			} else if (e.pageX || e.pageY) {
+				//console.log(1);
+				x = e.pageX;
+				y = e.pageY;
+			}
+			return [x, y];
 		}
 	};
 }();

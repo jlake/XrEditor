@@ -98,21 +98,6 @@ Ext.define('XrEditor.HtmlEditor', {
 		return this.callParent(arguments);
 	},
 
-	 getMousePosition: function(e) {
-		var x = 0, y = 0;
-		var e = e || window.event;
-		if (e.clientX || e.clientY) {
-			//console.log(2);
-			x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-			y = e.clientY + document.body.scrollTop  + document.documentElement.scrollTop;
-		} else if (e.pageX || e.pageY) {
-			//console.log(1);
-			x = e.pageX;
-			y = e.pageY;
-		}
-		return [x, y];
-	},
-
 	showContextMenu: function(pos) {
 		if(!this.contextMenu) this.contextMenu = Ext.create('Ext.menu.Menu', {
 			id: 'editor_contextmenu',
@@ -140,7 +125,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		$(this.iframe).contents().find('body > *').bind('contextmenu', function(e){
 			//console.log('contextmenu', e.target);
 			$(e.target).addClass('hilight');
-			var pos = me.getMousePosition(e);
+			var pos = XrEditor.Util.getMousePosition(e);
 			me.showContextMenu(pos);
 		})
 		$(this.iframe).contents().find('body').bind('click', function(e){
