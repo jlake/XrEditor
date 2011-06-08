@@ -21,7 +21,7 @@ Ext.define('XrEditor.FileBrowser', {
 	initComponent: function() {
 		var me = this;
 		this.contextMenu = Ext.create('Ext.menu.Menu', {
-			id: 'editor_contextmenu',
+			id: 'filebrowser_contextmenu',
 			plain: true,
 			//floating: true,
 			items: [{
