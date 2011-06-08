@@ -61,6 +61,13 @@
 	background-image:url(../images/icon/disks.png) !important;
 }
 
+.icon-plus {
+	background-image:url(../images/icon/plus.png) !important;
+}
+.icon-minus {
+	background-image:url(../images/icon/minus.png) !important;
+}
+
 .icon-folder-add {
 	background-image:url(../images/icon/folder-plus.gif) !important;
 }

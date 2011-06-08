@@ -26,6 +26,27 @@ Ext.define('XrEditor.HtmlEditor', {
 	contextMenu: null,
 
 	initComponent: function(){
+		var me = this;
+		this.contextMenu = Ext.create('Ext.menu.Menu', {
+			id: 'editor_contextmenu',
+			plain: true,
+			//floating: true,
+			items: [{
+				text: 'Insert',
+				iconCls: 'icon-plus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('insert', 'Editor');
+					me.hideContextMenu();
+				}
+			}, {
+				text: 'Delete',
+				iconCls: 'icon-minus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('delete', 'Editor');
+					me.hideContextMenu();
+				}
+			}]
+		});
 		Ext.apply(this, {
 			autoScroll: false,
 			dockedItems: [this.createToolbar()]
@@ -99,38 +120,37 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 
 	showContextMenu: function(pos) {
-		if(!this.contextMenu) this.contextMenu = Ext.create('Ext.menu.Menu', {
-			id: 'editor_contextmenu',
-			items: [{
-				text: 'Insert',
-				handler: function() {
-					XrEditor.Util.slideMsg('insert', 'Editor');
-				}
-			}, '-', {
-				text: 'Delete',
-				handler: function() {
-					XrEditor.Util.slideMsg('delete', 'Editor');
-				}
-			}]
-		});
-		this.contextMenu.show(pos);
+		if(this.contextMenu) this.contextMenu.showAt(pos);
 	},
 
 	hideContextMenu: function() {
 		if(this.contextMenu) this.contextMenu.hide();
 	},
 
+	getMousePosition: function(e) {
+		var pos = e.getXY();
+		var iframePos = Ext.get(this.iframe).getAnchorXY();
+		pos[0] += iframePos[0];
+		pos[1] += iframePos[1];
+		return pos;
+	},
+
 	bindContextMenu: function() {
 		var me = this;
-		$(this.iframe).contents().find('body > *').bind('contextmenu', function(e){
-			//console.log('contextmenu', e.target);
-			$(e.target).addClass('hilight');
-			var pos = XrEditor.Util.getMousePosition(e);
-			me.showContextMenu(pos);
-		})
-		$(this.iframe).contents().find('body').bind('click', function(e){
-			$(e.target).find('.hilight').removeClass('hilight');
-			me.hideContextMenu();
-		});
+		var docEl = Ext.get(this.doc.body);
+		if(docEl) {
+			docEl.addListener('contextmenu', function(e, el, o) {
+				//console.log('contextmenu');
+				//Ext.get(el).addCls('redbox');
+				Ext.get(el).highlight();
+				e.stopEvent();
+				var pos = me.getMousePosition(e);
+				me.showContextMenu(pos);
+				return false;
+			});
+			docEl.addListener('click', function(e, el, o) {
+				me.hideContextMenu();
+			});
+		}
 	}
 });

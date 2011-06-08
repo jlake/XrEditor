@@ -19,6 +19,27 @@ Ext.define('XrEditor.FileBrowser', {
 	selectedNode: null,
 	contextMenu: null,
 	initComponent: function() {
+		var me = this;
+		this.contextMenu = Ext.create('Ext.menu.Menu', {
+			id: 'editor_contextmenu',
+			plain: true,
+			//floating: true,
+			items: [{
+				text: 'Insert',
+				iconCls: 'icon-plus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('insert', 'Editor');
+					me.hideContextMenu();
+				}
+			}, {
+				text: 'Delete',
+				iconCls: 'icon-minus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('delete', 'Editor');
+					me.hideContextMenu();
+				}
+			}]
+		});
 		var store = Ext.create('Ext.data.TreeStore', {
 			proxy: {
 				type: 'ajax',
@@ -47,38 +68,22 @@ Ext.define('XrEditor.FileBrowser', {
 				}
 			},
 			listeners: {
-				selectionchange: function(view, selections, options) {
-					console.log('selectionchange');
-				},
 				itemcontextmenu: function(view, record, item, index, e, options) {
-					console.log('itemcontextmenu', item);
-					//var pos = e.getXY();
-					//var pos = Ext.get(item).getAnchorXY();
-					//var pos = view.getPositionByEvent(e);
-					//var pos = XrEditor.Util.getMousePosition(e);
-					//this.showContextMenu(pos);
+					//console.log('itemcontextmenu', item);
+					e.stopEvent();
+					var pos = e.getXY();
+					this.showContextMenu(pos);
+					return false;
 				}
 			}
 		});
 		this.callParent(arguments);
 	},
-
 	showContextMenu: function(pos) {
-		if(!this.contextMenu) this.contextMenu = Ext.create('Ext.menu.Menu', {
-			id: 'filebrowser_contextmenu',
-			items: [{
-				text: 'Insert',
-				handler: function() {
-					XrEditor.Util.slideMsg('insert', 'Editor');
-				}
-			}, '-', {
-				text: 'Delete',
-				handler: function() {
-					XrEditor.Util.slideMsg('delete', 'Editor');
-				}
-			}]
-		});
-		this.contextMenu.show(pos);
+		if(this.contextMenu) this.contextMenu.showAt(pos);
+	},
+	hideContextMenu: function() {
+		if(this.contextMenu) this.contextMenu.hide();
 	},
 	/**
 	 * Create the top toolbar
