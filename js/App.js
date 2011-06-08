@@ -16,9 +16,6 @@ Ext.define('XrEditor.App', {
 				type: 'border',
 				padding: 5
 			},
-			defaults: {
-				split: true
-			},
 			items: [{
 				region: 'north',
 				//title: 'North',

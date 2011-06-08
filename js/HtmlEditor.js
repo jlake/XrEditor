@@ -10,11 +10,6 @@
  * @author ouzhiwei@gmail.com (Jlake Ou)
  */
 Ext.define('XrEditor.HtmlEditor', {
-	/*
-	requires: [
-		'Ext.panel.Panel',
-		'Ext.button.Button'
-	],*/
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrhtmleditor',
 	//cls: 'editor',
@@ -27,6 +22,9 @@ Ext.define('XrEditor.HtmlEditor', {
 	doc: null,
 	win: null,
 	cssPath : '/xreditor/css',
+
+	contextMenu: null,
+
 	initComponent: function(){
 		Ext.apply(this, {
 			autoScroll: false,
@@ -56,11 +54,11 @@ Ext.define('XrEditor.HtmlEditor', {
 		};
 		return Ext.create('widget.toolbar', config);
 	},
-	
+
 	clickButton: function(btn, e) {
 		XrEditor.Util.popupMsg('itemId: ' + btn.itemId);
 	},
-	
+
 	createIframe: function() {
 		var iframe = document.createElement('iframe');
 		iframe.setAttribute('id', 'iframe-' + this.id);
@@ -72,7 +70,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		iframe.style.height = '100%';
 		return iframe;
 	},
-	
+
 	afterRender: function() {
 		this.iframe = this.createIframe();
 		this.body.appendChild(this.iframe);
@@ -84,7 +82,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		this.doc.designMode = 'on';
 		this.doc.open();
 		var sHtml = '<html></header>'
-				+ '<link rel="stylesheet" type="text/css" href="' + this.cssPath + '/editor.css"/>'
+				+ '<link rel="stylesheet" type="text/css" href="' + this.cssPath + '/editor.css" />'
 				+ '</header><body>'
 				+ '<div>div tag test</div>'
 				+ '<p>p tag test</p>'
@@ -96,7 +94,58 @@ Ext.define('XrEditor.HtmlEditor', {
 				+ '</body>';
 		this.doc.write(sHtml);
 		this.doc.close();
-
+		this.bindContextMenu();
 		return this.callParent(arguments);
+	},
+
+	 getMousePosition: function(e) {
+		var x = 0, y = 0;
+		var e = e || window.event;
+		if (e.clientX || e.clientY) {
+			//console.log(2);
+			x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			y = e.clientY + document.body.scrollTop  + document.documentElement.scrollTop;
+		} else if (e.pageX || e.pageY) {
+			//console.log(1);
+			x = e.pageX;
+			y = e.pageY;
+		}
+		return [x, y];
+	},
+
+	showContextMenu: function(pos) {
+		if(!this.contextMenu) this.contextMenu = Ext.create('Ext.menu.Menu', {
+			id: 'editor_contextmenu',
+			items: [{
+				text: 'Insert',
+				handler: function() {
+					XrEditor.Util.slideMsg('insert', 'Editor');
+				}
+			}, '-', {
+				text: 'Delete',
+				handler: function() {
+					XrEditor.Util.slideMsg('delete', 'Editor');
+				}
+			}]
+		});
+		this.contextMenu.show(pos);
+	},
+
+	hideContextMenu: function() {
+		if(this.contextMenu) this.contextMenu.hide();
+	},
+
+	bindContextMenu: function() {
+		var me = this;
+		$(this.iframe).contents().find('body > *').bind('contextmenu', function(e){
+			//console.log('contextmenu', e.target);
+			$(e.target).addClass('hilight');
+			var pos = me.getMousePosition(e);
+			me.showContextMenu(pos);
+		})
+		$(this.iframe).contents().find('body').bind('click', function(e){
+			$(e.target).find('.hilight').removeClass('hilight');
+			me.hideContextMenu();
+		});
 	}
 });
