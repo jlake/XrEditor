@@ -65,7 +65,7 @@ Ext.define('XrEditor.FileBrowser', {
 		return Ext.create('widget.toolbar', config);
 	},
 	showHelp: function() {
-		//XrEditor.Util.showMsg('show Help', 'INFO', 'メッセージ');
+		//XrEditor.Util.popupMsg('show Help', 'INFO', 'メッセージ');
 		XrEditor.Util.showLoadingMask('Loading', this.body, 'BIG');
 		setTimeout(function() {
 			XrEditor.Util.hideLoadingMask();

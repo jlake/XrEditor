@@ -29,8 +29,8 @@ Ext.define('XrEditor.HtmlEditor', {
 	cssPath : '/xreditor/css',
 	initComponent: function(){
 		Ext.apply(this, {
+			autoScroll: false,
 			dockedItems: [this.createToolbar()]
-			
 		});
 		this.callParent(arguments);
 	},
@@ -58,7 +58,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 	
 	clickButton: function(btn, e) {
-		XrEditor.Util.showMsg('itemId: ' + btn.itemId);
+		XrEditor.Util.popupMsg('itemId: ' + btn.itemId);
 	},
 	
 	createIframe: function() {

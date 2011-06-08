@@ -47,6 +47,6 @@ Ext.define('XrEditor.Inspector', {
 	},
 
 	showHelp: function() {
-		XrEditor.Util.showMsg('show Help', 'INFO', 'メッセージ');
+		XrEditor.Util.popupMsg('show Help', 'INFO', 'メッセージ');
 	}
 });

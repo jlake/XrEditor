@@ -12,7 +12,7 @@
 XrEditor.Util = function() {
 	var _loadMask = [];
 	var _msgCt;
-	
+
 	return {
 		/**
 		 * Loadingマスクの表示
@@ -40,9 +40,9 @@ XrEditor.Util = function() {
 			}
 		},
 		/**
-		 * メッセージを表示
+		 * メッセージボックスを表示
 		 */
-		showMsg: function(sMsg, sLevel, sTitle, args) {
+		popupMsg: function(sMsg, sLevel, sTitle, args) {
 			var params = {
 				title: sTitle || 'メッセージ',
 				msg: sMsg,
@@ -55,22 +55,16 @@ XrEditor.Util = function() {
 		/**
 		 * 一時メッセージ
 		 */
-		flashMsg : function(sMsg, sTitle, args){
+		slideMsg : function(sMsg, sTitle){
 			sTitle = sTitle || 'メッセージ';
 			if(!_msgCt){
-				_msgCt = Ext.DomHelper.insertFirst(document.body, {id:'flash-msg'}, true);
+				_msgCt = Ext.core.DomHelper.insertFirst(document.body, {id:'msg-div'}, true);
 			}
-			_msgCt.alignTo(document, 'c-c');
-			_msgCt.alignTo(document, 't-t');
-			var sHtml = '<div class="msg">'
-					+ '<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>'
-					+ '<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">'
-					+ '<h3>' + sTitle + '</h3>' + sMsg + '</div></div></div>'
-					+ '<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>'
-					+ '</div>';
-
-			var m = Ext.DomHelper.append(_msgCt, {html:sHtml}, true);
-			m.slideIn('t').pause(1).ghost("t", {remove:true});
+			var s = Ext.String.format.apply(String, Array.prototype.slice.call(arguments, 1));
+			var sHtml = '<div class="msg"><h3>' + sTitle + '</h3><p>' + sMsg + '</p></div>';
+			var m = Ext.core.DomHelper.append(_msgCt, sHtml, true);
+			m.hide();
+			m.slideIn('t').ghost("t", { delay: 1000, remove: true});
 		}
 	};
 }();

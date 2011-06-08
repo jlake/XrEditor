@@ -69,20 +69,20 @@ Ext.define('XrEditor.EditorFrame', {
 	 * @private
 	 */
 	saveOne: function() {
-		XrEditor.Util.showMsg('save one');
+		XrEditor.Util.slideMsg('save one', 'Editor');
 	},
 	/**
 	 * Open the post in a new tab
 	 * @private
 	 */
 	saveAll: function() {
-		XrEditor.Util.showMsg('save all');
+		XrEditor.Util.slideMsg('save all', 'Editor');
 	},
 	/**
 	 * Open the post in a new tab
 	 * @private
 	 */
 	showHelp: function() {
-		XrEditor.Util.showMsg('show Help', 'INFO', 'メッセージ');
+		XrEditor.Util.popupMsg('show Help', 'INFO', 'メッセージ');
 	}
 });
