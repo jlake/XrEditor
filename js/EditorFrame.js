@@ -11,21 +11,19 @@
  */
 Ext.define('XrEditor.EditorFrame', {
 	extend: 'Ext.tab.Panel',
-	alias: 'widget.xrEditorFrame',
+	alias: 'widget.xreditorframe',
 	
 	title: 'Editor Frame Panel',
 	//cls: 'editor',
 	autoScroll: true,
 	border: false,
 
-	htmlEditor: null,
-	
 	initComponent: function(){
-		this.htmlEditor = new XrEditor.HtmlEditor;
+		var defaultEditor = new XrEditor.Editor;
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()],
 			height: '100%',
-			items: [this.htmlEditor]
+			items: [defaultEditor]
 		});
 		this.callParent(arguments);
 	},
@@ -55,14 +53,6 @@ Ext.define('XrEditor.EditorFrame', {
 			}]
 		};
 		return Ext.create('widget.toolbar', config);
-	},
-	/**
-	 * Set the active editor
-	 * @param {Ext.data.Model} rec The record
-	 */
-	setActive: function(editorId) {
-		this.active = editorId;
-		//this.setActiveEditor(editorId);
 	},
 	/**
 	 * Navigate to the active post in a new window

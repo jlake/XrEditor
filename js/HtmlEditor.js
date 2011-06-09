@@ -16,37 +16,22 @@ Ext.define('XrEditor.HtmlEditor', {
 	autoScroll: true,
 	border: true,
 
-	title: 'Html Editor',
+	itemId: 'html',
+	title: 'Design',
+	iconCls: 'icon-design',
 
 	iframe: null,
 	doc: null,
 	win: null,
-	cssPath : '/xreditor/css',
+	cssPath: '/xreditor/css',
+
+	docTemplate: '<html><header>'
+				+ '<link rel="stylesheet" type="text/css" href="{CSSPATH}/editor.css" />'
+				+ '</header><body>{BODY}</body></html>',
 
 	contextMenu: null,
 
 	initComponent: function(){
-		var me = this;
-		this.contextMenu = Ext.create('Ext.menu.Menu', {
-			id: 'editor_contextmenu',
-			plain: true,
-			//floating: true,
-			items: [{
-				text: 'Insert',
-				iconCls: 'icon-plus',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('insert', 'Editor');
-					me.hideContextMenu();
-				}
-			}, {
-				text: 'Delete',
-				iconCls: 'icon-minus',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('delete', 'Editor');
-					me.hideContextMenu();
-				}
-			}]
-		});
 		Ext.apply(this, {
 			autoScroll: false,
 			dockedItems: [this.createToolbar()]
@@ -101,21 +86,45 @@ Ext.define('XrEditor.HtmlEditor', {
 		this.doc = this.iframe.contentDocument || this.iframe.contentWindow.document;
 		this.doc.contentEditable = true;
 		this.doc.designMode = 'on';
-		this.doc.open();
-		var sHtml = '<html></header>'
-				+ '<link rel="stylesheet" type="text/css" href="' + this.cssPath + '/editor.css" />'
-				+ '</header><body>'
-				+ '<div>div tag test</div>'
+		var sHtml = '<div>div tag test</div>'
 				+ '<p>p tag test</p>'
 				+ '<form>form tag test</form>'
 				+ '<table width="100%"><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
 				+ '<ol><li>item 1</li><li>item 2</li><li>item 3</li></ol>'
 				+ '<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>'
 				+ '<dl><dt>title 1</dt><dd>datail 1</dd><dt>title 2</dt><dd>datail 2</dd></dl>'
-				+ '</body>';
-		this.doc.write(sHtml);
-		this.doc.close();
+				;
+		this.setHtml(sHtml);
+
+		var me = this;
+		this.contextMenu = Ext.create('Ext.menu.Menu', {
+			id: 'editor_contextmenu',
+			plain: true,
+			//floating: true,
+			items: [{
+				text: 'Insert',
+				iconCls: 'icon-plus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('insert', 'Editor');
+					me.hideContextMenu();
+				}
+			}, {
+				text: 'Delete',
+				iconCls: 'icon-minus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('delete', 'Editor');
+					me.hideContextMenu();
+				}
+			}]
+		});
 		this.bindContextMenu();
+		/*
+		var me = this;
+		Ext.get(this.doc.body).addListener('focus', function(e, el, o) {
+			console.log('focus');
+			me.bindContextMenu();
+		});
+		*/
 		return this.callParent(arguments);
 	},
 
@@ -124,7 +133,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 
 	hideContextMenu: function() {
-		if(this.contextMenu) this.contextMenu.hide();
+		if(this.contextMenu && !this.contextMenu.hidden) this.contextMenu.hide();
 	},
 
 	getMousePosition: function(e) {
@@ -136,21 +145,37 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 
 	bindContextMenu: function() {
+		var docEl = Ext.get(this.doc.body)
+		if(!docEl) return;
 		var me = this;
-		var docEl = Ext.get(this.doc.body);
-		if(docEl) {
-			docEl.addListener('contextmenu', function(e, el, o) {
-				//console.log('contextmenu');
-				//Ext.get(el).addCls('redbox');
-				Ext.get(el).highlight();
-				e.stopEvent();
-				var pos = me.getMousePosition(e);
-				me.showContextMenu(pos);
-				return false;
-			});
-			docEl.addListener('click', function(e, el, o) {
-				me.hideContextMenu();
-			});
-		}
+		docEl.addListener('contextmenu', function(e, el, o) {
+			//console.log('contextmenu');
+			//Ext.get(el).addCls('redbox');
+			Ext.get(el).highlight();
+			e.stopEvent();
+			var pos = me.getMousePosition(e);
+			me.showContextMenu(pos);
+			return false;
+		});
+		docEl.addListener('click', function(e, el, o) {
+			me.hideContextMenu();
+		});
+	},
+	
+	getHtml: function() {
+		if(!this.doc) return '';
+		return this.doc.body.innerHTML;
+	},
+
+	setHtml: function(sCode) {
+		if(!this.doc) return;
+		this.doc.open();
+		var sHtml = XrEditor.Html.formatXhtml(this.docTemplate
+				.replace('{CSSPATH}', this.cssPath)
+				.replace('{BODY}', sCode)
+			);
+		
+		this.doc.write(sHtml);
+		this.doc.close();
 	}
 });

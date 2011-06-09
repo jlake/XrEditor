@@ -2,41 +2,49 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>XrEditor Example</title>
-	<link rel="stylesheet" type="text/css" href="../js/ext4/resources/css/ext-all.css" />
-	<link rel="stylesheet" type="text/css" href="css/app-all.css" />
-	<script type="text/javascript" src="../js/ext4/bootstrap.js"></script>
-	<script type="text/javascript" src="js/App.js"></script>
-	<script type="text/javascript">
-		Ext.Loader.setConfig({
-			enabled: true,
-			paths: {
-				XrEditor: 'js'
-			}
-		});
+    <title>XrEditor Example</title>
+    <link rel="stylesheet" href="../js/ext4/resources/css/ext-all.css" />
+    <link rel="stylesheet" href="css/app-all.css" />
+    <link rel="stylesheet" href="css/codemirror/codemirror.css" />
+    <link rel="stylesheet" href="css/codemirror/default.css" />
+    <script src="../js/ext4/bootstrap.js"></script>
+    <script src="lib/codemirror/codemirror.js"></script>
+    <script src="mode/xml/xml.js"></script>
+    <script src="mode/css/css.js"></script>
+    <script src="mode/javascript/javascript.js"></script>
+    <script src="mode/htmlmixed/htmlmixed.js"></script>
+    <script src="js/App.js"></script>
+     <script>
+        Ext.Loader.setConfig({
+            enabled: true,
+            paths: {
+                XrEditor: 'js'
+            }
+        });
 
-		Ext.require([
-			'Ext.layout.container.*',
-			'Ext.resizer.Splitter',
-			'Ext.fx.target.Element',
-			'Ext.fx.target.Component',
-			'Ext.window.Window',
-			'XrEditor.Util',
-			'XrEditor.FileBrowser',
-			'XrEditor.EditorFrame',
-			'XrEditor.HtmlEditor',
-			'XrEditor.CodeEditor',
-			'XrEditor.Html',
-			'XrEditor.Selection',
-			'XrEditor.Range',
-			'XrEditor.Inspector',
-			'XrEditor.Toolbox'
-	   ]);
+        Ext.require([
+            'Ext.layout.container.*',
+            'Ext.resizer.Splitter',
+            'Ext.fx.target.Element',
+            'Ext.fx.target.Component',
+            'Ext.window.Window',
+            'XrEditor.Util',
+            'XrEditor.FileBrowser',
+            'XrEditor.EditorFrame',
+            'XrEditor.Editor',
+            'XrEditor.HtmlEditor',
+            'XrEditor.CodeEditor',
+            'XrEditor.Html',
+            'XrEditor.Selection',
+            'XrEditor.Range',
+            'XrEditor.Inspector',
+            'XrEditor.Toolbox'
+       ]);
 
-		Ext.onReady(function(){
-			Ext.create('XrEditor.App');
-		});
-	</script>
+        Ext.onReady(function(){
+            Ext.create('XrEditor.App');
+        });
+    </script>
 </head>
 <body>
 </body>

@@ -10,17 +10,18 @@
  * @author ouzhiwei@gmail.com (Jlake Ou)
  */
 Ext.define('XrEditor.CodeEditor', {
-	/*
-	requires: [
-		'Ext.panel.Panel',
-		'Ext.button.Button'
-	],*/
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrcodeeditor',
 	//cls: 'editor',
 	autoScroll: true,
 	border: true,
 
+	itemId: 'code',
+	title: 'Code',
+	iconCls: 'icon-code',
+
+	editor: null,
+	
 	initComponent: function(){
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()]
@@ -28,6 +29,50 @@ Ext.define('XrEditor.CodeEditor', {
 		this.callParent(arguments);
 	},
 	createToolbar : function(editor){
-		
+		var config = {
+			items: [{
+				tooltip: 'Undo',
+				iconCls: 'icon-undo',
+				handler: function() {
+					//this.editor.undo();
+				}
+			}, {
+				tooltip: 'Redo',
+				iconCls: 'icon-redo',
+				handler: function() {
+					//this.editor.redo();
+				}
+			}, '-', {
+				tooltip: 'Search & Replace',
+				iconCls: 'icon-magnifier',
+				handler: function() {
+					// TO-DO
+				}
+			}, '-', {
+				tooltip: 'Word Wrap/No Wrapping',
+				iconCls: 'icon-left-to-right',
+				enableToggle: true,
+				listeners: {
+					toggle: function(btn, pressed) {
+						//this.editor.setTextWrapping(!pressed);
+					}
+				}
+			}]
+		};
+		return Ext.create('widget.toolbar', config);
+	},
+	afterRender: function() {
+		this.editor = CodeMirror(this.body.dom, {
+			value: '',
+			mode: 'htmlmixed'
+		});
+	},
+	setMode: function(sMode) {
+	},
+	getCode: function() {
+		return this.editor ? this.editor.getValue() : '';
+	},
+	setCode: function(sCode) {
+		if(this.editor) this.editor.setValue(sCode);
 	}
 });

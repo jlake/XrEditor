@@ -1,13 +1,9 @@
 Ext.define('XrEditor.Html', {
     singleton: true,
-	//alias: "widget.XrHtml",
-	sayHello: function() {
-		alert("Hello from XrEditor.Html");
-	},
 	//*******************************************************
 	// HTML 特殊文字変換
 	//*******************************************************
-	escapeHtml: function(sHtml){
+	enocde: function(sHtml){
 		return (sHtml + '').replace(/&(?!amp;|lt;|gt;|quot;)/gm, '&amp;')
 			.replace(/</gm, '&lt;')
 			.replace(/>/gm, '&gt;')
@@ -28,7 +24,7 @@ Ext.define('XrEditor.Html', {
 			return sHex.charAt((nDec - nDec % 16)/16) + sHex.charAt(nDec % 16);
 		};
 		return sHtml.replace(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/ig, function($0, r, g, b) {
-			return '#' + this.toHex(r) + this.toHex(g) + this.toHex(b);
+			return '#' + decToHex(r) + decToHex(g) + decToHex(b);
 		});
 	},
 	//*******************************************************
@@ -51,7 +47,7 @@ Ext.define('XrEditor.Html', {
 					value = Ext.util.Format.htmlDecode(value);
 					break;
 				default:
-					value = this.formatEntities(value);
+					value = XrEditor.Html.enocde(value);
 					break;
 			}
 			return ' ' + name + '="' + value + '"';
