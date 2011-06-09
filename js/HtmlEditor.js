@@ -12,7 +12,7 @@
 Ext.define('XrEditor.HtmlEditor', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrhtmleditor',
-	//cls: 'editor',
+
 	autoScroll: true,
 	border: true,
 
@@ -30,6 +30,7 @@ Ext.define('XrEditor.HtmlEditor', {
 				+ '</header><body>{BODY}</body></html>',
 
 	contextMenu: null,
+	selection: null,
 
 	initComponent: function(){
 		Ext.apply(this, {
@@ -39,30 +40,43 @@ Ext.define('XrEditor.HtmlEditor', {
 		this.callParent(arguments);
 	},
 
-	createToolbar: function(editor){
+	createToolbar: function(){
+		var me = this;
 		var config = {
 			items: [{
-				itemId: 'Bold',
+				itemId: 'bold',
+				editor: me,
 				handler: this.clickButton,
 				text: 'B',
-				//iconCls: 'icon-save'
+				//iconCls: 'icon-bold'
 			}, {
-				itemId: 'Italic',
+				itemId: 'italic',
+				editor: me,
 				handler: this.clickButton,
 				text: 'I',
-				//iconCls: 'icon-save'
+				//iconCls: 'icon-italic'
 			}, {
-				itemId: 'UnderLine',
+				itemId: 'underline',
+				editor: me,
 				handler: this.clickButton,
 				text: 'U',
-				//iconCls: 'icon-save'
+				//iconCls: 'icon-underline'
+			}, {
+				itemId: 'hr',
+				editor: me,
+				handler: this.clickButton,
+				text: 'HR',
+				//iconCls: 'icon-hr'
 			}]
 		};
 		return Ext.create('widget.toolbar', config);
 	},
 
 	clickButton: function(btn, e) {
-		XrEditor.Util.popupMsg('itemId: ' + btn.itemId);
+		//console.log(btn.initialConfig);
+		if(btn.initialConfig.editor) {
+			btn.initialConfig.editor.selection.execCommand(btn.itemId);
+		}
 	},
 
 	createIframe: function() {
@@ -96,6 +110,11 @@ Ext.define('XrEditor.HtmlEditor', {
 				;
 		this.setHtml(sHtml);
 
+		this.selection = new XrEditor.Selection({
+			doc: this.doc,
+			win: this.win
+		});
+
 		var me = this;
 		this.contextMenu = Ext.create('Ext.menu.Menu', {
 			id: 'editor_contextmenu',
@@ -117,14 +136,7 @@ Ext.define('XrEditor.HtmlEditor', {
 				}
 			}]
 		});
-		this.bindContextMenu();
-		/*
-		var me = this;
-		Ext.get(this.doc.body).addListener('focus', function(e, el, o) {
-			console.log('focus');
-			me.bindContextMenu();
-		});
-		*/
+		this.initListeners();
 		return this.callParent(arguments);
 	},
 
@@ -144,7 +156,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		return pos;
 	},
 
-	bindContextMenu: function() {
+	initListeners: function() {
 		var docEl = Ext.get(this.doc.body)
 		if(!docEl) return;
 		var me = this;
@@ -159,9 +171,36 @@ Ext.define('XrEditor.HtmlEditor', {
 		});
 		docEl.addListener('click', function(e, el, o) {
 			me.hideContextMenu();
+			me.selection.saveSelection();
+		});
+		docEl.addListener('focus', function(e, el, o) {
+			me.hideContextMenu();
+			me.selection.saveSelection();
+		});
+		docEl.addListener('keyup', function(e, el, o) {
+			me.selection.saveSelection();
+		});
+		docEl.addListener('mouseup', function(e, el, o) {
+			me.selection.saveSelection();
 		});
 	},
-	
+
+	setCssMode: function(bFlag) {
+		if(!this.doc) return;
+		try {
+			this.doc.execCommand('styleWithCSS', 0, bFlag);
+		} catch(ex1) {
+			try {
+				this.doc.execCommand('useCSS', 0, bFlag);
+			} catch(ex2) {
+				try {
+					this.doc.execCommand('styleWithCSS', false, bFlag);
+				} catch(ex3) {
+				}
+			}
+		}
+	},
+
 	getHtml: function() {
 		if(!this.doc) return '';
 		return this.doc.body.innerHTML;

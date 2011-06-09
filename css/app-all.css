@@ -105,3 +105,9 @@
 .icon-left-to-right {
 	background-image:url(../images/icon/left-to-right.gif) !important;
 }
+.icon-doc-html {
+	background-image:url(../images/icon/document-text-image.png) !important;
+}
+.icon-doc-text {
+	background-image:url(../images/icon/document-text.png) !important;
+}

@@ -12,7 +12,7 @@
 Ext.define('XrEditor.CodeEditor', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrcodeeditor',
-	//cls: 'editor',
+
 	autoScroll: true,
 	border: true,
 

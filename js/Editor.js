@@ -12,12 +12,14 @@
 Ext.define('XrEditor.Editor', {
 	extend: 'Ext.tab.Panel',
 	alias: 'widget.xreditor',
-	
-	title: 'Untiltled',
-	//cls: 'editor',
+
 	autoScroll: true,
 	border: false,
 	tabPosition: 'bottom',
+
+	title: 'Untiltled',
+	iconCls: 'icon-doc-html',
+
 
 	htmlEditor: null,
 	codeEditor: null,
@@ -34,7 +36,7 @@ Ext.define('XrEditor.Editor', {
 						this.codeEditor.setCode(this.htmlEditor.getHtml());
 					} else {
 						this.htmlEditor.setHtml(this.codeEditor.getCode());
-						this.htmlEditor.bindContextMenu();
+						this.htmlEditor.initListeners();
 					}
 				}
 			}
