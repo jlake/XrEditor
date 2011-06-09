@@ -21,10 +21,22 @@ Ext.define('XrEditor.CodeEditor', {
 	iconCls: 'icon-code',
 
 	editor: null,
-	
+	//editorWrapper: null,
+
 	initComponent: function(){
 		Ext.apply(this, {
-			dockedItems: [this.createToolbar()]
+			dockedItems: [this.createToolbar()],
+			listeners: {
+				resize: function(panel, w, h, opts) {
+					//if(this.editor) this.editor.refresh();
+					/*
+					if(this.editorWrapper) {
+						var size = this.body.getSize();
+						this.editorWrapper.setWidth(size.width);
+						this.editorWrapper.setHeight(size.height);
+					}*/
+				}
+			}
 		});
 		this.callParent(arguments);
 	},
@@ -66,6 +78,7 @@ Ext.define('XrEditor.CodeEditor', {
 			value: '',
 			mode: 'htmlmixed'
 		});
+		//this.editorWrapper = Ext.get(this.editor.getWrapperElement());
 	},
 	setMode: function(sMode) {
 	},

@@ -31,7 +31,7 @@ Ext.define('XrEditor.Editor', {
 			height: '100%',
 			items: [this.htmlEditor, this.codeEditor],
 			listeners: {
-				tabchange: function(panel, newCard, oldCard, options) {
+				tabchange: function(panel, newCard, oldCard, opts) {
 					if(newCard.itemId == 'code') {
 						this.codeEditor.setCode(this.htmlEditor.getHtml());
 					} else {
