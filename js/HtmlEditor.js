@@ -25,10 +25,6 @@ Ext.define('XrEditor.HtmlEditor', {
 	win: null,
 	cssPath: '/xreditor/css',
 
-	docTemplate: '<html><header>'
-				+ '<link rel="stylesheet" type="text/css" href="{CSSPATH}/editor.css" />'
-				+ '</header><body>{BODY}</body></html>',
-
 	contextMenu: null,
 	selection: null,
 
@@ -100,15 +96,23 @@ Ext.define('XrEditor.HtmlEditor', {
 		this.doc = this.iframe.contentDocument || this.iframe.contentWindow.document;
 		this.doc.contentEditable = true;
 		this.doc.designMode = 'on';
+
 		var sHtml = '<div>div tag test</div>'
-				+ '<p>p tag test</p>'
-				+ '<form>form tag test</form>'
-				+ '<table width="100%"><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
-				+ '<ol><li>item 1</li><li>item 2</li><li>item 3</li></ol>'
-				+ '<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>'
-				+ '<dl><dt>title 1</dt><dd>datail 1</dd><dt>title 2</dt><dd>datail 2</dd></dl>'
-				;
+			+ '<p>p tag test</p>'
+			+ '<form>form tag test</form>'
+			+ '<table width="100%"><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
+			+ '<ol><li>item 1</li><li>item 2</li><li>item 3</li></ol>'
+			+ '<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>'
+			+ '<dl><dt>title 1</dt><dd>datail 1</dd><dt>title 2</dt><dd>datail 2</dd></dl>'
+			;
 		this.setHtml(sHtml);
+
+		var otherhead = this.doc.getElementsByTagName('head')[0];
+		var link = this.doc.createElement('link');
+		link.setAttribute('rel', 'stylesheet');
+		link.setAttribute('type', 'text/css');
+		link.setAttribute('href', this.cssPath + '/editor.css');
+		otherhead.appendChild(link);
 
 		this.selection = new XrEditor.Selection({
 			doc: this.doc,
@@ -209,10 +213,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	setHtml: function(sCode) {
 		if(!this.doc) return;
 		this.doc.open();
-		var sHtml = XrEditor.Html.formatXhtml(this.docTemplate
-				.replace('{CSSPATH}', this.cssPath)
-				.replace('{BODY}', sCode)
-			);
+		var sHtml = XrEditor.Html.formatXhtml(sCode);
 		
 		this.doc.write(sHtml);
 		this.doc.close();
