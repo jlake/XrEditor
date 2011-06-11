@@ -7,6 +7,7 @@ defined('APP_ROOT')
 defined('EDITOR_DOCROOT')
     || define('EDITOR_DOCROOT',  APP_ROOT . '/var/docroot');
 
+//echo APP_ROOT;
 set_include_path(implode(PATH_SEPARATOR, array(
     APP_ROOT.'/lib',
     get_include_path()
