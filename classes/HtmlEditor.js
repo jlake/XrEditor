@@ -107,12 +107,6 @@ Ext.define('XrEditor.HtmlEditor', {
 			;
 		this.setHtml(sHtml);
 
-		var otherhead = this.doc.getElementsByTagName('head')[0];
-		var link = this.doc.createElement('link');
-		link.setAttribute('rel', 'stylesheet');
-		link.setAttribute('type', 'text/css');
-		link.setAttribute('href', this.cssPath + '/editor.css');
-		otherhead.appendChild(link);
 
 		this.selection = new XrEditor.Selection({
 			doc: this.doc,
@@ -216,6 +210,14 @@ Ext.define('XrEditor.HtmlEditor', {
 		var sHtml = XrEditor.Html.formatXhtml(sCode);
 		
 		this.doc.write(sHtml);
+
+		var otherhead = this.doc.getElementsByTagName('head')[0];
+		var link = this.doc.createElement('link');
+		link.setAttribute('rel', 'stylesheet');
+		link.setAttribute('type', 'text/css');
+		link.setAttribute('href', this.cssPath + '/editor.css');
+		otherhead.appendChild(link);
+
 		this.doc.close();
 	}
 });

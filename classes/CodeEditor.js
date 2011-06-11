@@ -62,7 +62,7 @@ Ext.define('XrEditor.CodeEditor', {
 				}
 			}, '-', {
 				tooltip: 'Word Wrap/No Wrapping',
-				iconCls: 'icon-left-to-right',
+				iconCls: 'icon-nowrap',
 				enableToggle: true,
 				listeners: {
 					toggle: function(btn, pressed) {

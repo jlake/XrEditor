@@ -47,6 +47,7 @@ class app_Filemanager {
             return $nodes;
         }
         $iterator = new DirectoryIterator($directory);
+error_log(print_r($iterator, true));
         foreach ($iterator as $f) {
            //echo $f->getFilename() . " " . $f->getType() . "\n";
             $name = $f->getFilename();

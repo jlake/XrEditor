@@ -93,17 +93,21 @@
 	background-image:url(../images/icon/minus-circle.png) !important;
 }
 
+.icon-refresh {
+	background-image:url(../images/icon/refresh.png) !important;
+}
+
 .icon-undo {
-	background-image:url(../images/icon/undo.gif) !important;
+	background-image:url(../images/icon/undo.png) !important;
 }
 .icon-redo {
-	background-image:url(../images/icon/redo.gif) !important;
+	background-image:url(../images/icon/redo.png) !important;
 }
 .icon-magnifier {
 	background-image:url(../images/icon/magnifier.png) !important;
 }
-.icon-left-to-right {
-	background-image:url(../images/icon/left-to-right.gif) !important;
+.icon-nowrap {
+	background-image:url(../images/icon/arrow-stop.png) !important;
 }
 .icon-doc-html {
 	background-image:url(../images/icon/document-text-image.png) !important;
