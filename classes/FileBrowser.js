@@ -15,7 +15,6 @@ Ext.define('XrEditor.FileBrowser', {
 	autoScroll: true,
 	border: true,
 	//title: 'Fire Browser',
-	nodeUrl: 'backend/file/nodes.json',
 	selectedNode: null,
 	contextMenu: null,
 	initComponent: function() {
@@ -40,26 +39,25 @@ Ext.define('XrEditor.FileBrowser', {
 				}
 			}]
 		});
-		var store = Ext.create('Ext.data.TreeStore', {
-			proxy: {
-				type: 'ajax',
-				url: this.nodeUrl
-			},
-			root: {
-				text: 'Root',
-				id: '.',
-				expanded: true
-			},
-			folderSort: true,
-			sorters: [{
-				property: 'text',
-				direction: 'ASC'
-			}]
-		});
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()],
 			height: '100%',
-			store: store,
+			store: Ext.create('Ext.data.TreeStore', {
+				proxy: {
+					type: 'ajax',
+					url: 'backend/file/nodes.json'
+				},
+				root: {
+					text: 'Root',
+					id: '.',
+					expanded: true
+				},
+				folderSort: true,
+				sorters: [{
+					property: 'text',
+					direction: 'ASC'
+				}]
+			}),
 			rootVisible: false,
 			viewConfig: {
 				plugins: {
@@ -90,25 +88,24 @@ Ext.define('XrEditor.FileBrowser', {
 	 * @private
 	 * @return {Ext.toolbar.Toolbar} toolbar
 	 */
-	createToolbar: function(){
+	createToolbar: function() {
+		var me = this;
+		// refresh tree nodes
+		var refresh = function() {
+			XrEditor.Util.showLoadingMask('Loading', me.body, 'BIG');
+			me.store.load();
+			setTimeout(function() {
+				XrEditor.Util.hideLoadingMask();
+			}, 1000);
+		}
 		var config = {
 			items: ['->', {
 				//scope: this,
-				handler: this.showHelp,
-				text: 'Help',
-				iconCls: 'icon-help'
+				handler: refresh,
+				//text: 'Refresh',
+				iconCls: 'icon-refresh'
 			}]
 		};
 		return Ext.create('widget.toolbar', config);
-	},
-	/**
-	 * Create the top toolbar
-	 */
-	showHelp: function() {
-		//XrEditor.Util.popupMsg('show Help', 'INFO', 'メッセージ');
-		XrEditor.Util.showLoadingMask('Loading', this.body, 'BIG');
-		setTimeout(function() {
-			XrEditor.Util.hideLoadingMask();
-		}, 1000);
 	}
 });
