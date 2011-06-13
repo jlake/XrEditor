@@ -1,22 +1,24 @@
 <?php
 class components_file_Nodes extends k_Component {
     private $_node = '';
-    private $_nodes = array();
+    private $_children = array();
+
     function execute() {
+        $this->_node = $this->query('node', '.');
         $fm = new app_Filemanager( EDITOR_DOCROOT );
-        $this->_nodes = $fm->getNodes($this->query('node'));
+        $this->_children = $fm->findChildren($this->_node);
         return parent::execute();
     }
 
     function renderHtml() {
         $t = new k_Template("templates/file/nodes.tpl.php");
         return $t->render($this, array(
-            'current' => $this->_node,
-            'nodes' => $this->_nodes
+            'node' => $this->_node,
+            'children' => $this->_children
         ));
     }
 
     function renderJson() {
-        return $this->_nodes;
+        return $this->_children;
     }
 }

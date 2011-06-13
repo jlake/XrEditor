@@ -31,41 +31,135 @@ Ext.define('XrEditor.HtmlEditor', {
 	initComponent: function(){
 		Ext.apply(this, {
 			autoScroll: false,
-			dockedItems: [this.createToolbar()]
+			dockedItems: [this._createToolbar()]
 		});
 		this.callParent(arguments);
 	},
 
-	createToolbar: function(){
+	/**
+	 * create toolbar for html editor
+	 */
+	_createToolbar: function() {
 		var me = this;
-		var config = {
-			items: [{
-				itemId: 'bold',
-				editor: me,
-				handler: this.clickButton,
-				text: 'B',
-				//iconCls: 'icon-bold'
-			}, {
-				itemId: 'italic',
-				editor: me,
-				handler: this.clickButton,
-				text: 'I',
-				//iconCls: 'icon-italic'
-			}, {
-				itemId: 'underline',
-				editor: me,
-				handler: this.clickButton,
-				text: 'U',
-				//iconCls: 'icon-underline'
-			}, {
-				itemId: 'hr',
-				editor: me,
-				handler: this.clickButton,
-				text: 'HR',
-				//iconCls: 'icon-hr'
-			}]
+		// toolbar button configs
+		var aBtnConfigs = [
+			{type: 'button', cmd: 'bold', title: '太字', toggle: false},
+			{type: 'button', cmd: 'italic', title: '斜体', toggle: false},
+			{type: 'button', cmd: 'underline', title: '下線', toggle: false},
+			{type: 'button', cmd: 'strikethrough', title: '取り消し線', toggle: false},
+			{type: 'button', cmd: 'hr', title: '水平線', toggle: false},
+			{type: '-'},
+			{type: 'button', cmd: 'justifyleft', title: '左揃え', toggle: false},
+			{type: 'button', cmd: 'justifycenter', title: '中央揃え', toggle: false},
+			{type: 'button', cmd: 'justifyright', title: '右揃え', toggle: false},
+			{type: '-'},
+			{type: 'menu', cmd: 'heading', title: 'ヘッディング', items: [
+				{cmd: 'H1', title: 'H1'},
+				{cmd: 'H2', title: 'H2'},
+				{cmd: 'H3', title: 'H3'},
+				{cmd: 'H4', title: 'H4'},
+				{cmd: 'H5', title: 'H5'},
+				{cmd: 'H6', title: 'H6'},
+				{cmd: 'H7', title: 'H7'}
+			]},
+			{type: '/'},
+			{type: 'button', cmd: 'link', title: 'リンク作成'},
+			{type: 'button', cmd: 'unlink', title: 'リンク解除'},
+			{type: '-'},
+			{type: 'button', cmd: 'insertimage', title: '画像挿入'}
+		];
+		var aTbConfigs = [];
+		var oTbLine = {
+			xtype: 'toolbar',
+			border: false,
+			items: []
 		};
-		return Ext.create('widget.toolbar', config);
+		for(var i = 0; i < aBtnConfigs.length; i++) {
+			var oBtn = aBtnConfigs[i];
+			switch(oBtn.type) {
+				case '/':
+					// new line
+					if(oTbLine.items.length > 0) {
+						aTbConfigs.push(oTbLine)
+						oTbLine = {
+							xtype: 'toolbar',
+							items: []
+						};
+					}
+					break;
+				case '-':
+				case '->':
+				case '<-':
+					// separator
+					oTbLine.items.push(oBtn.type);
+					break;
+				case 'menu':
+					// button with pull down menu
+					var menuItems = [];
+					for(var j=0; j<oBtn.items.length; j++) {
+						menuItems.push({
+							itemId: oBtn.items[j].cmd,
+							iconCls: 'icon-edit-' + oBtn.items[j].cmd,
+							text: oBtn.items[j].title,
+							handler: function(btn, e) {
+								me.sendCommand(btn.itemId);
+							}
+						});
+					}
+					oTbLine.items.push({
+						tooltip: oBtn.title,
+						iconCls: 'icon-edit-' + oBtn.cmd,
+						cls: 'x-btn-icon',
+						menu: new Ext.menu.Menu({
+							items: menuItems
+						})
+					});
+					break;
+				case 'combo':
+					// combo box
+					oTbLine.items.push({
+						xtype: 'combo',
+						store: new Ext.data.SimpleStore({
+							fields: ['value', 'text'],
+							data : oBtn.storeData
+						}),
+						valueField: 'value',
+						displayField: 'text',
+						typeAhead: true,
+						mode: 'local',
+						triggerAction: 'all',
+						emptyText: oBtn.emptyText || '',
+						editable: false,
+						width: oBtn.size || 70,
+						listeners: {
+							select: function(combo, record, index) {
+								me.sendCommand(record.data.value);
+							}
+						}
+					});
+					break;
+				default:
+					// button
+					oTbLine.items.push({
+						itemId: oBtn.cmd,
+						tooltip: oBtn.title,
+						iconCls: 'icon-edit-' + oBtn.cmd,
+						enableToggle: oBtn.toggle,
+						handler: function(btn, e) {
+							me.sendCommand(btn.itemId);
+						}
+					});
+					break;
+			}
+		}
+		if(oTbLine.items.length > 0) {
+			aTbConfigs.push(oTbLine)
+		}
+
+		return new Ext.Panel({
+			border: false,
+			items: aTbConfigs
+		});
 	},
 
 	clickButton: function(btn, e) {
@@ -73,6 +167,11 @@ Ext.define('XrEditor.HtmlEditor', {
 		if(btn.initialConfig.editor) {
 			btn.initialConfig.editor.selection.execCommand(btn.itemId);
 		}
+	},
+
+	sendCommand: function(sCmd, oArgs) {
+		this.selection.saveSelection();
+		this.selection.execCommand(sCmd, oArgs);
 	},
 
 	createIframe: function() {
@@ -169,17 +268,9 @@ Ext.define('XrEditor.HtmlEditor', {
 		});
 		docEl.addListener('click', function(e, el, o) {
 			me.hideContextMenu();
-			me.selection.saveSelection();
 		});
 		docEl.addListener('focus', function(e, el, o) {
-			me.hideContextMenu();
-			me.selection.saveSelection();
-		});
-		docEl.addListener('keyup', function(e, el, o) {
-			me.selection.saveSelection();
-		});
-		docEl.addListener('mouseup', function(e, el, o) {
-			me.selection.saveSelection();
+			//me.hideContextMenu();
 		});
 	},
 
@@ -187,16 +278,25 @@ Ext.define('XrEditor.HtmlEditor', {
 		if(!this.doc) return;
 		try {
 			this.doc.execCommand('styleWithCSS', 0, bFlag);
-		} catch(ex1) {
+		} catch(e1) {
 			try {
 				this.doc.execCommand('useCSS', 0, bFlag);
-			} catch(ex2) {
+			} catch(e2) {
 				try {
 					this.doc.execCommand('styleWithCSS', false, bFlag);
-				} catch(ex3) {
+				} catch(e3) {
 				}
 			}
 		}
+	},
+
+	bindHelperCss: function() {
+		var header = this.doc.getElementsByTagName('head')[0];
+		var link = this.doc.createElement('link');
+		link.setAttribute('rel', 'stylesheet');
+		link.setAttribute('type', 'text/css');
+		link.setAttribute('href', this.cssPath + '/editor-helper.css');
+		header.appendChild(link);
 	},
 
 	getHtml: function() {
@@ -210,13 +310,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		var sHtml = XrEditor.Html.formatXhtml(sCode);
 		
 		this.doc.write(sHtml);
-
-		var otherhead = this.doc.getElementsByTagName('head')[0];
-		var link = this.doc.createElement('link');
-		link.setAttribute('rel', 'stylesheet');
-		link.setAttribute('type', 'text/css');
-		link.setAttribute('href', this.cssPath + '/editor.css');
-		otherhead.appendChild(link);
+		this.bindHelperCss();
 
 		this.doc.close();
 	}

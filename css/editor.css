@@ -1,55 +1,73 @@
-body {
-	margin: 5px;
+/*
+ * style sheets for editor
+*/
+
+.icon-design {
+	background-image:url(../images/editor/pencil-ruler.png) !important;
 }
 
-div {
-	background: url(../images/label/div.gif) no-repeat 2px 2px;
-	padding-top:8px;
-	border:1px dashed #0C0 !important;
+.icon-code {
+	background-image:url(../images/editor/edit-code.png) !important;
 }
 
-form {
-	background: url(../images/label/form.gif) no-repeat 2px 2px;
-	padding-top:8px;
-	border:1px dashed #0C0 !important;
+.icon-undo {
+	background-image:url(../images/editor/undo.png) !important;
+}
+.icon-redo {
+	background-image:url(../images/editor/redo.png) !important;
+}
+.icon-magnifier {
+	background-image:url(../images/editor/magnifier.png) !important;
+}
+.icon-nowrap {
+	background-image:url(../images/editor/arrow-stop.png) !important;
 }
 
-table {
-	background: url(../images/label/table.gif) no-repeat 2px 2px;
-	padding-top:8px;
-	border:1px dashed #0C0 !important;
-	margin:0;
-	border-spacing:2px;
+/* Toolbar */
+.icon-edit-bold {
+	background-image:url(../images/editor/edit-bold.png) !important;
 }
 
-p {
-	background: url(../images/label/p.gif) no-repeat 2px 2px;
-	padding-top:8px;
-	border:1px dashed #0C0 !important;
+.icon-edit-italic {
+	background-image:url(../images/editor/edit-italic.png) !important;
 }
 
-ul {
-	background: url(../images/label/ul.gif) no-repeat 2px 2px;
-	padding-top:8px;
-	border:1px dashed #0C0 !important;
+.icon-edit-underline {
+	background-image:url(../images/editor/edit-underline.png) !important;
 }
 
-ol {
-	background: url(../images/label/ol.gif) no-repeat 2px 2px;
-	padding-top:8px;
-	border:1px dashed #0C0 !important;
+.icon-edit-hr {
+	background-image:url(../images/editor/edit-rule.png) !important;
 }
 
-dl {
-	background: url(../images/label/dl.gif) no-repeat 2px 2px;
-	padding-top:8px;
-	border:1px dashed #0C0 !important;
+.icon-edit-strikethrough {
+	background-image:url(../images/editor/edit-strike.png) !important;
 }
 
-table td {
-	border: 1px dashed #0C0;
+.icon-edit-heading {
+	background-image:url(../images/editor/edit-heading.png) !important;
 }
 
-.redbox {
-	border: 1px solid #F00 !important;
+.icon-edit-justifyleft {
+	background-image:url(../images/editor/edit-alignment.png) !important;
 }
+
+.icon-edit-justifycenter {
+	background-image:url(../images/editor/edit-alignment-center.png) !important;
+}
+
+.icon-edit-justifyright {
+	background-image:url(../images/editor/edit-alignment-right.png) !important;
+}
+
+.icon-edit-link {
+	background-image:url(../images/editor/link.png) !important;
+}
+
+.icon-edit-unlink {
+	background-image:url(../images/editor/link_break.png) !important;
+}
+.icon-edit-insertimage {
+	background-image:url(../images/editor/picture.png) !important;
+}
+

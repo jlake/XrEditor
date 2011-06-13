@@ -42,7 +42,8 @@ XrEditor.Util = function() {
 		/**
 		 * メッセージボックスを表示
 		 */
-		popupMsg: function(sMsg, sLevel, sTitle, args) {
+		popupMsg: function(sMsg, sTitle, sLevel, args) {
+			sLevel = sLevel || 'INFO';
 			var params = {
 				title: sTitle || 'メッセージ',
 				msg: sMsg,

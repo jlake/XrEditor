@@ -1,5 +1,5 @@
 /*
- * UI style for app
+ * style sheets for app
 */
 
 /* Message Box */
@@ -39,79 +39,64 @@
 	line-height: 24px;
 }
 
-/* Override */
-.folder .x-tree-node-icon {
-	background:transparent url(../images/icon/folder.png);
-}
-
-.x-tree-node-expanded .x-tree-node-icon {
-	background:transparent url(../images/icon/folder-open.png);
-}
-
-/* Icons */
+/* Common icons */
 .icon-help {
-	background-image:url(../images/icon/question.png) !important;
-}
-
-.icon-save {
-	background-image:url(../images/icon/disk.png) !important;
-}
-
-.icon-saveall {
-	background-image:url(../images/icon/disks.png) !important;
-}
-
-.icon-folder-add {
-	background-image:url(../images/icon/folder-plus.gif) !important;
-}
-.icon-folder-del {
-	background-image:url(../images/icon/folder-minus.gif) !important;
-}
-.icon-folder-edit {
-	background-image:url(../images/icon/folder-pencil.gif) !important;
-}
-
-.icon-design {
-	background-image:url(../images/icon/pencil-ruler.png) !important;
-}
-
-.icon-code {
-	background-image:url(../images/icon/edit-code.png) !important;
+	background-image:url(../images/shared/question.png) !important;
 }
 
 .icon-plus {
-	background-image:url(../images/icon/plus.png) !important;
+	background-image:url(../images/shared/plus.png) !important;
 }
 .icon-minus {
-	background-image:url(../images/icon/minus.png) !important;
+	background-image:url(../images/shared/minus.png) !important;
 }
 
 .icon-plus-circle {
-	background-image:url(../images/icon/plus-circle.png) !important;
+	background-image:url(../images/shared/plus-circle.png) !important;
 }
 .icon-minus-circle {
-	background-image:url(../images/icon/minus-circle.png) !important;
+	background-image:url(../images/shared/minus-circle.png) !important;
 }
 
 .icon-refresh {
-	background-image:url(../images/icon/refresh.png) !important;
+	background-image:url(../images/shared/refresh.png) !important;
 }
 
-.icon-undo {
-	background-image:url(../images/icon/undo.png) !important;
+.icon-folder-add {
+	background-image:url(../images/shared/folder-plus.gif) !important;
 }
-.icon-redo {
-	background-image:url(../images/icon/redo.png) !important;
+.icon-folder-del {
+	background-image:url(../images/shared/folder-minus.gif) !important;
 }
-.icon-magnifier {
-	background-image:url(../images/icon/magnifier.png) !important;
+.icon-folder-edit {
+	background-image:url(../images/shared/folder-pencil.gif) !important;
 }
-.icon-nowrap {
-	background-image:url(../images/icon/arrow-stop.png) !important;
+
+.icon-save {
+	background-image:url(../images/shared/disk.png) !important;
+}
+
+.icon-saveall {
+	background-image:url(../images/shared/disks.png) !important;
+}
+
+/* document type icons */
+.icon-doc-generic {
+	background-image:url(../images/doc_types/icon_generic.gif) !important;
 }
 .icon-doc-html {
-	background-image:url(../images/icon/document-text-image.png) !important;
+	background-image:url(../images/doc_types/icon_html.gif) !important;
 }
-.icon-doc-text {
-	background-image:url(../images/icon/document-text.png) !important;
+.icon-doc-js {
+	background-image:url(../images/doc_types/icon_js.gif) !important;
 }
+.icon-doc-css {
+	background-image:url(../images/doc_types/icon_css_incl.gif) !important;
+}
+.icon-doc-xml {
+	background-image:url(../images/doc_types/icon_xml.gif) !important;
+}
+.icon-doc-xls {
+	background-image:url(../images/doc_types/icon_xls.gif) !important;
+}
+

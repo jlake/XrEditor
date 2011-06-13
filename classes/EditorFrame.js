@@ -21,7 +21,7 @@ Ext.define('XrEditor.EditorFrame', {
 	initComponent: function(){
 		var defaultEditor = new XrEditor.Editor;
 		Ext.apply(this, {
-			dockedItems: [this.createToolbar()],
+			dockedItems: [this._createToolbar()],
 			height: '100%',
 			items: [defaultEditor]
 		});
@@ -33,7 +33,7 @@ Ext.define('XrEditor.EditorFrame', {
 	 * @private
 	 * @return {Ext.toolbar.Toolbar} toolbar
 	 */
-	createToolbar: function(){
+	_createToolbar: function(){
 		var config = {
 			items: [{
 				//scope: this,
@@ -73,6 +73,6 @@ Ext.define('XrEditor.EditorFrame', {
 	 * @private
 	 */
 	showHelp: function() {
-		XrEditor.Util.popupMsg('show Help', 'INFO', 'メッセージ');
+		XrEditor.Util.popupMsg('XrEditor', 'メッセージ');
 	}
 });

@@ -34,8 +34,10 @@ class app_Filemanager {
         return round($val, $digits) . ' ' . $symbols[$i] . $bB;
     }
 
-    
-    function getNodes($node) {
+   /** 
+    * find all children for a node
+    */
+    function findChildren($node) {
         $nodes = array();
         if(strpos($node, '..') !== false){
             return $nodes;
@@ -47,31 +49,39 @@ class app_Filemanager {
             return $nodes;
         }
         $iterator = new DirectoryIterator($directory);
-error_log(print_r($iterator, true));
         foreach ($iterator as $f) {
            //echo $f->getFilename() . " " . $f->getType() . "\n";
-            $name = $f->getFilename();
-            $type = $f->getType();
-            if(substr($name, 0, 1) == '.') continue;
-            $fullpath = $directory . '/' . $name;
-            //var_dump($filename);
-            $lastmod = date('M j, Y, g:i a', filemtime($fullpath));
-            $qtip = 'Type: ' .ucwords($type). '<br />Last Modified: '.$lastmod;
-            $leaf = false;
-            $cls = 'folder';
-            if(!is_dir($fullpath)) {
-                $qtip .= '<br />Size: '.self::formatBytes(filesize($fullpath), 2);
-                $leaf = true;
-                $cls = 'file';
+            $fileName = $f->getFilename();
+            if(substr($fileName, 0, 1) == '.') continue;
+            $qtip = 'Type: ' .ucwords($f->getType()). '<br />Last Modified: '.date('Y-m-d g:i:s', $f->getMTime());
+            if($f->isDir()) {
+                $nodes[] = array(
+                    'id'   => $node.'/'.$fileName,
+                    'text' => $fileName,
+                    'qtip' => $qtip,
+                    'leaf'  => false,
+                    'cls'  => 'folder'
+                );
+            } else {
+                //$ext = strtolower(substr(strrchr($fileName, '.'), 1));
+                $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                $nodes[] = array(
+                    'id'   => $node.'/'.$fileName,
+                    'text' => $fileName,
+                    'qtip' => $qtip.'<br />Size: '.self::formatBytes($f->getSize(), 2),
+                    'leaf'  => true,
+                    'cls'  => 'file',
+                    'iconCls' => 'icon-doc-'.$ext
+                );
             }
-             $nodes[] = array(
-                'id'   => $node.'/'.$name,
-                'text' => $name,
-                'qtip' => 'Type: Folder<br />Last Modified: '.$lastmod,
-                'leaf'  => $leaf,
-                'cls'  => $cls
-            );
         }
         return $nodes;
+    }
+
+   /** 
+    * get parent node
+    */
+    function getParentNode($node) {
+        $parent = strtolower(substr(strrchr($fileName, '/'), 1));
     }
 }

@@ -53,10 +53,20 @@ Ext.define('XrEditor.FileBrowser', {
 					expanded: true
 				},
 				folderSort: true,
+				/*
 				sorters: [{
 					property: 'text',
 					direction: 'ASC'
-				}]
+				}],
+				*/
+				listeners: {
+					beforeload: function(store, operation, opts) {
+						XrEditor.Util.showLoadingMask('Loading', me.body, 'BIG');
+					},
+					load: function(store, records, successful, opts) {
+						XrEditor.Util.hideLoadingMask();
+					}
+				}
 			}),
 			rootVisible: false,
 			viewConfig: {
@@ -64,6 +74,9 @@ Ext.define('XrEditor.FileBrowser', {
 					ptype: 'treeviewdragdrop',
 					appendOnly: true
 				}
+			},
+			loadMask: {
+				msg: 'Loading...'
 			},
 			listeners: {
 				itemcontextmenu: function(view, record, item, index, e, options) {
@@ -90,19 +103,12 @@ Ext.define('XrEditor.FileBrowser', {
 	 */
 	createToolbar: function() {
 		var me = this;
-		// refresh tree nodes
-		var refresh = function() {
-			XrEditor.Util.showLoadingMask('Loading', me.body, 'BIG');
-			me.store.load();
-			setTimeout(function() {
-				XrEditor.Util.hideLoadingMask();
-			}, 1000);
-		}
 		var config = {
 			items: ['->', {
 				//scope: this,
-				handler: refresh,
-				//text: 'Refresh',
+				handler: function() {
+					me.store.load();
+				},
 				iconCls: 'icon-refresh'
 			}]
 		};
