@@ -42,7 +42,8 @@ class app_Filemanager {
         if(strpos($node, '..') !== false){
             return $nodes;
         }
-
+        if($node == '.') $node = '';
+        //$node = preg_replace('/^./', '', $node);
         $directory = $this->_rootPath.$node;
         //var_dump($directory);
         if (!is_dir($directory)) {
