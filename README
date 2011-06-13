@@ -1,3 +1,10 @@
 The purpose of the project is to implement an online html/code editor based on extjs4.
 
+e folders need write permission：
+./backend/log
+./backend/var
+
+For example:
+-------------------------------------------------
+$ chmod -R a+rw ./backend/log ./backend/var
 
