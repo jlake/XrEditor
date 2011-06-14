@@ -36,7 +36,7 @@ Ext.define('XrEditor.CodeEditor', {
 	initComponent: function(){
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
-			bodyStyle: 'background:#ffc;'
+			bodyStyle: 'background:#ffe;'
 		});
 		this.callParent(arguments);
 	},
@@ -94,7 +94,8 @@ Ext.define('XrEditor.CodeEditor', {
 		}
 		this.editor = CodeMirror(this.body.dom, {
 			value: this.config.code,
-			mode: sMode
+			mode: sMode,
+			theme: 'default'
 		});
 		Ext.get(this.editor.getWrapperElement()).applyStyles('width:100%;height:100%;');
 	},
