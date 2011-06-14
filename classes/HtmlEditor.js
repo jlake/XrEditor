@@ -29,7 +29,9 @@ Ext.define('XrEditor.HtmlEditor', {
 	selection: null,
 
 	config: {
-		code: ''
+		node: '',
+		code: '',
+		fileType: ''
 	},
 	constructor: function(config) {
 		this.initConfig(config);

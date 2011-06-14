@@ -13,8 +13,6 @@ Ext.define('XrEditor.Inspector', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrinspector',
 	
-	//title: 'Inspector',
-	//cls: 'editor',
 	autoScroll: true,
 	border: false,
 
@@ -26,5 +24,5 @@ Ext.define('XrEditor.Inspector', {
 			html: 'not ready'
 		});
 		this.callParent(arguments);
-	},
+	}
 });

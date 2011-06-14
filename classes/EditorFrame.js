@@ -19,6 +19,7 @@ Ext.define('XrEditor.EditorFrame', {
 	border: false,
 
 	initComponent: function(){
+		/*
 		var sHtml = '<div>div tag test</div>'
 			+ '<p>p tag test</p>'
 			+ '<form>form tag test</form>'
@@ -28,22 +29,21 @@ Ext.define('XrEditor.EditorFrame', {
 			+ '<dl><dt>title 1</dt><dd>datail 1</dd><dt>title 2</dt><dd>datail 2</dd></dl>'
 			;
 		var defaultEditor = new XrEditor.Editor({
+			node: '',
 			code: sHtml
 		});
+		*/
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
 			height: '100%',
-			items: [defaultEditor]
+			items: []
 		});
 		this.callParent(arguments);
 	},
-
 	/**
 	 * Create the top toolbar
-	 * @private
-	 * @return {Ext.toolbar.Toolbar} toolbar
 	 */
-	_createToolbar: function(){
+	_createToolbar: function() {
 		var config = {
 			items: [{
 				//scope: this,
@@ -66,21 +66,18 @@ Ext.define('XrEditor.EditorFrame', {
 	},
 	/**
 	 * Navigate to the active post in a new window
-	 * @private
 	 */
 	saveOne: function() {
 		XrEditor.Util.slideMsg('save one', 'Editor');
 	},
 	/**
 	 * Open the post in a new tab
-	 * @private
 	 */
 	saveAll: function() {
 		XrEditor.Util.slideMsg('save all', 'Editor');
 	},
 	/**
 	 * Open the post in a new tab
-	 * @private
 	 */
 	showHelp: function() {
 		XrEditor.Util.popupMsg('XrEditor', 'メッセージ');

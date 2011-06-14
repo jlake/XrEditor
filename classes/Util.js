@@ -15,7 +15,7 @@ XrEditor.Util = function() {
 
 	return {
 		/**
-		 * Loadingマスクの表示
+		 * show loading mask
 		 */
 		showLoadingMask: function(sMsg, el, sSize, n){
 			sMsg = sMsg || 'Loading';
@@ -31,7 +31,7 @@ XrEditor.Util = function() {
 			_loadMask[n].show();
 		},
 		/**
-		 * Loadingマスクの非表示
+		 * hide loading mask
 		 */
 		hideLoadingMask: function(n){
 			n = n || 0;
@@ -40,12 +40,12 @@ XrEditor.Util = function() {
 			}
 		},
 		/**
-		 * メッセージボックスを表示
+		 * popup message box
 		 */
 		popupMsg: function(sMsg, sTitle, sLevel, args) {
 			sLevel = sLevel || 'INFO';
 			var params = {
-				title: sTitle || 'メッセージ',
+				title: sTitle || 'Message',
 				msg: sMsg,
 				buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox[sLevel] || Ext.MessageBox.WARNING
@@ -54,10 +54,10 @@ XrEditor.Util = function() {
 			Ext.Msg.show(params);
 		},
 		/**
-		 * 一時メッセージ
+		 * slide down message
 		 */
 		slideMsg : function(sMsg, sTitle){
-			sTitle = sTitle || 'メッセージ';
+			sTitle = sTitle || 'Message';
 			if(!_msgCt){
 				_msgCt = Ext.core.DomHelper.insertFirst(document.body, {id:'msg-div'}, true);
 			}
@@ -66,6 +66,13 @@ XrEditor.Util = function() {
 			var m = Ext.core.DomHelper.append(_msgCt, sHtml, true);
 			m.hide();
 			m.slideIn('t').ghost("t", { delay: 1000, remove: true});
+		},
+		/**
+		 * get file extension
+		 */
+		getFileExtension: function(sName) {
+			var sExt = (/[.]/.exec(sName)) ? /[^.]+$/.exec(sName) : '';
+			return (sExt + '').toLowerCase();
 		}
 	};
 }();

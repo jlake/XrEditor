@@ -78,7 +78,7 @@ Ext.define('XrEditor.Html', {
 			});
 			//<tag...>を<tag... />に変換
 			html = html.replace(/<(br|hr|img|input)\s*([^>]*?)(\/?)>/gi, function($0, name, value){
-				return '<' + name.toLowerCase() + (value ? ' ' : '') + $.trim(value) + ' />';
+				return '<' + name.toLowerCase() + (value ? ' ' + value : '') + ' />';
 			});
 			return html;
 		});

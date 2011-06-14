@@ -21,10 +21,11 @@ Ext.define('XrEditor.CodeEditor', {
 	iconCls: 'icon-code',
 
 	editor: null,
-	//editorWrapper: null,
 
 	config: {
-		code: ''
+		node: '',
+		code: '',
+		fileType: ''
 	},
 	constructor: function(config) {
 		this.initConfig(config);
@@ -34,22 +35,15 @@ Ext.define('XrEditor.CodeEditor', {
 
 	initComponent: function(){
 		Ext.apply(this, {
-			dockedItems: [this.createToolbar()],
-			listeners: {
-				resize: function(panel, w, h, opts) {
-					//if(this.editor) this.editor.refresh();
-					/*
-					if(this.editorWrapper) {
-						var size = this.body.getSize();
-						this.editorWrapper.setWidth(size.width);
-						this.editorWrapper.setHeight(size.height);
-					}*/
-				}
-			}
+			dockedItems: [this._createToolbar()],
+			bodyStyle: 'background:#ffc;'
 		});
 		this.callParent(arguments);
 	},
-	createToolbar : function(editor){
+	/**
+	 * Create the top toolbar
+	 */
+	_createToolbar : function(){
 		var config = {
 			items: [{
 				tooltip: 'Undo',
@@ -83,11 +77,26 @@ Ext.define('XrEditor.CodeEditor', {
 		return Ext.create('widget.toolbar', config);
 	},
 	afterRender: function() {
+		var sMode = '';
+		switch(this.config.fileType) {
+			case 'js':
+				sMode = 'javascript';
+				break;
+			case 'css':
+				sMode = 'css';
+				break;
+			case 'xml':
+				sMode = 'xml';
+				break;
+			default:
+				sMode = 'htmlmixed';
+				break;
+		}
 		this.editor = CodeMirror(this.body.dom, {
-			value: '',
-			mode: 'htmlmixed'
+			value: this.config.code,
+			mode: sMode
 		});
-		//this.editorWrapper = Ext.get(this.editor.getWrapperElement());
+		Ext.get(this.editor.getWrapperElement()).applyStyles('width:100%;height:100%;');
 	},
 	setMode: function(sMode) {
 	},

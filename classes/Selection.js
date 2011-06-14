@@ -4,7 +4,7 @@ Ext.define('XrEditor.Selection', {
 	text: '',
 	config: {
 		doc: {},
-		win: {},
+		win: {}
 	},
 	constructor: function(config) {
 		this.initConfig(config);
