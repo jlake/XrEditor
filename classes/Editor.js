@@ -20,13 +20,20 @@ Ext.define('XrEditor.Editor', {
 	title: 'Untiltled',
 	iconCls: 'icon-doc-html',
 
-
 	htmlEditor: null,
 	codeEditor: null,
-	
+
+	config: {
+		code: ''
+	},
+	constructor: function(config) {
+		this.initConfig(config);
+		this.htmlEditor = new XrEditor.HtmlEditor(config);
+		this.codeEditor = new XrEditor.CodeEditor(config);
+		this.callParent(arguments);
+		return this;
+	},
 	initComponent: function(){
-		this.htmlEditor = new XrEditor.HtmlEditor;
-		this.codeEditor = new XrEditor.CodeEditor;
 		Ext.apply(this, {
 			height: '100%',
 			items: [this.htmlEditor, this.codeEditor],

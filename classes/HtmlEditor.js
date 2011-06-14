@@ -28,6 +28,15 @@ Ext.define('XrEditor.HtmlEditor', {
 	contextMenu: null,
 	selection: null,
 
+	config: {
+		code: ''
+	},
+	constructor: function(config) {
+		this.initConfig(config);
+		this.callParent(arguments);
+		return this;
+	},
+
 	initComponent: function(){
 		Ext.apply(this, {
 			autoScroll: false,
@@ -54,6 +63,15 @@ Ext.define('XrEditor.HtmlEditor', {
 			{type: 'button', cmd: 'justifyright', title: '右揃え', toggle: false},
 			{type: '-'},
 			{type: 'menu', cmd: 'heading', title: 'ヘッディング', items: [
+				{cmd: 'H1', title: 'H1'},
+				{cmd: 'H2', title: 'H2'},
+				{cmd: 'H3', title: 'H3'},
+				{cmd: 'H4', title: 'H4'},
+				{cmd: 'H5', title: 'H5'},
+				{cmd: 'H6', title: 'H6'},
+				{cmd: 'H7', title: 'H7'}
+			]},
+			{type: 'combo', cmd: 'heading1', title: 'ヘッディング', items: [
 				{cmd: 'H1', title: 'H1'},
 				{cmd: 'H2', title: 'H2'},
 				{cmd: 'H3', title: 'H3'},
@@ -119,26 +137,25 @@ Ext.define('XrEditor.HtmlEditor', {
 					// combo box
 					oTbLine.items.push({
 						xtype: 'combo',
-						store: new Ext.data.SimpleStore({
-							fields: ['value', 'text'],
-							data : oBtn.storeData
+						store: Ext.create('Ext.data.Store', {
+							fields: ['cmd', 'title'],
+							data: oBtn.items
 						}),
-						valueField: 'value',
-						displayField: 'text',
-						typeAhead: true,
+						valueField: 'cmd',
+						displayField: 'title',
 						mode: 'local',
 						triggerAction: 'all',
 						emptyText: oBtn.emptyText || '',
 						editable: false,
 						width: oBtn.size || 70,
 						listeners: {
-							select: function(combo, record, index) {
-								me.sendCommand(record.data.value);
+							select: function(field, value, opts) {
+								me.sendCommand(value);
 							}
 						}
 					});
 					break;
-				default:
+				case 'button':
 					// button
 					oTbLine.items.push({
 						itemId: oBtn.cmd,
@@ -149,6 +166,8 @@ Ext.define('XrEditor.HtmlEditor', {
 							me.sendCommand(btn.itemId);
 						}
 					});
+					break;
+				default:
 					break;
 			}
 		}
@@ -196,16 +215,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		this.doc.contentEditable = true;
 		this.doc.designMode = 'on';
 
-		var sHtml = '<div>div tag test</div>'
-			+ '<p>p tag test</p>'
-			+ '<form>form tag test</form>'
-			+ '<table width="100%"><tr><td>r1 c1</td><td>r1 c2</td></tr><tr><td>r2 c1</td><td>r2 c2</td></tr></table>'
-			+ '<ol><li>item 1</li><li>item 2</li><li>item 3</li></ol>'
-			+ '<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>'
-			+ '<dl><dt>title 1</dt><dd>datail 1</dd><dt>title 2</dt><dd>datail 2</dd></dl>'
-			;
-		this.setHtml(sHtml);
-
+		this.setHtml(this.config.code);
 
 		this.selection = new XrEditor.Selection({
 			doc: this.doc,
@@ -308,7 +318,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		if(!this.doc) return;
 		this.doc.open();
 		var sHtml = XrEditor.Html.formatXhtml(sCode);
-		
+
 		this.doc.write(sHtml);
 		this.bindHelperCss();
 

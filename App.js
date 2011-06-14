@@ -3,15 +3,16 @@
  * Copyright(c) 2011 Jlake Ou
  */
 Ext.define('XrEditor.App', {
-    extend: 'Ext.container.Viewport',
-
-    //uses: ['XrEditor.Html'],
-	
+	extend: 'Ext.container.Viewport',
 	title: 'XrEditor Application',
-
 	initComponent: function() {
+		var editorFrame = new XrEditor.EditorFrame();
+		var fileBrowser = new XrEditor.FileBrowser();
+		fileBrowser.setEditorFrame(editorFrame);
+		var inspector = new XrEditor.Inspector();
+		var toolbox = new XrEditor.Toolbox();
 		Ext.apply(this, {
-            id: 'app-viewport',
+			id: 'app-viewport',
 			layout: {
 				type: 'border',
 				padding: 5
@@ -29,7 +30,7 @@ Ext.define('XrEditor.App', {
 				collapsible: true,
 				split: true,
 				width: '25%',
-				items: new XrEditor.FileBrowser
+				items: fileBrowser
 			},{
 				region: 'center',
 				layout: 'border',
@@ -37,13 +38,13 @@ Ext.define('XrEditor.App', {
 				items: [{
 					region: 'center',
 					border: false,
-					items: new XrEditor.EditorFrame
+					items: editorFrame
 				},{
 					region: 'south',
 					//collapsible: true,
 					split: true,
 					height: 100,
-					items: new XrEditor.Inspector
+					items: inspector
 				}]
 			},{
 				region: 'east',
@@ -52,7 +53,7 @@ Ext.define('XrEditor.App', {
 				floatable: true,
 				split: true,
 				width: 250,
-				items: new XrEditor.Toolbox
+				items: toolbox
 			}],
 			listeners: {
 				render: function() {

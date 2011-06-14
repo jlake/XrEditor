@@ -17,35 +17,20 @@ Ext.define('XrEditor.FileBrowser', {
 	//title: 'Fire Browser',
 	selectedNode: null,
 	contextMenu: null,
+	editorFrame: null,
+	urls: {
+		nodes: 'backend/file/nodes.json',
+		contents: 'backend/file/contents.json'
+	},
 	initComponent: function() {
 		var me = this;
-		this.contextMenu = Ext.create('Ext.menu.Menu', {
-			id: 'filebrowser_contextmenu',
-			plain: true,
-			//floating: true,
-			items: [{
-				text: 'Insert',
-				iconCls: 'icon-plus',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('insert', 'Editor');
-					me.hideContextMenu();
-				}
-			}, {
-				text: 'Delete',
-				iconCls: 'icon-minus',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('delete', 'Editor');
-					me.hideContextMenu();
-				}
-			}]
-		});
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()],
 			height: '100%',
 			store: Ext.create('Ext.data.TreeStore', {
 				proxy: {
 					type: 'ajax',
-					url: 'backend/file/nodes.json'
+					url: me.urls.nodes
 				},
 				root: {
 					text: 'Root',
@@ -85,8 +70,41 @@ Ext.define('XrEditor.FileBrowser', {
 					var pos = e.getXY();
 					this.showContextMenu(pos);
 					return false;
+				},
+				itemdblclick: function(view, record, item, index, e, options) {
+					Ext.Ajax.request({
+						url: me.urls.contents,// + '?node=' +  record.data.id,
+						params: {
+							node: record.data.id
+						},
+						success: function(response){
+							var text = response.responseText;
+							//console.log(text);
+							XrEditor.Util.slideMsg(text, record.data.id);
+						}
+					});
 				}
 			}
+		});
+		this.contextMenu = Ext.create('Ext.menu.Menu', {
+			id: 'filebrowser_contextmenu',
+			//plain: true,
+			//floating: true,
+			items: [{
+				text: 'Insert',
+				iconCls: 'icon-plus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('insert', 'Editor');
+					me.hideContextMenu();
+				}
+			}, {
+				text: 'Delete',
+				iconCls: 'icon-minus',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('delete', 'Editor');
+					me.hideContextMenu();
+				}
+			}]
 		});
 		this.callParent(arguments);
 	},
@@ -95,6 +113,9 @@ Ext.define('XrEditor.FileBrowser', {
 	},
 	hideContextMenu: function() {
 		if(this.contextMenu) this.contextMenu.hide();
+	},
+	setEditorFrame: function(obj) {
+		this.editorFrame = obj;
 	},
 	/**
 	 * Create the top toolbar

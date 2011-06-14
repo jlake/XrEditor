@@ -38,6 +38,7 @@
 
         Ext.onReady(function(){
             Ext.tip.QuickTipManager.init();
+            Ext.Ajax.timeout = 60000;
             Ext.create('XrEditor.App');
         });
     </script>

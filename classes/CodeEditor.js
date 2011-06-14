@@ -23,6 +23,15 @@ Ext.define('XrEditor.CodeEditor', {
 	editor: null,
 	//editorWrapper: null,
 
+	config: {
+		code: ''
+	},
+	constructor: function(config) {
+		this.initConfig(config);
+		this.callParent(arguments);
+		return this;
+	},
+
 	initComponent: function(){
 		Ext.apply(this, {
 			dockedItems: [this.createToolbar()],

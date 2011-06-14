@@ -4,6 +4,8 @@ class components_file_Top extends k_Component {
 		switch ($name) {
 			case 'nodes':
 				return 'components_file_Nodes';
+			case 'contents':
+				return 'components_file_Contents';
 		}
 	}
 
