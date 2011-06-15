@@ -1,20 +1,13 @@
 /**
  * @class XrEditor.Editor
  * @extends Ext.panel.TabPanel
- *
- * define Editor class
- *
- * @Editor
  * 
- * @param {Object} config The config object
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.Editor', {
 	extend: 'Ext.tab.Panel',
 	alias: 'widget.xreditor',
 
-	autoScroll: true,
-	border: false,
 	tabPosition: 'bottom',
 
 	htmlEditor: null,
@@ -28,7 +21,7 @@ Ext.define('XrEditor.Editor', {
 	},
 	constructor: function(config) {
 		this.initConfig(config);
-		this.callParent(arguments);
+		this.callParent([config]);
 		return this;
 	},
 	initComponent: function(){
@@ -44,6 +37,8 @@ Ext.define('XrEditor.Editor', {
 			height: '100%',
 			iconCls: 'icon-doc-' + this.config.fileType,
 			closable: true,
+			border: false,
+			autoDestroy: true,
 			items: aItems,
 			listeners: {
 				tabchange: function(panel, newCard, oldCard, opts) {

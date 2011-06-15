@@ -1,19 +1,12 @@
 /**
  * @class XrEditor.FileBrowser
  * @extends Ext.tree.TabPanel
- *
- * define FileBrowser class
- *
- * @FileBrowser
  * 
- * @param {Object} config The config object
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.FileBrowser', {
 	extend: 'Ext.tree.Panel',
 	alias: 'widget.xrfilebrowser',
-	autoScroll: true,
-	border: true,
 	//title: 'Fire Browser',
 	selectedNode: null,
 	contextMenu: null,
@@ -27,6 +20,8 @@ Ext.define('XrEditor.FileBrowser', {
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
 			height: '100%',
+			autoScroll: true,
+			border: false,
 			store: Ext.create('Ext.data.TreeStore', {
 				proxy: {
 					type: 'ajax',

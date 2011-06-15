@@ -1,20 +1,19 @@
 /**
- * @class XrEditor.Inspector
- * @extends Ext.tab.Panel
+ * @class XrEditor.SnippetBrowser
+ * @extends Ext.panel.Panel
  *
  * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
-Ext.define('XrEditor.Inspector', {
+Ext.define('XrEditor.SnippetBrowser', {
 	extend: 'Ext.panel.Panel',
-	alias: 'widget.xrinspector',
-	
-	title: 'Inspector',
+	alias: 'widget.xrimagebrowser',
+
+	title: 'Snippets',
 
 	initComponent: function(){
 		Ext.apply(this, {
-			height: '100%',
 			border: false,
-			bodyStyle: 'background:#cff;',
+			height: '100%',
 			html: 'not ready'
 		});
 		this.callParent(arguments);

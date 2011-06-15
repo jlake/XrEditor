@@ -1,6 +1,8 @@
 /*!
- * ZepEditor 1.0
+ * A sample application for XrEditor
  * Copyright(c) 2011 Jlake Ou
+ *
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.App', {
 	extend: 'Ext.container.Viewport',
@@ -9,7 +11,6 @@ Ext.define('XrEditor.App', {
 		var editorFrame = new XrEditor.EditorFrame();
 		var fileBrowser = new XrEditor.FileBrowser();
 		fileBrowser.setEditorFrame(editorFrame);
-		var inspector = new XrEditor.Inspector();
 		var toolbox = new XrEditor.Toolbox();
 		Ext.apply(this, {
 			id: 'app-viewport',
@@ -31,22 +32,14 @@ Ext.define('XrEditor.App', {
 				width: 280,
 				items: fileBrowser
 			},{
-                xtype: 'container',
+				xtype: 'container',
 				region: 'center',
-				layout: 'border',
-				//border: false,
-				items: [{
-					region: 'center',
-					border: false,
-					height: '100%',
-					items: editorFrame
-				},{
-					region: 'south',
-					//collapsible: true,
-					split: true,
-					height: 100,
-					items: inspector
-				}]
+				items: editorFrame,
+				listeners: {
+					resize: function() {
+						editorFrame.doLayout();
+					}
+				}
 			},{
 				region: 'east',
 				title: 'Toolbox',
@@ -55,13 +48,7 @@ Ext.define('XrEditor.App', {
 				split: true,
 				width: 300,
 				items: toolbox
-			}],
-			listeners: {
-				afterrender: function() {
-					//XrEditor.Html.sayHello();
-					editorFrame.doLayout();
-				}
-			}
+			}]
 		});
 		this.callParent(arguments);
 	}

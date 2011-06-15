@@ -2,22 +2,15 @@
  * @class XrEditor.EditorFrame
  * @extends Ext.panel.TabPanel
  *
- * define EditorFrame class
- *
- * @EditorFrame
- * 
- * @param {Object} config The config object
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.EditorFrame', {
 	extend: 'Ext.tab.Panel',
 	alias: 'widget.xreditorframe',
 	
 	title: 'Editor Frame Panel',
-	autoScroll: true,
-	border: false,
 
-	initComponent: function(){
+	initComponent: function() {
 		var editor = new XrEditor.Editor({
 			node: '',
 			code: 'Hello World!',
@@ -26,6 +19,7 @@ Ext.define('XrEditor.EditorFrame', {
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
 			height: '100%',
+			border: true,
 			items: [editor]
 		});
 		this.callParent(arguments);

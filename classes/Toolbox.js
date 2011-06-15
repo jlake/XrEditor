@@ -2,28 +2,20 @@
  * @class XrEditor.Toolbox
  * @extends Ext.tree.TabPanel
  *
- * define Toolbox class
- *
- * @Toolbox
- * 
- * @param {Object} config The config object
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.Toolbox', {
 	extend: 'Ext.tab.Panel',
 	alias: 'widget.xrtoolbox',
-	autoScroll: true,
-	border: true,
 	//title: 'Fire Browser',
+	imageBrowser: null,
+	snippetBrowser: null,
 	initComponent: function(){
+		this.imageBrowser = new XrEditor.ImageBrowser();
+		this.snippetBrowser = new XrEditor.SnippetBrowser();
 		Ext.apply(this, {
-			items: [{
-				title: 'Resources',
-				html: 'not ready'
-			}, {
-				title: 'Snippets',
-				html: 'not ready'
-			}]
+			border: false,
+			items: [this.imageBrowser, this.snippetBrowser]
 		});
 		this.callParent(arguments);
 	}

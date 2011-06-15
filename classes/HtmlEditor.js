@@ -2,19 +2,11 @@
  * @class XrEditor.HtmlEditor
  * @extends Ext.panel.TabPanel
  *
- * define HtmlEditor class
- *
- * @constructor
- * 
- * @param {Object} config The config object
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.HtmlEditor', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrhtmleditor',
-
-	autoScroll: true,
-	border: true,
 
 	itemId: 'html',
 	title: 'Design',

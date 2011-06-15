@@ -2,9 +2,7 @@
  * @class XrEditor.CodeEditor
  * @extends Ext.panel.TabPanel
  *
- * define CodeEditor class
- *
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.CodeEditor', {
 	extend: 'Ext.panel.Panel',

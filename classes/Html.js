@@ -1,3 +1,9 @@
+/**
+ * @class XrEditor.Html
+ * @extends Object
+ * 
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
+ */
 Ext.define('XrEditor.Html', {
     singleton: true,
 	//*******************************************************

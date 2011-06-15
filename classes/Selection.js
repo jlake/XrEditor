@@ -2,9 +2,7 @@
  * @class XrEditor.Selection
  * @extends Ext.panel.TabPanel
  *
- * define Selection class
- *
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.Selection', {
 	type: '',

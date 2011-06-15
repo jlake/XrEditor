@@ -1,10 +1,8 @@
 /**
- * @class XrEditor.UTIL
- * @extends {}
+ * @class XrEditor.Util
+ * @extends Object
  *
- * define UTIL class
- *
- * @author ouzhiwei@gmail.com (Jlake Ou)
+ * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 XrEditor.Util = function() {
 	var _loadMask = [];
