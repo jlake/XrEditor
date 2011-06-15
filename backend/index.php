@@ -4,8 +4,17 @@ error_reporting(E_ALL | E_STRICT);
 defined('APP_ROOT')
     || define('APP_ROOT', realpath(dirname(__FILE__)));
 
+defined('IMAGE_URL')
+    || define('IMAGE_URL',  '/xreditor/images');
+
 defined('EDITOR_DOCROOT')
     || define('EDITOR_DOCROOT',  APP_ROOT . '/var/docroot');
+
+defined('EDITOR_IMGROOT')
+    || define('EDITOR_IMGROOT',  APP_ROOT . '/var/docroot/images');
+
+defined('EDITOR_IMGURL')
+    || define('EDITOR_IMGURL',  '/xreditor/backend/var/docroot/images');
 
 //echo APP_ROOT;
 set_include_path(implode(PATH_SEPARATOR, array(

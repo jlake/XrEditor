@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="http://cdn.sencha.io/ext-4.0.2/resources/css/ext-all.css" />
     <link rel="stylesheet" href="css/codemirror/codemirror.css" />
     <link rel="stylesheet" href="css/codemirror/default.css" />
+    <link rel="stylesheet" href="css/codemirror/night.css" />
     <link rel="stylesheet" href="css/app-all.css" />
     <link rel="stylesheet" href="css/editor.css" />
     <script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.0.2/ext-all.js"></script>
@@ -15,35 +16,6 @@
     <script src="mode/javascript/javascript.js"></script>
     <script src="mode/htmlmixed/htmlmixed.js"></script>
     <script src="App.js"></script>
-     <script>
-        Ext.Loader.setConfig({
-            enabled: true,
-            paths: {
-                XrEditor: 'classes'
-            }
-        });
-
-        Ext.require([
-            'XrEditor.Util',
-            'XrEditor.FileBrowser',
-            'XrEditor.EditorFrame',
-            'XrEditor.Editor',
-            'XrEditor.HtmlEditor',
-            'XrEditor.CodeEditor',
-            'XrEditor.Selection',
-            'XrEditor.Html',
-            //'XrEditor.Inspector',
-            'XrEditor.ImageBrowser',
-            'XrEditor.SnippetBrowser',
-            'XrEditor.Toolbox'
-       ]);
-
-        Ext.onReady(function(){
-            Ext.tip.QuickTipManager.init();
-            Ext.Ajax.timeout = 60000;
-            Ext.create('XrEditor.App');
-        });
-    </script>
 </head>
 <body>
 </body>

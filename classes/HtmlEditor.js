@@ -27,7 +27,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 	constructor: function(config) {
 		this.initConfig(config);
-		this.callParent([config]);
+		this.callParent(arguments);
 		return this;
 	},
 

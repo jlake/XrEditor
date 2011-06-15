@@ -4,6 +4,29 @@
  *
  * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
+Ext.Loader.setConfig({
+	enabled: true,
+	paths: {
+		XrEditor: 'classes',
+		'Ext.ux.DataView': 'ux/DataView/'
+	}
+});
+
+Ext.require([
+	'XrEditor.Util',
+	'XrEditor.FileBrowser',
+	'XrEditor.EditorFrame',
+	'XrEditor.Editor',
+	'XrEditor.HtmlEditor',
+	'XrEditor.CodeEditor',
+	'XrEditor.Selection',
+	'XrEditor.Html',
+	//'XrEditor.Inspector',
+	'XrEditor.ImageBrowser',
+	'XrEditor.SnippetBrowser',
+	'XrEditor.Toolbox'
+]);
+
 Ext.define('XrEditor.App', {
 	extend: 'Ext.container.Viewport',
 	title: 'XrEditor Application',
@@ -23,6 +46,7 @@ Ext.define('XrEditor.App', {
 				//collapsible: true,
 				split: true,
 				height: 50,
+				bodyStyle: 'padding: 5px;',
 				html: '<h1>XrEditor</h1>'
 			},{
 				region: 'west',
@@ -38,6 +62,7 @@ Ext.define('XrEditor.App', {
 				listeners: {
 					resize: function() {
 						editorFrame.doLayout();
+						toolbox.doLayout();
 					}
 				}
 			},{
@@ -52,4 +77,10 @@ Ext.define('XrEditor.App', {
 		});
 		this.callParent(arguments);
 	}
+});
+
+Ext.onReady(function(){
+	Ext.tip.QuickTipManager.init();
+	Ext.Ajax.timeout = 60000;
+	Ext.create('XrEditor.App');
 });

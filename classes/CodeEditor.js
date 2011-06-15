@@ -27,7 +27,7 @@ Ext.define('XrEditor.CodeEditor', {
 
 	constructor: function(config) {
 		this.initConfig(config);
-		this.callParent([config]);
+		this.callParent(arguments);
 		return this;
 	},
 
@@ -90,7 +90,7 @@ Ext.define('XrEditor.CodeEditor', {
 			mode: sMode,
 			theme: 'default'
 		});
-		Ext.get(this.editor.getWrapperElement()).applyStyles('width:100%;height:100%;');
+		Ext.get(this.editor.getWrapperElement()).applyStyles('background:#ffe;width:100%;height:100%;');
 	},
 	/**
 	 * set editor's mode

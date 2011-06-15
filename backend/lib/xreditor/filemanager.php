@@ -51,54 +51,51 @@ class xreditor_Filemanager {
    /** 
     * find all children for a node
     */
-    function findChildren($node) {
+    function findChildren($node, $filter = '') {
         $nodes = array();
         if(strpos($node, '..') !== false){
             return $nodes;
         }
+
         if($node == '.') $node = '';
-        //$node = preg_replace('/^./', '', $node);
-        $directory = $this->_rootPath.$node;
-        //var_dump($directory);
-        if (!is_dir($directory)) {
+        $path = $this->_rootPath.$node;
+        if (!is_dir($path)) {
             return $nodes;
         }
-        $iterator = new DirectoryIterator($directory);
+        $iterator = new DirectoryIterator($path);
         foreach ($iterator as $f) {
            //echo $f->getFilename() . " " . $f->getType() . "\n";
             $fileName = $f->getFilename();
             if(substr($fileName, 0, 1) == '.') continue;
-            $qtip = 'Last Modified: '.date('Y-m-d g:i:s', $f->getMTime());
             if($f->isDir()) {
                 $nodes[] = array(
                     'id'   => $node.'/'.$fileName,
                     'type' => $f->getType(),
                     'text' => $fileName,
-                    'qtip' => $qtip,
+                    'qtip' => 'Last Modified: '.date('Y-m-d g:i:s', $f->getMTime()),
                     'leaf' => false,
                     'cls'  => 'folder'
                 );
             } else {
-                $ext = self::getExtension($fileName);
+                if(!empty($filter) && !preg_match($filter, $fileName)) continue;
                 $nodes[] = array(
                     'id'   => $node.'/'.$fileName,
                     'type' => $f->getType(),
                     'text' => $fileName,
-                    'qtip' => 'Size: '.self::formatBytes($f->getSize(), 2).'<br />'.$qtip,
+                    'qtip' => 'Size: '.self::formatBytes($f->getSize(), 2).'<br />Last Modified: '.date('Y-m-d g:i:s', $f->getMTime()),
                     'leaf' => true,
                     'cls'  => 'file',
-                    'ext'  => $ext,
-                    'iconCls' => 'icon-doc-'.$ext
+                    'iconCls' => 'icon-doc-'.self::getExtension($fileName)
                 );
             }
         }
         return $nodes;
     }
-
+ 
    /** 
     * get node's contents
     */
-    function getContents($node) {
+    public function getContents($node) {
         $filePath = $this->_rootPath.$node;
         if(is_readable($filePath)) {
             return array(
@@ -109,5 +106,49 @@ class xreditor_Filemanager {
                 'error' => 'Can not read file: '.$filePath
             );
         }
+    }
+
+   /** 
+    * find image files
+    */
+    function findImageFiles($node) {
+        $images = array();
+        if(strpos($node, '..') !== false){
+            return $images;
+        }
+        if($node == '.') $node = '';
+        $path = $this->_rootPath.$node;
+        if (!is_dir($path)) {
+            return $images;
+        }
+        $iterator = new DirectoryIterator($path);
+        foreach ($iterator as $f) {
+            $fileName = $f->getFilename();
+           //echo $f->getFilename() . " " . $f->getType() . "\n";
+            $fileName = $f->getFilename();
+            if(substr($fileName, 0, 1) == '.') continue;
+            $fileNode = $node.'/'.$fileName;
+            if($f->isDir()) {
+                $images[] = array(
+                    'node'   => $fileNode,
+                    'name' => $fileName,
+                    'type' => $f->getType(),
+                    'lasmod' => $f->getMTime(),
+                    'url' => IMAGE_URL.'/shared/photo_folder.png'
+                );
+            } else {
+                if(!preg_match('/\.(jpg|gif|png)$/i', $fileName)) continue;
+                $ext = self::getExtension($fileName);
+                $images[] = array(
+                    'node'   => $fileNode,
+                    'name' => $fileName,
+                    'type' => $f->getType(),
+                    'size' => $f->getSize(),
+                    'lasmod' => $f->getMTime(),
+                    'url' => EDITOR_IMGURL.$fileNode
+                );
+            }
+        }
+        return $images;
     }
 }
