@@ -10,15 +10,20 @@ Ext.define('XrEditor.ImageBrowser', {
 
 	title: 'Images',
 	store: null,
+	node: '',
 
 	url: {
 		images: 'backend/file/images.json'
 	},
 
 	initComponent: function(){
-		var ImageModel = Ext.define('ImageModel', {
+		var me = this;
+		
+		Ext.define('ImageModel', {
 			extend: 'Ext.data.Model',
 			fields: [
+				{name: 'node'},
+				{name: 'type'},
 				{name: 'name'},
 				{name: 'url'},
 				{name: 'size', type: 'float'},
@@ -31,9 +36,17 @@ Ext.define('XrEditor.ImageBrowser', {
 			proxy: {
 				type: 'ajax',
 				url: this.url.images,
+				extraParams: {
+					node: ''
+				},
 				reader: {
 					type: 'json',
 					root: 'images'
+				},
+			},
+			listeners: {
+				beforeload: function(store, operation, opts) {
+					store.proxy.extraParams.node = me.node;
 				}
 			}
 		});
@@ -69,22 +82,44 @@ Ext.define('XrEditor.ImageBrowser', {
 				return data;
 			},
 			listeners: {
-				selectionchange: function(dv, nodes ){
-					/*
+				/*
+				selectionchange: function(view, nodes ){
 					var l = nodes.length,
 						s = l !== 1 ? 's' : '';
 					this.up('panel').setTitle('Simple DataView (' + l + ' item' + s + ' selected)');
-					*/
+				},
+				*/
+				itemdblclick: function(view, record, item, index, e, opts) {
+					//console.log(record.data);
+					if(record.data.type == 'dir') {
+						me.node = record.data.node;
+						me.store.load();
+					}
 				}
 			}
 		});
 		Ext.apply(this, {
+			dockedItems: [this._createToolbar()],
 			border: false,
-			//height: '100%',
 			autoScroll: true,
 			items: dataView
 		});
 		this.callParent(arguments);
+	},
+	/**
+	 * create top toolbar
+	 */
+	_createToolbar: function() {
+		var me = this;
+		var config = {
+			items: ['->', {
+				handler: function() {
+					me.store.load();
+				},
+				iconCls: 'icon-refresh'
+			}]
+		};
+		return Ext.create('widget.toolbar', config);
 	},
 	afterRender: function() {
 		this.store.load();

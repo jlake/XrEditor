@@ -115,7 +115,7 @@ Ext.define('XrEditor.FileBrowser', {
 		this.callParent(arguments);
 	},
 	/**
-	 * @return {Ext.toolbar.Toolbar} toolbar
+	 * create top toolbar
 	 */
 	_createToolbar: function() {
 		var me = this;

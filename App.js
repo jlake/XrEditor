@@ -31,6 +31,7 @@ Ext.define('XrEditor.App', {
 	extend: 'Ext.container.Viewport',
 	title: 'XrEditor Application',
 	initComponent: function() {
+		var me = this;
 		var editorFrame = new XrEditor.EditorFrame();
 		var fileBrowser = new XrEditor.FileBrowser();
 		fileBrowser.setEditorFrame(editorFrame);
@@ -43,7 +44,6 @@ Ext.define('XrEditor.App', {
 			},
 			items: [{
 				region: 'north',
-				//collapsible: true,
 				split: true,
 				height: 50,
 				bodyStyle: 'padding: 5px;',
@@ -54,6 +54,8 @@ Ext.define('XrEditor.App', {
 				collapsible: true,
 				split: true,
 				width: 280,
+				minWidth: 150,
+				maxWidth: 600,
 				items: fileBrowser
 			},{
 				xtype: 'container',
@@ -61,8 +63,9 @@ Ext.define('XrEditor.App', {
 				items: editorFrame,
 				listeners: {
 					resize: function() {
+						me.doLayout();
 						editorFrame.doLayout();
-						toolbox.doLayout();
+						//toolbox.doLayout();
 					}
 				}
 			},{
@@ -71,7 +74,9 @@ Ext.define('XrEditor.App', {
 				collapsible: true,
 				floatable: true,
 				split: true,
-				width: 300,
+				width: 310,
+				minWidth: 150,
+				maxWidth: 600,
 				items: toolbox
 			}]
 		});
