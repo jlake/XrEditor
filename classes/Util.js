@@ -1,12 +1,9 @@
 /**
  * @class XrEditor.UTIL
- * @extends Ext.panel.TabPanel
+ * @extends {}
  *
  * define UTIL class
  *
- * @constructor
- * 
- * @param {Object} config The config object
  * @author ouzhiwei@gmail.com (Jlake Ou)
  */
 XrEditor.Util = function() {

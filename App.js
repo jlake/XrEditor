@@ -19,7 +19,6 @@ Ext.define('XrEditor.App', {
 			},
 			items: [{
 				region: 'north',
-				//title: 'North',
 				//collapsible: true,
 				split: true,
 				height: 50,
@@ -29,15 +28,17 @@ Ext.define('XrEditor.App', {
 				title: 'File browser',
 				collapsible: true,
 				split: true,
-				width: '25%',
+				width: 280,
 				items: fileBrowser
 			},{
+                xtype: 'container',
 				region: 'center',
 				layout: 'border',
 				//border: false,
 				items: [{
 					region: 'center',
 					border: false,
+					height: '100%',
 					items: editorFrame
 				},{
 					region: 'south',
@@ -52,12 +53,13 @@ Ext.define('XrEditor.App', {
 				collapsible: true,
 				floatable: true,
 				split: true,
-				width: 250,
+				width: 300,
 				items: toolbox
 			}],
 			listeners: {
-				render: function() {
+				afterrender: function() {
 					//XrEditor.Html.sayHello();
+					editorFrame.doLayout();
 				}
 			}
 		});

@@ -1,3 +1,11 @@
+/**
+ * @class XrEditor.Selection
+ * @extends Ext.panel.TabPanel
+ *
+ * define Selection class
+ *
+ * @author ouzhiwei@gmail.com (Jlake Ou)
+ */
 Ext.define('XrEditor.Selection', {
 	type: '',
 	range: null,
@@ -45,7 +53,7 @@ Ext.define('XrEditor.Selection', {
 			}
 		} else {
 			if(Ext.isWebkit && document.queryCommandEnabled('InsertHTML')) {
-				this.restoreSelection();
+				//this.restoreSelection();
 				this.config.doc.execCommand('InsertHTML', false, sHtml);
 			} else {
 				this.range.deleteContents();
@@ -55,9 +63,9 @@ Ext.define('XrEditor.Selection', {
 		}
 	},
 	execCommand: function(sCmd, mValue) {
+		//console.log('execCommand', sCmd, mValue);
 		if(!this.range) return;
-
-		this.restoreSelection();
+		//this.restoreSelection();
 		var retValue;
 		var implFunc = "_" + sCmd + "Impl";
 		if(this[implFunc]){

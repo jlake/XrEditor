@@ -4,9 +4,6 @@
  *
  * define CodeEditor class
  *
- * @constructor
- * 
- * @param {Object} config The config object
  * @author ouzhiwei@gmail.com (Jlake Ou)
  */
 Ext.define('XrEditor.CodeEditor', {
@@ -20,6 +17,7 @@ Ext.define('XrEditor.CodeEditor', {
 	title: 'Code',
 	iconCls: 'icon-code',
 
+	wrapper: null,
 	editor: null,
 	searchWin: null,
 
@@ -31,14 +29,14 @@ Ext.define('XrEditor.CodeEditor', {
 
 	constructor: function(config) {
 		this.initConfig(config);
-		this.callParent(arguments);
+		this.callParent([config]);
 		return this;
 	},
 
 	initComponent: function(){
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
-			bodyStyle: 'background:#ffe;'
+			items: []
 		});
 		this.callParent(arguments);
 	},
@@ -69,6 +67,51 @@ Ext.define('XrEditor.CodeEditor', {
 			}]
 		};
 		return Ext.create('widget.toolbar', config);
+	},
+	/**
+	 * override afterRender method
+	 */
+	afterRender: function() {
+		var sMode = '';
+		switch(this.config.fileType) {
+			case 'js':
+				sMode = 'javascript';
+				break;
+			case 'css':
+				sMode = 'css';
+				break;
+			case 'xml':
+				sMode = 'xml';
+				break;
+			default:
+				sMode = 'htmlmixed';
+				break;
+		}
+		this.editor = CodeMirror(this.body.dom, {
+			value: this.config.code,
+			mode: sMode,
+			theme: 'default'
+		});
+		Ext.get(this.editor.getWrapperElement()).applyStyles('width:100%;height:100%;');
+	},
+	/**
+	 * set editor's mode
+	 */
+	setMode: function(sMode) {
+		this.editor.setOption('mode', sMode);
+		this.editor.refresh();
+	},
+	/**
+	 * get editor's code
+	 */
+	getCode: function() {
+		return this.editor ? this.editor.getValue() : '';
+	},
+	/**
+	 * set editor's code
+	 */
+	setCode: function(sCode) {
+		if(this.editor) this.editor.setValue(sCode);
 	},
 	/**
 	 * Search & replace
@@ -195,50 +238,5 @@ Ext.define('XrEditor.CodeEditor', {
 			}
 		});
 		me.searchWin.show();
-	},
-	/**
-	 * override afterRender method
-	 */
-	afterRender: function() {
-		var sMode = '';
-		switch(this.config.fileType) {
-			case 'js':
-				sMode = 'javascript';
-				break;
-			case 'css':
-				sMode = 'css';
-				break;
-			case 'xml':
-				sMode = 'xml';
-				break;
-			default:
-				sMode = 'htmlmixed';
-				break;
-		}
-		this.editor = CodeMirror(this.body.dom, {
-			value: this.config.code,
-			mode: sMode,
-			theme: 'default'
-		});
-		Ext.get(this.editor.getWrapperElement()).applyStyles('width:100%;height:100%;');
-	},
-	/**
-	 * set editor's mode
-	 */
-	setMode: function(sMode) {
-		this.editor.setOption('mode', sMode);
-		this.editor.refresh();
-	},
-	/**
-	 * get editor's code
-	 */
-	getCode: function() {
-		return this.editor ? this.editor.getValue() : '';
-	},
-	/**
-	 * set editor's code
-	 */
-	setCode: function(sCode) {
-		if(this.editor) this.editor.setValue(sCode);
 	}
 });

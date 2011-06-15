@@ -57,5 +57,8 @@ Ext.define('XrEditor.Editor', {
 			}
 		});
 		this.callParent(arguments);
+	},
+	afterrender: function() {
+		editorFrame.doLayout();
 	}
 });

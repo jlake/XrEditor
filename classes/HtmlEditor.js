@@ -35,7 +35,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 	constructor: function(config) {
 		this.initConfig(config);
-		this.callParent(arguments);
+		this.callParent([config]);
 		return this;
 	},
 
@@ -58,29 +58,31 @@ Ext.define('XrEditor.HtmlEditor', {
 			{type: 'button', cmd: 'italic', title: '斜体', toggle: false},
 			{type: 'button', cmd: 'underline', title: '下線', toggle: false},
 			{type: 'button', cmd: 'strikethrough', title: '取り消し線', toggle: false},
-			{type: 'button', cmd: 'hr', title: '水平線', toggle: false},
+			{type: 'button', cmd: 'subscript', title: '添え字', toggle: false},
+			{type: 'button', cmd: 'superscript', title: '上付き文字', toggle: false},
 			{type: '-'},
 			{type: 'button', cmd: 'justifyleft', title: '左揃え', toggle: false},
 			{type: 'button', cmd: 'justifycenter', title: '中央揃え', toggle: false},
 			{type: 'button', cmd: 'justifyright', title: '右揃え', toggle: false},
 			{type: '-'},
+			{type: 'button', cmd: 'hr', title: '水平線', toggle: false},
 			{type: 'menu', cmd: 'heading', title: 'ヘッディング', items: [
-				{cmd: 'H1', title: 'H1'},
-				{cmd: 'H2', title: 'H2'},
-				{cmd: 'H3', title: 'H3'},
-				{cmd: 'H4', title: 'H4'},
-				{cmd: 'H5', title: 'H5'},
-				{cmd: 'H6', title: 'H6'},
-				{cmd: 'H7', title: 'H7'}
+				{value: 'H1', text: 'H1'},
+				{value: 'H2', text: 'H2'},
+				{value: 'H3', text: 'H3'},
+				{value: 'H4', text: 'H4'},
+				{value: 'H5', text: 'H5'},
+				{value: 'H6', text: 'H6'},
+				{value: 'H7', text: 'H7'}
 			]},
-			{type: 'combo', cmd: 'heading1', title: 'ヘッディング', items: [
-				{cmd: 'H1', title: 'H1'},
-				{cmd: 'H2', title: 'H2'},
-				{cmd: 'H3', title: 'H3'},
-				{cmd: 'H4', title: 'H4'},
-				{cmd: 'H5', title: 'H5'},
-				{cmd: 'H6', title: 'H6'},
-				{cmd: 'H7', title: 'H7'}
+			{type: 'combo', cmd: 'heading', title: 'ヘッディング', emptyText: 'Heading', items: [
+				{value: 'H1', text: 'H1'},
+				{value: 'H2', text: 'H2'},
+				{value: 'H3', text: 'H3'},
+				{value: 'H4', text: 'H4'},
+				{value: 'H5', text: 'H5'},
+				{value: 'H6', text: 'H6'},
+				{value: 'H7', text: 'H7'}
 			]},
 			{type: '/'},
 			{type: 'button', cmd: 'link', title: 'リンク作成'},
@@ -114,37 +116,37 @@ Ext.define('XrEditor.HtmlEditor', {
 					oTbLine.items.push(oBtn.type);
 					break;
 				case 'menu':
-					// button with pull down menu
 					var menuItems = [];
 					for(var j=0; j<oBtn.items.length; j++) {
 						menuItems.push({
-							itemId: oBtn.items[j].cmd,
-							iconCls: 'icon-edit-' + oBtn.items[j].cmd,
-							text: oBtn.items[j].title,
+							iconCls: 'icon-edit-' + oBtn.cmd,
+							cmd: oBtn.cmd,
+							cmdValue: oBtn.items[j].value,
+							text: oBtn.items[j].text,
 							handler: function(btn, e) {
-								me.sendCommand(btn.itemId);
+								me.sendCommand(btn.initialConfig.cmd, btn.initialConfig.cmdValue);
 							}
 						});
 					}
 					oTbLine.items.push({
+						cmd: oBtn.cmd,
 						tooltip: oBtn.title,
 						iconCls: 'icon-edit-' + oBtn.cmd,
 						cls: 'x-btn-icon',
-						menu: new Ext.menu.Menu({
+						menu: Ext.create('Ext.menu.Menu', {
 							items: menuItems
 						})
 					});
 					break;
 				case 'combo':
-					// combo box
-					oTbLine.items.push({
-						xtype: 'combo',
+					oTbLine.items.push(Ext.create('Ext.form.ComboBox', {
+						cmd: oBtn.cmd,
 						store: Ext.create('Ext.data.Store', {
-							fields: ['cmd', 'title'],
+							fields: ['value', 'text'],
 							data: oBtn.items
 						}),
-						valueField: 'cmd',
-						displayField: 'title',
+						valueField: 'value',
+						displayField: 'text',
 						mode: 'local',
 						triggerAction: 'all',
 						emptyText: oBtn.emptyText || '',
@@ -152,20 +154,20 @@ Ext.define('XrEditor.HtmlEditor', {
 						width: oBtn.size || 70,
 						listeners: {
 							select: function(field, value, opts) {
-								me.sendCommand(value);
+								//console.log(field, value, opts);
+								me.sendCommand(field.initialConfig.cmd, value[0].data.value);
 							}
 						}
-					});
+					}));
 					break;
 				case 'button':
-					// button
 					oTbLine.items.push({
-						itemId: oBtn.cmd,
+						cmd: oBtn.cmd,
 						tooltip: oBtn.title,
 						iconCls: 'icon-edit-' + oBtn.cmd,
 						enableToggle: oBtn.toggle,
 						handler: function(btn, e) {
-							me.sendCommand(btn.itemId);
+							me.sendCommand(btn.initialConfig.cmd);
 						}
 					});
 					break;
@@ -183,16 +185,9 @@ Ext.define('XrEditor.HtmlEditor', {
 		});
 	},
 
-	clickButton: function(btn, e) {
-		//console.log(btn.initialConfig);
-		if(btn.initialConfig.editor) {
-			btn.initialConfig.editor.selection.execCommand(btn.itemId);
-		}
-	},
-
-	sendCommand: function(sCmd, oArgs) {
+	sendCommand: function(sCmd, mValue) {
 		this.selection.saveSelection();
-		this.selection.execCommand(sCmd, oArgs);
+		this.selection.execCommand(sCmd, mValue);
 	},
 
 	createIframe: function() {

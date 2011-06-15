@@ -35,7 +35,12 @@
 .icon-edit-underline {
 	background-image:url(../images/editor/edit-underline.png) !important;
 }
-
+.icon-edit-subscript {
+	background-image:url(../images/editor/edit-subscript.png) !important;
+}
+.icon-edit-superscript {
+	background-image:url(../images/editor/edit-superscript.png) !important;
+}
 .icon-edit-hr {
 	background-image:url(../images/editor/edit-rule.png) !important;
 }
