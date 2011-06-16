@@ -115,8 +115,44 @@ Ext.define('XrEditor.FileBrowser', {
 	 */
 	_createToolbar: function() {
 		var me = this;
+		var aItems = [];
+		for(var k in XrEditor.Global.fileTypes) {
+			aItems.push({
+				iconCls: 'icon-doc-' + k,
+				text: XrEditor.Global.fileTypes[k],
+				fileType: k,
+				handler: function(btn, e) {
+				}
+			});
+		}
+		var newFileMenu = Ext.create('Ext.menu.Menu', {
+			items: aItems
+		});
 		var config = {
-			items: ['->', {
+			items: [{
+				iconCls: 'icon-folder-add',
+				handler: function() {
+				}
+			}, {
+				iconCls: 'icon-folder-delete',
+				handler: function() {
+				}
+			}, {
+				iconCls: 'icon-folder-edit',
+				handler: function() {
+				}
+			}, '-', {
+				iconCls: 'icon-file-add',
+				menu: newFileMenu
+			}, {
+				iconCls: 'icon-file-delete',
+				handler: function() {
+				}
+			}, {
+				iconCls: 'icon-file-edit',
+				handler: function() {
+				}
+			}, '->', {
 				//scope: this,
 				handler: function() {
 					me.store.load();

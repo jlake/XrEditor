@@ -87,6 +87,19 @@
 	background-image:url(../images/shared/folder_find.png) !important;
 }
 
+.icon-file {
+	background-image:url(../images/shared/document.png) !important;
+}
+.icon-file-add {
+	background-image:url(../images/shared/document-plus.png) !important;
+}
+.icon-file-delete {
+	background-image:url(../images/shared/document-minus.png) !important;
+}
+.icon-file-edit {
+	background-image:url(../images/shared/document-pencil.png) !important;
+}
+
 .icon-save {
 	background-image:url(../images/shared/disk.png) !important;
 }

@@ -12,7 +12,7 @@ Ext.define('XrEditor.ImageBrowser', {
 	store: null,
 	folder: {
 		node: '',
-		parent: null,
+		parent: '',
 		children: []
 	},
 	subFolderMenu: null,
@@ -146,7 +146,6 @@ Ext.define('XrEditor.ImageBrowser', {
 		var config = {
 			items: [{
 				iconCls: 'icon-folder-up',
-				disabled: (me.folder.parent == ''),
 				handler: function() {
 					me.folder.node = me.folder.parent;
 					//me.folder.parent = '';

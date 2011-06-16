@@ -7,6 +7,11 @@
 XrEditor.Global = {
 	version: '0.1',
 	//lang: 'jp',
+	fileTypes: {
+		js: 'JavaScript',
+		css: 'CSS',
+		html: 'HTML'
+	},
 	urls: {
 		FILE_NODES: 'backend/file/nodes.json',
 		FILE_CONTENTS: 'backend/file/contents.json',
