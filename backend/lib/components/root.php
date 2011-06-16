@@ -6,6 +6,8 @@ class components_Root extends k_Component {
                 return 'components_dummy_Top';
             case 'file':
                 return 'components_file_Top';
+            case 'image':
+                return 'components_image_Top';
         }
     }
 

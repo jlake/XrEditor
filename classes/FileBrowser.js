@@ -11,10 +11,6 @@ Ext.define('XrEditor.FileBrowser', {
 	selectedNode: null,
 	contextMenu: null,
 	editorFrame: null,
-	url: {
-		nodes: 'backend/file/nodes.json',
-		contents: 'backend/file/contents.json'
-	},
 	initComponent: function() {
 		var me = this;
 		Ext.apply(this, {
@@ -25,7 +21,7 @@ Ext.define('XrEditor.FileBrowser', {
 			store: Ext.create('Ext.data.TreeStore', {
 				proxy: {
 					type: 'ajax',
-					url: me.url.nodes
+					url: XrEditor.Global.urls.FILE_NODES
 				},
 				root: {
 					text: 'Root',
@@ -67,7 +63,7 @@ Ext.define('XrEditor.FileBrowser', {
 				},
 				itemdblclick: function(view, record, item, index, e, options) {
 					Ext.Ajax.request({
-						url: me.url.contents,
+						url: XrEditor.Global.urls.FILE_CONTENTS,
 						params: {
 							node: record.data.id
 						},

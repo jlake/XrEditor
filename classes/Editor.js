@@ -46,7 +46,7 @@ Ext.define('XrEditor.Editor', {
 						if(this.htmlEditor) this.codeEditor.setCode(this.htmlEditor.getHtml());
 					} else {
 						this.htmlEditor.setHtml(this.codeEditor.getCode());
-						this.htmlEditor.initListeners();
+						//this.htmlEditor.initListeners();
 					}
 				}
 			}

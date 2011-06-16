@@ -62,14 +62,29 @@
 	background-image:url(../images/shared/refresh.png) !important;
 }
 
-.icon-folder-add {
-	background-image:url(../images/shared/folder-plus.gif) !important;
+.icon-folder {
+	background-image:url(../images/shared/folder.png) !important;
 }
-.icon-folder-del {
-	background-image:url(../images/shared/folder-minus.gif) !important;
+.icon-folder-add {
+	background-image:url(../images/shared/folder_add.png) !important;
+}
+.icon-folder-delete {
+	background-image:url(../images/shared/folder_delete.png) !important;
 }
 .icon-folder-edit {
-	background-image:url(../images/shared/folder-pencil.gif) !important;
+	background-image:url(../images/shared/folder_edit.png) !important;
+}
+.icon-folder-home {
+	background-image:url(../images/shared/folder_home.png) !important;
+}
+.icon-folder-up {
+	background-image:url(../images/shared/folder_up.png) !important;
+}
+.icon-folder-go {
+	background-image:url(../images/shared/folder_go.png) !important;
+}
+.icon-folder-find {
+	background-image:url(../images/shared/folder_find.png) !important;
 }
 
 .icon-save {
@@ -114,11 +129,12 @@
 .x-quirks .images-view .thumb {
     padding-bottom: 3px;
 }
-
+/*
 .images-view .thumb img {
     height: 60px;
     width: 80px;
 }
+*/
 .images-view .thumb-wrap {
     float: left;
     margin: 4px;

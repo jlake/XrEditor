@@ -10,6 +10,7 @@ class xreditor_Filemanager {
             $this->_rootPath = $rootPath; 
         }
     }
+
    /** 
     * get file extension
     */
@@ -112,14 +113,17 @@ class xreditor_Filemanager {
     * find image files
     */
     function findImageFiles($node) {
-        $images = array();
+        $result = array(
+            'folders' => array(),
+            'images' => array()
+        );
         if(strpos($node, '..') !== false){
-            return $images;
+            return $result;
         }
         if($node == '.') $node = '';
         $path = $this->_rootPath.$node;
         if (!is_dir($path)) {
-            return $images;
+            return $result;
         }
         $iterator = new DirectoryIterator($path);
         foreach ($iterator as $f) {
@@ -129,26 +133,24 @@ class xreditor_Filemanager {
             if(substr($fileName, 0, 1) == '.') continue;
             $fileNode = $node.'/'.$fileName;
             if($f->isDir()) {
-                $images[] = array(
-                    'node'   => $fileNode,
+                $result['folders'][] = array(
+                    'node' => $fileNode,
                     'name' => $fileName,
-                    'type' => $f->getType(),
                     'lasmod' => $f->getMTime(),
-                    'url' => IMAGE_URL.'/shared/photo_folder.png'
+                    'url' => IMAGE_URL.'/shared/normal_folder.png'
                 );
             } else {
                 if(!preg_match('/\.(jpg|gif|png)$/i', $fileName)) continue;
                 $ext = self::getExtension($fileName);
-                $images[] = array(
-                    'node'   => $fileNode,
+                $result['images'][] = array(
+                    'node' => $fileNode,
                     'name' => $fileName,
-                    'type' => $f->getType(),
                     'size' => $f->getSize(),
                     'lasmod' => $f->getMTime(),
                     'url' => EDITOR_IMGURL.$fileNode
                 );
             }
         }
-        return $images;
+        return $result;
     }
 }

@@ -8,3 +8,7 @@
 <p>
   <a href="<?php e(url('file')); ?>">File</a>
 </p>
+
+<p>
+  <a href="<?php e(url('image')); ?>">Image</a>
+</p>

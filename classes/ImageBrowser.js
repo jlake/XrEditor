@@ -10,15 +10,27 @@ Ext.define('XrEditor.ImageBrowser', {
 
 	title: 'Images',
 	store: null,
-	node: '',
-
-	url: {
-		images: 'backend/file/images.json'
+	folder: {
+		node: '',
+		parent: null,
+		children: []
+	},
+	subFolderMenu: null,
+	config: {
+		thumbWidth: 80,
+		thumbHeight: 60,
+	},
+	constructor: function(config) {
+		this.initConfig(config);
+		this.callParent(arguments);
+		return this;
 	},
 
 	initComponent: function(){
 		var me = this;
-		
+		me.subFolderMenu = Ext.create('Ext.menu.Menu', {
+			items: me.folder.children
+		});
 		Ext.define('ImageModel', {
 			extend: 'Ext.data.Model',
 			fields: [
@@ -26,18 +38,29 @@ Ext.define('XrEditor.ImageBrowser', {
 				{name: 'type'},
 				{name: 'name'},
 				{name: 'url'},
+				{name: 'thumburl'},
 				{name: 'size', type: 'float'},
-				{name:'lastmod', type:'date', dateFormat:'timestamp'}
+				{name: 'lastmod', type:'date', dateFormat:'timestamp'}
 			]
 		});
-
+/*
+		var connObj = Ext.create('Ext.data.Connection', { 
+			url: XrEditor.Global.urls.IMAGE_LIST, 
+			method: 'POST',
+			listeners: {
+				
+			}
+		});
+*/
 		this.store = Ext.create('Ext.data.Store', {
 			model: ImageModel,
 			proxy: {
 				type: 'ajax',
-				url: this.url.images,
+				url: XrEditor.Global.urls.IMAGE_LIST,
 				extraParams: {
-					node: ''
+					w: me.config.thumbWidth,
+					h: me.config.thumbHeight,
+					node: '',
 				},
 				reader: {
 					type: 'json',
@@ -46,7 +69,16 @@ Ext.define('XrEditor.ImageBrowser', {
 			},
 			listeners: {
 				beforeload: function(store, operation, opts) {
-					store.proxy.extraParams.node = me.node;
+					store.proxy.extraParams.node = me.folder.node;
+				},
+				load: function(store, records, successful, operation, opts) {
+					var data = store.proxy.reader.jsonData;
+					me.folder.node = data.node;
+					me.folder.parent = data.parent;
+					me.folder.children = data.folders;
+					me.updateSubFolderMenu();
+				},
+				update: function(store, record, operation, opts) {
 				}
 			}
 		});
@@ -55,12 +87,12 @@ Ext.define('XrEditor.ImageBrowser', {
 			cls: 'images-view',
 			//width: '100%',
 			//height: '100%',
-			store: this.store,
+			store: me.store,
 			tpl: [
 				'<tpl for=".">',
 					'<div class="thumb-wrap" id="{name}">',
-					'<div class="thumb"><img src="{url}" title="{name}"></div>',
-					'<span class="x-editable">{shortName}</span></div>',
+					'<span class="thumb"><img src="{thumburl}" width="'+ me.config.thumbWidth + '" height="'+ me.config.thumbHeight + '" title="{name}" url="{url}"></span>',
+					'<br /><span class="x-editable">{shortName}</span></div>',
 				'</tpl>',
 				'<div class="x-clear"></div>'
 			],
@@ -92,7 +124,7 @@ Ext.define('XrEditor.ImageBrowser', {
 				itemdblclick: function(view, record, item, index, e, opts) {
 					//console.log(record.data);
 					if(record.data.type == 'dir') {
-						me.node = record.data.node;
+						me.folder.node = record.data.node;
 						me.store.load();
 					}
 				}
@@ -112,14 +144,53 @@ Ext.define('XrEditor.ImageBrowser', {
 	_createToolbar: function() {
 		var me = this;
 		var config = {
-			items: ['->', {
+			items: [{
+				iconCls: 'icon-folder-up',
+				disabled: (me.folder.parent == ''),
+				handler: function() {
+					me.folder.node = me.folder.parent;
+					//me.folder.parent = '';
+					me.store.load();
+				}
+			}, {
+				iconCls: 'icon-folder-home',
+				handler: function() {
+					me.folder.node = '';
+					//me.folder.parent = null;
+					me.store.load();
+				}
+			}, {
+				iconCls: 'icon-folder-go',
+				menu: me.subFolderMenu
+			}, '->', {
+				iconCls: 'icon-refresh',
 				handler: function() {
 					me.store.load();
-				},
-				iconCls: 'icon-refresh'
+				}
 			}]
 		};
 		return Ext.create('widget.toolbar', config);
+	},
+	/**
+	 * update menu for sub folders
+	 */
+	updateSubFolderMenu: function() {
+		var me = this;
+		me.subFolderMenu.removeAll();
+		var aItems = [];
+		for(var i=0; i<me.folder.children.length; i++) {
+			var folder = me.folder.children[i];
+			aItems.push({
+				iconCls: 'icon-folder',
+				text: folder.name,
+				node: folder.node,
+				handler: function(btn, e) {
+					me.folder.node = btn.initialConfig.node;
+					me.store.load();
+				}
+			});
+		}
+		me.subFolderMenu.add(aItems);
 	},
 	afterRender: function() {
 		this.store.load();

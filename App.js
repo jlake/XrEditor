@@ -8,11 +8,12 @@ Ext.Loader.setConfig({
 	enabled: true,
 	paths: {
 		XrEditor: 'classes',
-		'Ext.ux.DataView': 'ux/DataView/'
+		'Ext.ux.DataView': 'ux/DataView'
 	}
 });
 
 Ext.require([
+	'XrEditor.Global',
 	'XrEditor.Util',
 	'XrEditor.FileBrowser',
 	'XrEditor.EditorFrame',

@@ -232,7 +232,7 @@ Ext.define('XrEditor.HtmlEditor', {
 				}
 			}]
 		});
-		this.initListeners();
+		this.bindContextMenu();
 		return this.callParent(arguments);
 	},
 
@@ -252,7 +252,7 @@ Ext.define('XrEditor.HtmlEditor', {
 		return pos;
 	},
 
-	initListeners: function() {
+	bindContextMenu: function() {
 		var docEl = Ext.get(this.doc.body)
 		if(!docEl) return;
 		var me = this;
@@ -265,11 +265,14 @@ Ext.define('XrEditor.HtmlEditor', {
 			me.showContextMenu(pos);
 			return false;
 		});
-		docEl.addListener('click', function(e, el, o) {
+		docEl.addListener('blur', function(e, el, o) {
+			me.hideContextMenu();
+		});
+		docEl.addListener('mouseup', function(e, el, o) {
 			me.hideContextMenu();
 		});
 		docEl.addListener('focus', function(e, el, o) {
-			//me.hideContextMenu();
+			me.bindContextMenu();
 		});
 	},
 
