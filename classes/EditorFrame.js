@@ -62,6 +62,6 @@ Ext.define('XrEditor.EditorFrame', {
 	 * show help message
 	 */
 	showHelp: function() {
-		XrEditor.Util.popupMsg('XrEditor', 'メッセージ');
+		XrEditor.Util.popupMsg('XrEditor ' + XrEditor.Global.version, 'メッセージ');
 	}
 });

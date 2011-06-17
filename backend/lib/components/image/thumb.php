@@ -1,5 +1,7 @@
 <?php
+$GLOBALS['konstrukt_content_types']['image/tiff'] = 'image';
 $GLOBALS['konstrukt_content_types']['image/jpg'] = 'image';
+$GLOBALS['konstrukt_content_types']['image/jpeg'] = 'image';
 $GLOBALS['konstrukt_content_types']['image/gif'] = 'image';
 $GLOBALS['konstrukt_content_types']['image/png'] = 'image';
 class components_image_Thumb extends k_Component {

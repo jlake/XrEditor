@@ -132,14 +132,81 @@ Ext.define('XrEditor.FileBrowser', {
 			items: [{
 				iconCls: 'icon-folder-add',
 				handler: function() {
+					Ext.MessageBox.prompt('Input', 'New folder name:', function(btn, text){
+						if(btn != 'ok') return;
+						Ext.Ajax.request({
+							url: XrEditor.Global.urls.FILE_UTILITY,
+							method: 'GET',
+							params: {
+								action: 'add',
+								parent: '.',
+								type: 'dir',
+								name: text
+							},
+							success: function(response){
+								var data = Ext.decode(response.responseText);
+								//console.log(data);
+								if(data.error) {
+									XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+									return;
+								}
+								me.store.load();
+							}
+						});
+					});
 				}
 			}, {
 				iconCls: 'icon-folder-delete',
 				handler: function() {
+					Ext.MessageBox.confirm('Confirm', 'Are you sure to delete?', function(btn){
+						if(btn != 'yes') return;
+						var selected = me.getSelectionModel().getLastSelected();
+						if(!selected) return;
+						Ext.Ajax.request({
+							url: XrEditor.Global.urls.FILE_UTILITY,
+							method: 'GET',
+							params: {
+								action: 'remove',
+								node: selected.internalId
+							},
+							success: function(response){
+								var data = Ext.decode(response.responseText);
+								//console.log(data);
+								if(data.error) {
+									XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+									return;
+								}
+								me.store.load();
+							}
+						});
+					});
 				}
 			}, {
 				iconCls: 'icon-folder-edit',
 				handler: function() {
+					Ext.MessageBox.prompt('Input', 'New folder name:', function(btn, text){
+						if(btn != 'ok') return;
+						var selected = me.getSelectionModel().getLastSelected();
+						if(!selected) return;
+						Ext.Ajax.request({
+							url: XrEditor.Global.urls.FILE_UTILITY,
+							method: 'GET',
+							params: {
+								action: 'rename',
+								node: selected.internalId,
+								name: text
+							},
+							success: function(response){
+								var data = Ext.decode(response.responseText);
+								//console.log(data);
+								if(data.error) {
+									XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+									return;
+								}
+								me.store.load();
+							}
+						});
+					});
 				}
 			}, '-', {
 				iconCls: 'icon-file-add',

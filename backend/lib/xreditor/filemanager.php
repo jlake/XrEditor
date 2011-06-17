@@ -5,7 +5,7 @@ class xreditor_Filemanager {
    /** 
     * Constructor 
     */
-    public function __construct($rootPath) { 
+    public function __construct($rootPath = EDITOR_DOCROOT) { 
         if($rootPath) {
             $this->_rootPath = $rootPath; 
         }
@@ -40,13 +40,6 @@ class xreditor_Filemanager {
         if($p !== false && $p > $digits) $val = round($val);
         elseif($p !== false) $val = round($val, $digits-$p);
         return round($val, $digits) . ' ' . $symbols[$i] . $bB;
-    }
-
-   /** 
-    * get parent node
-    */
-    function getParentNode($node) {
-        return substr($node, 0, strrpos($node, '/'));
     }
 
    /** 
@@ -92,7 +85,88 @@ class xreditor_Filemanager {
         }
         return $nodes;
     }
- 
+
+   /** 
+    * get parent node
+    */
+    function getParentNode($node) {
+        return substr($node, 0, strrpos($node, '/'));
+    }
+
+    /**
+     * create node
+     *
+     * @param string $parentNode        parent node
+     * @param string $name        new node name
+     * @param string $type        node type (file, dir)
+     * @return boolean
+     */
+    function addChild($parentNode, $name, $type = 'file') {
+        if(empty($parentNode) || empty($name)) {
+            return false;
+        }
+        $path = $this->_rootPath.$parentNode.'/'.$name;
+        if($type == 'file') {
+            return touch($path);
+        } else if($type == 'dir') {
+            return mkdir($path);
+        }
+        return false;
+    }
+
+    /**
+     * remove node
+     *
+     * @param string $node        node
+     * @return boolean
+     */
+    function removeNode($node) {
+        if(empty($node)) {
+            return false;
+        }
+        $path = $this->_rootPath.$node;
+        if(is_dir($path)) {
+            return rmdir($path);
+        } else {
+            return unlink($path);
+        }
+    }
+
+    /**
+     * rename node
+     *
+     * @param string $node        node
+     * @param string $name        new node name
+     * @return boolean
+     */
+    function renameNode($node, $name) {
+        if(empty($node) || empty($name)) {
+            return false;
+        }
+        $oldPath = $this->_rootPath.$node;
+        $newPath = $this->getParentNode($oldPath).'/'.$name;
+        return rename($oldPath, $newPath);
+    }
+
+    /**
+     * move node
+     *
+     * @param string $node        node
+     * @param string $newParent   new parent
+     * @return boolean
+     */
+    function moveNode($node, $newParent) {
+        if(empty($node) || empty($newParent)) {
+            return false;
+        }
+        $oldPath = $this->_rootPath.$node;
+        $newPath = $this->_rootPath.$newParent.'/'.basename($node);
+        if (copy($oldPath, $newPath)) {
+            return unlink("/tmp/code.c");
+        } 
+        return false;
+    }
+
    /** 
     * get node's contents
     */
