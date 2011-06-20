@@ -2,6 +2,7 @@
     <head>
     <title><?php e($title); ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="/xreditor/css/backend.css" />
 <?php foreach ($styles as $style): ?>
     <link rel="stylesheet" href="<?php e($style); ?>" />
 <?php endforeach; ?>

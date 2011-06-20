@@ -5,6 +5,15 @@ class components_image_List extends k_Component {
     private $_images = array();
     private $_folders = array();
 
+    protected function map($name) {
+        switch ($name) {
+            case 'list':
+                return 'components_image_List';
+            case 'thumb':
+                return 'components_image_Thumb';
+        }
+    }
+
     function execute() {
         $this->_node = $this->query('node', '.');
         $fm = new xreditor_Filemanager( EDITOR_IMGROOT );
@@ -13,7 +22,7 @@ class components_image_List extends k_Component {
         $this->_folders = $result['folders'];
         $this->_parent = $fm->getParentNode($this->_node);
         foreach($this->_images as &$image) {
-            $image['thumburl'] = $this->url('../thumb.image', array(
+            $image['thumburl'] = $this->url('thumb.image', array(
                     'node' => $image['node'],
                     'w' => $this->query('w', 160),
                     'h' => $this->query('w', 120),

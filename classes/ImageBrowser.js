@@ -72,11 +72,12 @@ Ext.define('XrEditor.ImageBrowser', {
 					store.proxy.extraParams.node = me.folder.node;
 				},
 				load: function(store, records, successful, operation, opts) {
-					var data = store.proxy.reader.jsonData;
-					me.folder.node = data.node;
-					me.folder.parent = data.parent;
-					me.folder.children = data.folders;
-					me.updateSubFolderMenu();
+					if(data = store.proxy.reader.jsonData) {
+						me.folder.node = data.node;
+						me.folder.parent = data.parent;
+						me.folder.children = data.folders;
+						me.updateSubFolderMenu();
+					}
 				},
 				update: function(store, record, operation, opts) {
 				}

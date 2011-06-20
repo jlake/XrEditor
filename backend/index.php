@@ -4,6 +4,9 @@ error_reporting(E_ALL | E_STRICT);
 defined('APP_ROOT')
     || define('APP_ROOT', realpath(dirname(__FILE__)));
 
+defined('APP_ENV')
+    || define('APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'production'));
+
 defined('IMAGE_URL')
     || define('IMAGE_URL',  '/xreditor/images');
 

@@ -210,7 +210,7 @@ class xreditor_Filemanager {
                 $result['folders'][] = array(
                     'node' => $fileNode,
                     'name' => $fileName,
-                    'lasmod' => $f->getMTime(),
+                    'lastmod' => $f->getMTime(),
                     'url' => IMAGE_URL.'/shared/normal_folder.png'
                 );
             } else {
@@ -220,7 +220,7 @@ class xreditor_Filemanager {
                     'node' => $fileNode,
                     'name' => $fileName,
                     'size' => $f->getSize(),
-                    'lasmod' => $f->getMTime(),
+                    'lastmod' => $f->getMTime(),
                     'url' => EDITOR_IMGURL.$fileNode
                 );
             }

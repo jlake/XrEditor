@@ -1,8 +1,19 @@
 <?php
-class components_file_Nodes extends k_Component {
+class components_file_List extends k_Component {
     private $_node = '';
     private $_parent = '';
     private $_children = array();
+
+    protected function map($name) {
+        switch ($name) {
+            case 'list':
+                return 'components_file_List';
+            case 'contents':
+                return 'components_file_Contents';
+            case 'utility':
+                return 'components_file_Utility';
+        }
+    }
 
     function execute() {
         $this->_node = $this->query('node', '.');
@@ -13,7 +24,7 @@ class components_file_Nodes extends k_Component {
     }
 
     function renderHtml() {
-        $t = new k_Template("templates/file/nodes.tpl.php");
+        $t = new k_Template("templates/file/list.tpl.php");
         return $t->render($this, array(
             'node' => $this->_node,
             'parent' => $this->_parent,

@@ -5,9 +5,11 @@ class components_Root extends k_Component {
             case 'dummy':
                 return 'components_dummy_Top';
             case 'file':
-                return 'components_file_Top';
+                return 'components_file_List';
             case 'image':
-                return 'components_image_Top';
+                return 'components_image_List';
+            case 'snippet':
+                return 'components_snippet_List';
         }
     }
 

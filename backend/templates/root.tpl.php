@@ -6,9 +6,13 @@
 </p>
 
 <p>
-  <a href="<?php e(url('file')); ?>">File</a>
+  <a href="<?php e(url('file')); ?>">Files</a>
 </p>
 
 <p>
-  <a href="<?php e(url('image')); ?>">Image</a>
+  <a href="<?php e(url('image')); ?>">Images</a>
+</p>
+
+<p>
+  <a href="<?php e(url('snippet')); ?>">Snippets</a>
 </p>

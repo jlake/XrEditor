@@ -13,7 +13,7 @@ XrEditor.Global = {
 		html: 'HTML'
 	},
 	urls: {
-		FILE_NODES: 'backend/file/nodes.json',
+		FILE_NODES: 'backend/file/list.json',
 		FILE_CONTENTS: 'backend/file/contents.json',
 		FILE_UTILITY: 'backend/file/utility.json',
 		IMAGE_LIST: 'backend/image/list.json'
