@@ -64,9 +64,7 @@ Ext.define('XrEditor.App', {
 				items: editorFrame,
 				listeners: {
 					resize: function() {
-						me.doLayout();
 						editorFrame.doLayout();
-						//toolBox.doLayout();
 					}
 				}
 			},{
@@ -78,7 +76,12 @@ Ext.define('XrEditor.App', {
 				width: 310,
 				minWidth: 150,
 				maxWidth: 600,
-				items: toolBox
+				items: toolBox,
+				listeners: {
+					resize: function() {
+						toolBox.doLayout();
+					}
+				}
 			}]
 		});
 		this.callParent(arguments);
