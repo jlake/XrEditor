@@ -43,16 +43,7 @@ Ext.define('XrEditor.ImageBrowser', {
 				{name: 'lastmod', type:'date', dateFormat:'timestamp'}
 			]
 		});
-/*
-		var connObj = Ext.create('Ext.data.Connection', { 
-			url: XrEditor.Global.urls.IMAGE_LIST, 
-			method: 'POST',
-			listeners: {
-				
-			}
-		});
-*/
-		this.store = Ext.create('Ext.data.Store', {
+		var store = Ext.create('Ext.data.Store', {
 			model: ImageModel,
 			proxy: {
 				type: 'ajax',
@@ -60,12 +51,12 @@ Ext.define('XrEditor.ImageBrowser', {
 				extraParams: {
 					w: me.config.thumbWidth,
 					h: me.config.thumbHeight,
-					node: '',
+					node: ''
 				},
 				reader: {
 					type: 'json',
 					root: 'images'
-				},
+				}
 			},
 			listeners: {
 				beforeload: function(store, operation, opts) {
@@ -83,12 +74,10 @@ Ext.define('XrEditor.ImageBrowser', {
 				}
 			}
 		});
-
+		me.store = store;
 		var dataView = Ext.create('Ext.view.View', {
 			cls: 'images-view',
-			//width: '100%',
-			//height: '100%',
-			store: me.store,
+			store: store,
 			tpl: [
 				'<tpl for=".">',
 					'<div class="thumb-wrap" id="{name}">',
@@ -134,8 +123,15 @@ Ext.define('XrEditor.ImageBrowser', {
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
 			border: false,
+			height: '100%',
 			autoScroll: true,
-			items: dataView
+			items: dataView,
+			bbar: Ext.create('Ext.PagingToolbar', {
+				store: store,
+				displayInfo: true,
+				displayMsg: 'Displaying topics {0} - {1} of {2}',
+				emptyMsg: "No topics to display"
+			}),
 		});
 		this.callParent(arguments);
 	},

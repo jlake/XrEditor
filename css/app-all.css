@@ -86,6 +86,9 @@
 .icon-folder-find {
 	background-image:url(../images/shared/folder_find.png) !important;
 }
+.icon-folder-page {
+	background-image:url(../images/shared/folder_page.png) !important;
+}
 
 .icon-file {
 	background-image:url(../images/shared/document.png) !important;

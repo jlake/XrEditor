@@ -18,6 +18,15 @@ class components_snippet_List extends k_Component {
     private $_order = '';
     private $_dir = '';
 
+    protected function map($name) {
+        switch ($name) {
+            case 'list':
+                return 'components_snippet_List';
+            case 'detail':
+                return 'components_snippet_Detail';
+        }
+    }
+
     function execute() {
         $this->_page = $this->query('page', 1);
         $this->_filter = $this->query('filter', '');
@@ -32,7 +41,7 @@ class components_snippet_List extends k_Component {
         $config = pdo_Config::getConfig(APP_ENV);
         pdo_Db::setConnectionInfo($config['dbname'], $config['username'], $config['password'],  $config['database']);
 
-        $dataSql = "SELECT * FROM snippets";
+        $dataSql = "SELECT id, lang, title, tags, lastmod FROM snippets";
         $countSql = "SELECT count(1) FROM snippets";
 
         if(!empty($this->_filter)) {
@@ -47,9 +56,13 @@ class components_snippet_List extends k_Component {
             $dataSql .= $orderBy;
             $countSql .= $orderBy;
         }
-        
-        $limit = self::PAGE_SIZE;
-        $offset = ($this->_page - 1) * self::PAGE_SIZE;
+        if($this->query('page')) {
+            $limit = self::PAGE_SIZE;
+            $offset = ($this->_page - 1) * self::PAGE_SIZE;
+        } else {
+            $limit = $this->query('limit', self::PAGE_SIZE);
+            $offset = $this->query('start', 0);
+        }
         $dataSql .= " LIMIT $limit OFFSET $offset";
 
         $this->_pageItems = pdo_Db::getResult($dataSql);

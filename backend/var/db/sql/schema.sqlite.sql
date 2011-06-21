@@ -4,12 +4,12 @@ CREATE TABLE snippets (
 	lang VARCHAR(32) NOT NULL,
 	title VARCHAR(256) NOT NULL,
 	tags VARCHAR(256),
-	contents TEXT NOT NULL,
+	code TEXT NOT NULL,
 	memo TEXT,
 	lastmod TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO snippets (id, lang, title, tags, contents, memo)
+INSERT INTO snippets (id, lang, title, tags, code, memo)
 	VALUES (
 		NULL,
 		"js",
@@ -19,7 +19,7 @@ INSERT INTO snippets (id, lang, title, tags, contents, memo)
 		"this is a test"
 	);
 
-INSERT INTO snippets (id, lang, title, tags, contents, memo)
+INSERT INTO snippets (id, lang, title, tags, code, memo)
 	VALUES (
 		NULL,
 		"js",
@@ -29,7 +29,7 @@ INSERT INTO snippets (id, lang, title, tags, contents, memo)
 		"this is a test"
 	);
 
-INSERT INTO snippets (id, lang, title, tags, contents, memo)
+INSERT INTO snippets (id, lang, title, tags, code, memo)
 	VALUES (
 		NULL,
 		"js",
@@ -39,7 +39,7 @@ INSERT INTO snippets (id, lang, title, tags, contents, memo)
 		"this is a test"
 	);
 
-INSERT INTO snippets (id, lang, title, tags, contents, memo)
+INSERT INTO snippets (id, lang, title, tags, code, memo)
 	VALUES (
 		NULL,
 		"css",
@@ -49,7 +49,7 @@ INSERT INTO snippets (id, lang, title, tags, contents, memo)
 		"this is a test"
 	);
 
-INSERT INTO snippets (id, lang, title, tags, contents, memo)
+INSERT INTO snippets (id, lang, title, tags, code, memo)
 	VALUES (
 		NULL,
 		"css",
@@ -59,7 +59,7 @@ INSERT INTO snippets (id, lang, title, tags, contents, memo)
 		"this is a test"
 	);
 
-INSERT INTO snippets (id, lang, title, tags, contents, memo)
+INSERT INTO snippets (id, lang, title, tags, code, memo)
 	VALUES (
 		NULL,
 		"css",

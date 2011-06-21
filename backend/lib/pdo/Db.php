@@ -138,13 +138,13 @@ class pdo_Db {
         self::$_pdo->quote($str);
     }
 
-    public static function arrayToWhereExpr($arr)
+    public static function arrayToWhereExpr($arr, $joinBy = 'AND')
     {
         $where = array();
         foreach($filter as $k => $v) {
             $where[] = $k . '=' . self::$_pdo->quote($v);
         }
-        return implode(' AND ', $where);
+        return '(' . implode(" $joinBy ", $where) . ')';
     }
     /* add by ou -- end -- */
 

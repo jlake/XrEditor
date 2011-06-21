@@ -36,7 +36,7 @@ Ext.define('XrEditor.App', {
 		var editorFrame = new XrEditor.EditorFrame();
 		var fileBrowser = new XrEditor.FileBrowser();
 		fileBrowser.setEditorFrame(editorFrame);
-		var toolbox = new XrEditor.Toolbox();
+		var toolBox = new XrEditor.Toolbox();
 		Ext.apply(this, {
 			id: 'app-viewport',
 			layout: {
@@ -66,7 +66,7 @@ Ext.define('XrEditor.App', {
 					resize: function() {
 						me.doLayout();
 						editorFrame.doLayout();
-						//toolbox.doLayout();
+						//toolBox.doLayout();
 					}
 				}
 			},{
@@ -78,7 +78,7 @@ Ext.define('XrEditor.App', {
 				width: 310,
 				minWidth: 150,
 				maxWidth: 600,
-				items: toolbox
+				items: toolBox
 			}]
 		});
 		this.callParent(arguments);

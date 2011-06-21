@@ -14,7 +14,10 @@ Ext.define('XrEditor.Toolbox', {
 		this.imageBrowser = new XrEditor.ImageBrowser();
 		this.snippetBrowser = new XrEditor.SnippetBrowser();
 		Ext.apply(this, {
+			height: '100%',
 			border: false,
+			activeTab: 0,
+			//deferredRender: false,
 			items: [this.imageBrowser, this.snippetBrowser]
 		});
 		this.callParent(arguments);

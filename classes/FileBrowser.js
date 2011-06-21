@@ -13,37 +13,38 @@ Ext.define('XrEditor.FileBrowser', {
 	editorFrame: null,
 	initComponent: function() {
 		var me = this;
+		var store = Ext.create('Ext.data.TreeStore', {
+			proxy: {
+				type: 'ajax',
+				url: XrEditor.Global.urls.FILE_NODES
+			},
+			root: {
+				text: 'Root',
+				id: '.',
+				expanded: true
+			},
+			folderSort: true,
+			/*
+			sorters: [{
+				property: 'text',
+				direction: 'ASC'
+			}],
+			*/
+			listeners: {
+				beforeload: function(store, operation, opts) {
+					XrEditor.Util.showLoadingMask('Loading', me.body, 'BIG');
+				},
+				load: function(store, records, successful, opts) {
+					XrEditor.Util.hideLoadingMask();
+				}
+			}
+		});
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
 			height: '100%',
 			autoScroll: true,
 			border: false,
-			store: Ext.create('Ext.data.TreeStore', {
-				proxy: {
-					type: 'ajax',
-					url: XrEditor.Global.urls.FILE_NODES
-				},
-				root: {
-					text: 'Root',
-					id: '.',
-					expanded: true
-				},
-				folderSort: true,
-				/*
-				sorters: [{
-					property: 'text',
-					direction: 'ASC'
-				}],
-				*/
-				listeners: {
-					beforeload: function(store, operation, opts) {
-						XrEditor.Util.showLoadingMask('Loading', me.body, 'BIG');
-					},
-					load: function(store, records, successful, opts) {
-						XrEditor.Util.hideLoadingMask();
-					}
-				}
-			}),
+			store: store,
 			rootVisible: false,
 			viewConfig: {
 				plugins: {
@@ -132,6 +133,7 @@ Ext.define('XrEditor.FileBrowser', {
 			items: [{
 				iconCls: 'icon-folder-add',
 				handler: function() {
+					var selected = me.getSelectionModel().getLastSelected();
 					Ext.MessageBox.prompt('Input', 'New folder name:', function(btn, text){
 						if(btn != 'ok') return;
 						Ext.Ajax.request({
@@ -139,7 +141,7 @@ Ext.define('XrEditor.FileBrowser', {
 							method: 'GET',
 							params: {
 								action: 'add',
-								parent: '.',
+								parent: selected ? selected.internalId : '.',
 								type: 'dir',
 								name: text
 							},
@@ -151,6 +153,13 @@ Ext.define('XrEditor.FileBrowser', {
 									return;
 								}
 								me.store.load();
+								/*
+								console.log(selected);
+								if(selected) {
+									selected.updateInfo();
+									selected.expand();
+								}
+								*/
 							}
 						});
 					});
@@ -158,10 +167,10 @@ Ext.define('XrEditor.FileBrowser', {
 			}, {
 				iconCls: 'icon-folder-delete',
 				handler: function() {
-					Ext.MessageBox.confirm('Confirm', 'Are you sure to delete?', function(btn){
+					var selected = me.getSelectionModel().getLastSelected();
+					if(!selected) return;
+					Ext.MessageBox.confirm('Confirm', 'Are you sure to delete folder "' + selected.data.text +  '" ? ', function(btn){
 						if(btn != 'yes') return;
-						var selected = me.getSelectionModel().getLastSelected();
-						if(!selected) return;
 						Ext.Ajax.request({
 							url: XrEditor.Global.urls.FILE_UTILITY,
 							method: 'GET',
@@ -184,10 +193,10 @@ Ext.define('XrEditor.FileBrowser', {
 			}, {
 				iconCls: 'icon-folder-edit',
 				handler: function() {
+					var selected = me.getSelectionModel().getLastSelected();
+					if(!selected) return;
 					Ext.MessageBox.prompt('Input', 'New folder name:', function(btn, text){
 						if(btn != 'ok') return;
-						var selected = me.getSelectionModel().getLastSelected();
-						if(!selected) return;
 						Ext.Ajax.request({
 							url: XrEditor.Global.urls.FILE_UTILITY,
 							method: 'GET',
@@ -206,7 +215,7 @@ Ext.define('XrEditor.FileBrowser', {
 								me.store.load();
 							}
 						});
-					});
+					}, this, false, selected.data.text);
 				}
 			}, '-', {
 				iconCls: 'icon-file-add',
