@@ -15,7 +15,8 @@ Ext.define('XrEditor.Editor', {
 
 	title: 'Untiltled',
 	config: {
-		node: '',
+		id: '',
+		nodeId: '',
 		code: '',
 		fileType: ''
 	},

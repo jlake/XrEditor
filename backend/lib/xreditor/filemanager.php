@@ -60,7 +60,8 @@ class xreditor_Filemanager {
         foreach ($iterator as $f) {
            //echo $f->getFilename() . " " . $f->getType() . "\n";
             $fileName = $f->getFilename();
-            if(substr($fileName, 0, 1) == '.') continue;
+            //if(substr($fileName, 0, 1) == '.') continue;
+            if ($f->isDot()) continue;
             if($f->isDir()) {
                 $nodes[] = array(
                     'id'   => $node.'/'.$fileName,
@@ -87,9 +88,31 @@ class xreditor_Filemanager {
     }
 
    /** 
+    * delete directory recursively
+    */
+    public static function rmdirRecursively($dir) {
+        $iterator = new DirectoryIterator($dir);
+        foreach ($iterator as $f) {
+           //echo $f->getFilename() . " " . $f->getType() . "\n";
+            $fileName = $f->getFilename();
+            //if(substr($fileName, 0, 1) == '.') continue;
+            if ($f->isDot()) continue;
+            $path = $f->getPathname();
+            if($f->isDir()) {
+                self::rmdirRecursively( $path );
+            } else {
+                if(!unlink($path)) {
+                    return false;
+                }
+            }
+        }
+        return rmdir($dir);
+    }
+
+   /** 
     * get parent node
     */
-    function getParentNode($node) {
+    public function getParentNode($node) {
         return substr($node, 0, strrpos($node, '/'));
     }
 
@@ -101,7 +124,7 @@ class xreditor_Filemanager {
      * @param string $type        node type (dir, js, css, html)
      * @return boolean
      */
-    function createNode($parentNode, $name, $type = '') {
+    public function createNode($parentNode, $name, $type = '') {
         if(empty($parentNode) || empty($name)) {
             return false;
         }
@@ -121,13 +144,13 @@ class xreditor_Filemanager {
      * @param string $node        node
      * @return boolean
      */
-    function removeNode($node) {
+    public function removeNode($node) {
         if(empty($node)) {
             return false;
         }
         $path = $this->_rootPath.$node;
         if(is_dir($path)) {
-            return rmdir($path);
+            return self::rmdirRecursively($path);
         } else {
             return unlink($path);
         }
@@ -140,7 +163,7 @@ class xreditor_Filemanager {
      * @param string $name        new node name
      * @return boolean
      */
-    function renameNode($node, $name) {
+    public function renameNode($node, $name) {
         if(empty($node) || empty($name)) {
             return false;
         }
@@ -156,14 +179,14 @@ class xreditor_Filemanager {
      * @param string $newParent   new parent
      * @return boolean
      */
-    function moveNode($node, $newParent) {
+    public function moveNode($node, $newParent) {
         if(empty($node) || empty($newParent)) {
             return false;
         }
         $oldPath = $this->_rootPath.$node;
         $newPath = $this->_rootPath.$newParent.'/'.basename($node);
         if (copy($oldPath, $newPath)) {
-            return unlink("/tmp/code.c");
+            return unlink($oldPath);
         } 
         return false;
     }
@@ -210,7 +233,7 @@ class xreditor_Filemanager {
    /** 
     * find image files
     */
-    function findImageFiles($node) {
+    public function findImageFiles($node) {
         $result = array(
             'folders' => array(),
             'images' => array()

@@ -39,7 +39,7 @@ Ext.define('XrEditor.SnippetBrowser', {
 			},
 			listeners: {
 				beforeload: function(store, operation, opts) {
-					//store.proxy.extraParams.node = me.folder.node;
+					//store.proxy.extraParams.id = '';
 					//XrEditor.Util.showLoadingMask('Loading', me.body, 'BIG');
 				},
 				load: function(store, records, successful, opts) {

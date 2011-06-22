@@ -21,7 +21,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	selection: null,
 
 	config: {
-		node: '',
+		nodeId: '',
 		code: '',
 		fileType: ''
 	},

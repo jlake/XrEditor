@@ -12,7 +12,7 @@ Ext.define('XrEditor.EditorFrame', {
 
 	initComponent: function() {
 		var editor = new XrEditor.Editor({
-			node: '',
+			nodeId: '_blank',
 			code: '<h1>Hello World!</h1>',
 			fileType: 'html'
 		});

@@ -20,7 +20,7 @@ Ext.define('XrEditor.CodeEditor', {
 	searchWin: null,
 
 	config: {
-		node: '',
+		nodeId: '',
 		code: '',
 		fileType: ''
 	},
