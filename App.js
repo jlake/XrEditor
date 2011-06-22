@@ -57,7 +57,12 @@ Ext.define('XrEditor.App', {
 				width: 280,
 				minWidth: 150,
 				maxWidth: 600,
-				items: fileBrowser
+				items: fileBrowser,
+				listeners: {
+					resize: function() {
+						fileBrowser.doLayout();
+					}
+				}
 			},{
 				xtype: 'container',
 				region: 'center',

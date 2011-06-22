@@ -12,8 +12,8 @@ class components_file_Utility extends k_Component {
             case 'add':
                 $parent = $this->query('parent');
                 $name = $this->query('name');
-                $type = $this->query('type', 'file');
-                if(!$fm->addChild($parent, $name, $type)) {
+                $type = $this->query('type');
+                if(!$fm->createNode($parent, $name, $type)) {
                     $this->_result['error'] = 'add child failed';
                 }
                 break;
@@ -28,6 +28,20 @@ class components_file_Utility extends k_Component {
                 $name = $this->query('name');
                 if(!$fm->renameNode($node, $name)) {
                     $this->_result['error'] = 'rename node failed';
+                }
+                break;
+            case 'move':
+                $node = $this->query('node');
+                $parent = $this->query('parent');
+                if(!$fm->moveNode($node, $parent)) {
+                    $this->_result['error'] = 'move node failed';
+                }
+                break;
+            case 'save':
+                $node = $this->query('node');
+                $contents = $this->query('contents', '');
+                if(!$fm->putContents($node, $contents)) {
+                    $this->_result['error'] = 'save file failed';
                 }
                 break;
         }

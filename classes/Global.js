@@ -20,7 +20,7 @@ XrEditor.Global = {
 		SNIPPET_LIST: 'backend/snippet/list.json',
 		SNIPPET_DETAIL: 'backend/snippet/detail.json'
 	},
-	pageSize: 30,
+	pageSize: 5,
 	imageUriRoot: '/xreditor/images',
 	currentEditor: null
 };

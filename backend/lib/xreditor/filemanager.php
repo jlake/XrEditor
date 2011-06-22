@@ -98,20 +98,21 @@ class xreditor_Filemanager {
      *
      * @param string $parentNode        parent node
      * @param string $name        new node name
-     * @param string $type        node type (file, dir)
+     * @param string $type        node type (dir, js, css, html)
      * @return boolean
      */
-    function addChild($parentNode, $name, $type = 'file') {
+    function createNode($parentNode, $name, $type = '') {
         if(empty($parentNode) || empty($name)) {
             return false;
         }
         $path = $this->_rootPath.$parentNode.'/'.$name;
-        if($type == 'file') {
-            return touch($path);
-        } else if($type == 'dir') {
+        if(file_exists($path)) {
+            return false;
+        }
+        if($type == 'dir' || $type == 'folder') {
             return mkdir($path);
         }
-        return false;
+        return touch($path);
     }
 
     /**
@@ -184,6 +185,29 @@ class xreditor_Filemanager {
     }
 
    /** 
+    * save node's contents
+    */
+    public function putContents($node, $contents, $encode = null) {
+        $filePath = $this->_rootPath.$node;
+        $success = false;
+        if(is_writeable($filePath)) {
+            if(isset($encode)) {
+                $contents = mb_convert_encoding($contents, $encode, 'auto');
+            }
+            $success = file_put_contents($filePath, $contents);
+        }
+        if($success) {
+            return array(
+                'contents' => file_get_contents($filePath)
+            );
+        } else {
+            return array(
+                'error' => 'Can not write file: '.$filePath
+            );
+        }
+    }
+
+   /** 
     * find image files
     */
     function findImageFiles($node) {
@@ -211,7 +235,7 @@ class xreditor_Filemanager {
                     'node' => $fileNode,
                     'name' => $fileName,
                     'lastmod' => $f->getMTime(),
-                    'url' => IMAGE_URL.'/shared/normal_folder.png'
+                    'url' => IMAGE_URL.'/shared/folder-24.png'
                 );
             } else {
                 if(!preg_match('/\.(jpg|gif|png)$/i', $fileName)) continue;

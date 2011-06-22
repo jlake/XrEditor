@@ -48,33 +48,35 @@ Ext.define('XrEditor.HtmlEditor', {
 		var aBtnConfigs = [
 			{type: 'button', cmd: 'bold', title: '太字', toggle: false},
 			{type: 'button', cmd: 'italic', title: '斜体', toggle: false},
-			{type: 'button', cmd: 'underline', title: '下線', toggle: false},
-			{type: 'button', cmd: 'strikethrough', title: '取り消し線', toggle: false},
-			{type: 'button', cmd: 'subscript', title: '添え字', toggle: false},
-			{type: 'button', cmd: 'superscript', title: '上付き文字', toggle: false},
+			{type: 'button', cmd: 'underLine', title: '下線', toggle: false},
+			{type: 'button', cmd: 'strikeThrough', title: '取り消し線', toggle: false},
+			{type: 'button', cmd: 'subScript', title: '添え字', toggle: false},
+			{type: 'button', cmd: 'superScript', title: '上付き文字', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'justifyleft', title: '左揃え', toggle: false},
-			{type: 'button', cmd: 'justifycenter', title: '中央揃え', toggle: false},
-			{type: 'button', cmd: 'justifyright', title: '右揃え', toggle: false},
+			{type: 'button', cmd: 'justifyLeft', title: '左揃え', toggle: false},
+			{type: 'button', cmd: 'justifyCenter', title: '中央揃え', toggle: false},
+			{type: 'button', cmd: 'justifyRight', title: '右揃え', toggle: false},
 			{type: '-'},
 			{type: 'button', cmd: 'hr', title: '水平線', toggle: false},
+			/*
 			{type: 'menu', cmd: 'heading', title: 'ヘッディング', items: [
 				{value: 'H1', text: 'H1'},
 				{value: 'H2', text: 'H2'},
 				{value: 'H3', text: 'H3'},
 				{value: 'H4', text: 'H4'},
 				{value: 'H5', text: 'H5'},
-				{value: 'H6', text: 'H6'},
-				{value: 'H7', text: 'H7'}
+				{value: 'H6', text: 'H6'}
 			]},
-			{type: 'combo', cmd: 'heading', title: 'ヘッディング', emptyText: 'Heading', items: [
+			*/
+			{type: 'combo', cmd: 'formatBlock', title: 'ヘッディング', emptyText: 'Format', items: [
 				{value: 'H1', text: 'H1'},
 				{value: 'H2', text: 'H2'},
 				{value: 'H3', text: 'H3'},
 				{value: 'H4', text: 'H4'},
 				{value: 'H5', text: 'H5'},
 				{value: 'H6', text: 'H6'},
-				{value: 'H7', text: 'H7'}
+				{value: 'PRE', text: 'PRE'},
+				{value: 'ADDRESS', text: 'ADDRESS'}
 			]},
 			{type: '/'},
 			{type: 'button', cmd: 'link', title: 'リンク作成'},
@@ -111,7 +113,7 @@ Ext.define('XrEditor.HtmlEditor', {
 					var menuItems = [];
 					for(var j=0; j<oBtn.items.length; j++) {
 						menuItems.push({
-							iconCls: 'icon-edit-' + oBtn.cmd,
+							iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
 							cmd: oBtn.cmd,
 							cmdValue: oBtn.items[j].value,
 							text: oBtn.items[j].text,
@@ -123,7 +125,7 @@ Ext.define('XrEditor.HtmlEditor', {
 					oTbLine.items.push({
 						cmd: oBtn.cmd,
 						tooltip: oBtn.title,
-						iconCls: 'icon-edit-' + oBtn.cmd,
+						iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
 						cls: 'x-btn-icon',
 						menu: Ext.create('Ext.menu.Menu', {
 							items: menuItems
@@ -156,7 +158,7 @@ Ext.define('XrEditor.HtmlEditor', {
 					oTbLine.items.push({
 						cmd: oBtn.cmd,
 						tooltip: oBtn.title,
-						iconCls: 'icon-edit-' + oBtn.cmd,
+						iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
 						enableToggle: oBtn.toggle,
 						handler: function(btn, e) {
 							me.sendCommand(btn.initialConfig.cmd);

@@ -33,6 +33,9 @@ class components_snippet_List extends k_Component {
         $this->_order = $this->query('order', '');
         $this->_dir = $this->query('dir', '');
 
+        $limit = $this->query('limit', self::PAGE_SIZE);
+        $offset = $this->query('start', ($this->_page - 1) * $limit);
+
         $url = $this->requestUri();
         $url = preg_replace('/([&\?]page=\d+)/i', '', $url);
         $url .= (strpos($url, '?') === FALSE) ? '?' : '&';
@@ -54,20 +57,12 @@ class components_snippet_List extends k_Component {
         if(!empty($this->_order)) {
             $orderBy .= ' ' . $this->_order . ' ' . $this->_dir;
             $dataSql .= $orderBy;
-            $countSql .= $orderBy;
-        }
-        if($this->query('page')) {
-            $limit = self::PAGE_SIZE;
-            $offset = ($this->_page - 1) * self::PAGE_SIZE;
-        } else {
-            $limit = $this->query('limit', self::PAGE_SIZE);
-            $offset = $this->query('start', 0);
         }
         $dataSql .= " LIMIT $limit OFFSET $offset";
 
         $this->_pageItems = pdo_Db::getResult($dataSql);
         $this->_totalItemCount = intval(pdo_Db::getValue($countSql));
-        $this->_pageCount = ceil($this->_totalItemCount / self::PAGE_SIZE);
+        $this->_pageCount = ceil($this->_totalItemCount / $limit);
         $halfSize = floor(self::RANGE_SIZE / 2);
         $this->_startPage = ($this->_page > $halfSize) ? ($this->_page - $halfSize) : $this->_page;
         $this->_endPage = $this->_startPage + self::RANGE_SIZE;
@@ -76,7 +71,7 @@ class components_snippet_List extends k_Component {
         }
 
         $this->_firstItemNumber = $offset + 1;
-        $this->_lastItemNumber = $this->_firstItemNumber + self::PAGE_SIZE - 1;
+        $this->_lastItemNumber = $this->_firstItemNumber + $limit - 1;
         if($this->_lastItemNumber > $this->_lastItemNumber) {
             $this->_lastItemNumber = $this->_totalItemCount;
         }
