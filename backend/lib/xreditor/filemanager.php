@@ -252,7 +252,7 @@ class xreditor_Filemanager {
             $result['folders'] = $cacheData['folders'];
             $result['images'] = array();
             foreach($cacheData['images'] as $image) {
-                if(!empty($pattern) && !preg_match($pattern, $fileName)) continue;
+                if(!empty($pattern) && !preg_match($pattern, $image['name'])) continue;
                 $result['images'][] = $image;
             }
             return $result;
