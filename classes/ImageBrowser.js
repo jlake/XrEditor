@@ -10,12 +10,13 @@ Ext.define('XrEditor.ImageBrowser', {
 
 	title: 'Images',
 	store: null,
+	subFolderMenu: null,
+	searchField: null,
 	folder: {
 		node: '',
 		parent: '',
 		children: []
 	},
-	subFolderMenu: null,
 	config: {
 		thumbWidth: 80,
 		thumbHeight: 60,
@@ -122,6 +123,11 @@ Ext.define('XrEditor.ImageBrowser', {
 				}
 			}
 		});
+		me.earchField = Ext.create('Ext.ux.form.SearchField', {
+			paramName: 'keyword',
+			store: me.store,
+			width: 170
+		});
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
 			border: false,
@@ -142,6 +148,7 @@ Ext.define('XrEditor.ImageBrowser', {
 	 */
 	_createToolbar: function() {
 		var me = this;
+
 		var config = {
 			items: [{
 				iconCls: 'icon-folder-up',
@@ -160,12 +167,12 @@ Ext.define('XrEditor.ImageBrowser', {
 			}, {
 				iconCls: 'icon-folder-go',
 				menu: me.subFolderMenu
-			}, '->', {
+			}, '-', {
 				iconCls: 'icon-refresh',
 				handler: function() {
 					me.store.load();
 				}
-			}]
+			}, '->', me.earchField]
 		};
 		return Ext.create('widget.toolbar', config);
 	},

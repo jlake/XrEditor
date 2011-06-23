@@ -16,6 +16,11 @@
 <?php endforeach; ?>
     </head>
     <body>
+        <header>
+            <h1>XrEditor backend</h1>
+            <a href="<?php e(HOME_URL); ?>">Home</a>
+        </header>
+        <hr />
         <?php echo $content; ?>
     </body>
 </html>

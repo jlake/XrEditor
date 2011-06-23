@@ -1,19 +1,29 @@
 <h1>Image List</h1>
 <br />
+<b>Node:<?php e($node); ?></b><br />
+<table><tr>
 <?php
-echo '<b>Node:'.$node.'</b><br /><table><tr>';
 foreach ($folders as $i => $folder) {
     echo '<td align="center" valign="bottom"><a href="?node='.$folder['node'].'"><img src="'.$folder['url'].'" /><br />' . $folder['name'] . '</td>';
     if($i > 0 && $i % 5 == 0) {
         echo '</tr><tr>';
     }
 }
-echo '</tr><tr>';
+?>
+</tr><tr>
+<?php
 foreach ($images as $i => $image) {
     echo '<td align="center" valign="bottom"><img src="'.$image['thumburl'].'" /><br />' . $image['name'] . '</td>';
     if($i > 0 && $i % 5 == 0) {
         echo '</tr><tr>';
     }
 }
-echo '</tr></table><br /><a href="?node='.$parent.'">Up</a>';
 ?>
+</tr></table><br />
+<?php if(!empty($error)) { ?>
+<b>Error:</b><br />
+<div class="error">
+    <?php e($error);?>
+</div>
+<?php } ?>
+<a href="?node=<?php e($parent); ?>">Up</a>

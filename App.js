@@ -8,7 +8,7 @@ Ext.Loader.setConfig({
 	enabled: true,
 	paths: {
 		XrEditor: 'classes',
-		'Ext.ux.DataView': 'ux/DataView'
+		'Ext.ux': 'ux'
 	}
 });
 

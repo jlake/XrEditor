@@ -7,6 +7,9 @@ defined('APP_ROOT')
 defined('APP_ENV')
     || define('APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'production'));
 
+defined('HOME_URL')
+    || define('HOME_URL',  '/xreditor/backend');
+
 defined('IMAGE_URL')
     || define('IMAGE_URL',  '/xreditor/images');
 
@@ -18,6 +21,9 @@ defined('EDITOR_IMGROOT')
 
 defined('EDITOR_IMGURL')
     || define('EDITOR_IMGURL',  '/xreditor/backend/var/docroot/images');
+
+defined('CACHE_PATH')
+    || define('CACHE_PATH',  APP_ROOT . '/var/cache');
 
 //echo APP_ROOT;
 set_include_path(implode(PATH_SEPARATOR, array(

@@ -1,2 +1,3 @@
 Thumbs.db
 backend/log/*.log
+backend/var/cache/*.cache

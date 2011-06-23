@@ -1,9 +1,6 @@
 <?php
 class components_image_List extends k_Component {
-    private $_node = '';
-    private $_parent = '';
-    private $_images = array();
-    private $_folders = array();
+    private $_result = '';
 
     protected function map($name) {
         switch ($name) {
@@ -15,13 +12,12 @@ class components_image_List extends k_Component {
     }
 
     function execute() {
-        $this->_node = $this->query('node', '.');
+        $node = $this->query('node', '.');
+        $keyword = $this->query('keyword', '');
         $fm = new xreditor_Filemanager( EDITOR_IMGROOT );
-        $result = $fm->findImageFiles($this->_node);
-        $this->_images = $result['images'];
-        $this->_folders = $result['folders'];
-        $this->_parent = $fm->getParentNode($this->_node);
-        foreach($this->_images as &$image) {
+        $this->_result = $fm->findImageFiles($node, $keyword);
+        foreach($this->_result['images'] as &$image) {
+            $this->debug($image['name']);
             $image['thumburl'] = $this->url('thumb.image', array(
                     'node' => $image['node'],
                     'w' => $this->query('w', 160),
@@ -33,20 +29,10 @@ class components_image_List extends k_Component {
 
     function renderHtml() {
         $t = new k_Template("templates/image/list.tpl.php");
-        return $t->render($this, array(
-            'node' => $this->_node,
-            'parent' => $this->_parent,
-            'images' => $this->_images,
-            'folders' => $this->_folders
-        ));
+        return $t->render($this, $this->_result);
     }
 
     function renderJson() {
-        return array(
-            'node' => $this->_node,
-            'parent' => $this->_parent,
-            'images' => $this->_images,
-            'folders' => $this->_folders
-        );
+        return $this->_result;
     }
 }

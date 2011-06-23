@@ -124,7 +124,7 @@ Ext.define('XrEditor.FileBrowser', {
 	 */
 	_createToolbar: function() {
 		var me = this;
-		var createNode = function(button, e) {
+		var _createNode = function(button, e) {
 			//var selected = me.getSelectionModel().getLastSelected();
 			var selected = me.selections[0];
 			var nodeType = button.initialConfig.nodeType;
@@ -156,7 +156,7 @@ Ext.define('XrEditor.FileBrowser', {
 				});
 			});
 		};
-		var deleteNode = function(button, e) {
+		var _deleteNode = function(button, e) {
 			//var selected = me.getSelectionModel().getLastSelected();
 			var selected = me.selections[0];
 			if(!selected) return;
@@ -181,7 +181,7 @@ Ext.define('XrEditor.FileBrowser', {
 				});
 			});
 		};
-		var renameNode = function(button, e) {
+		var _renameNode = function(button, e) {
 			//var selected = me.getSelectionModel().getLastSelected();
 			var selected = me.selections[0];
 			if(!selected) return;
@@ -218,18 +218,18 @@ Ext.define('XrEditor.FileBrowser', {
 			iconCls: 'icon-folder',
 			text: 'Folder',
 			nodeType: 'folder',
-			handler: createNode
+			handler: _createNode
 		}];
 		for(var k in XrEditor.Global.fileTypes) {
 			aMenuItems.push({
 				iconCls: 'icon-doc-' + k,
 				text: XrEditor.Global.fileTypes[k],
 				nodeType: k,
-				handler: createNode
+				handler: _createNode
 			});
 		}
 
-		var newMenu = Ext.create('Ext.menu.Menu', {
+		var oNewMenu = Ext.create('Ext.menu.Menu', {
 			items: aMenuItems
 		});
 		this.contextMenu = Ext.create('Ext.menu.Menu', {
@@ -239,28 +239,28 @@ Ext.define('XrEditor.FileBrowser', {
 			items: [{
 				text: 'New',
 				iconCls: 'icon-plus-circle',
-				menu: newMenu
+				menu: oNewMenu
 			}, {
 				text: 'Rename',
 				iconCls: 'icon-rename',
-				handler: renameNode
+				handler: _renameNode
 			}, {
 				text: 'Delete',
 				iconCls: 'icon-minus-circle',
-				handler: deleteNode
+				handler: _deleteNode
 			}]
 		});
 
 		var config = {
 			items: [{
 				iconCls: 'icon-plus-circle',
-				menu: newMenu
+				menu: oNewMenu
 			}, {
 				iconCls: 'icon-minus-circle',
-				handler: deleteNode
+				handler: _deleteNode
 			}, {
 				iconCls: 'icon-rename',
-				handler: renameNode
+				handler: _renameNode
 			}, '->', {
 				handler: function() {
 					me.store.load();

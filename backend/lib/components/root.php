@@ -18,7 +18,8 @@ class components_Root extends k_Component {
     }
 
     function wrapHtml($content) {
-        $t = new k_Template("templates/document.tpl.php");
+        $t = new k_Template("templates/layout.tpl.php");
+        $this->document->setTitle('XrEditor backend');
         return $t->render(
             $this,
             array(
