@@ -45,6 +45,7 @@ Ext.define('XrEditor.ImageBrowser', {
 		});
 		var store = Ext.create('Ext.data.Store', {
 			model: ImageModel,
+			pageSize: XrEditor.Global.pageSize,
 			proxy: {
 				type: 'ajax',
 				url: XrEditor.Global.urls.IMAGE_LIST,
@@ -55,7 +56,8 @@ Ext.define('XrEditor.ImageBrowser', {
 				},
 				reader: {
 					type: 'json',
-					root: 'images'
+					root: 'images',
+					totalProperty: 'totalItemCount'
 				}
 			},
 			listeners: {
@@ -129,8 +131,8 @@ Ext.define('XrEditor.ImageBrowser', {
 			bbar: Ext.create('Ext.PagingToolbar', {
 				store: store,
 				displayInfo: true,
-				displayMsg: 'Displaying topics {0} - {1} of {2}',
-				emptyMsg: "No topics to display"
+				displayMsg: '{0} - {1} of {2}',
+				emptyMsg: "No items to display"
 			}),
 		});
 		this.callParent(arguments);

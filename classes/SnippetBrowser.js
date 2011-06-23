@@ -33,7 +33,7 @@ Ext.define('XrEditor.SnippetBrowser', {
 				url: XrEditor.Global.urls.SNIPPET_LIST,
 				reader: {
 					root: 'pageItems',
-					totalProperty: 'totalCount'
+					totalProperty: 'totalItemCount'
 				},
 				simpleSortMode: true
 			},
@@ -75,8 +75,8 @@ Ext.define('XrEditor.SnippetBrowser', {
 			bbar: Ext.create('Ext.PagingToolbar', {
 				store: store,
 				displayInfo: true,
-				displayMsg: 'Displaying topics {0} - {1} of {2}',
-				emptyMsg: "No topics to display"
+				displayMsg: '{0} - {1} of {2}',
+				emptyMsg: "No items to display"
 			}),
 			listeners: {
 				beforerender: function(view) {

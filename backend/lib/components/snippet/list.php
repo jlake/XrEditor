@@ -59,7 +59,7 @@ class components_snippet_List extends k_Component {
             $dataSql .= $orderBy;
         }
         $dataSql .= " LIMIT $limit OFFSET $offset";
-
+$this->debug($dataSql);
         $this->_pageItems = pdo_Db::getResult($dataSql);
         $this->_totalItemCount = intval(pdo_Db::getValue($countSql));
         $this->_pageCount = ceil($this->_totalItemCount / $limit);
