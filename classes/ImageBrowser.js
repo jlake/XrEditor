@@ -26,7 +26,9 @@ Ext.define('XrEditor.ImageBrowser', {
 		this.callParent(arguments);
 		return this;
 	},
-
+	/**
+	 * @override
+	 */
 	initComponent: function(){
 		var me = this;
 		me.subFolderMenu = Ext.create('Ext.menu.Menu', {
@@ -57,7 +59,7 @@ Ext.define('XrEditor.ImageBrowser', {
 				},
 				reader: {
 					type: 'json',
-					root: 'images',
+					root: 'pageItems',
 					totalProperty: 'totalItemCount'
 				}
 			},
@@ -96,7 +98,46 @@ Ext.define('XrEditor.ImageBrowser', {
 			emptyText: 'No images to display',
 			plugins: [
 				Ext.create('Ext.ux.DataView.DragSelector', {}),
-				Ext.create('Ext.ux.DataView.LabelEditor', {dataIndex: 'name'})
+				Ext.create('Ext.ux.DataView.LabelEditor', {
+					dataIndex: 'name',
+					listeners: {
+						beforecomplete: function(editor, value, startValue, opts) {
+							//console.log('beforecomplete', editor, value, startValue, opts);
+							if(!value || !/^[\w.-]+$/.test(value)) {
+								XrEditor.Util.popupMsg('Invalid input!', 'Error', 'ERROR');
+								return false;
+							}
+							var ext = XrEditor.Util.getFileExtension(startValue);
+							var pattern = new RegExp('.' + ext + '$', 'i');
+							if(!pattern.test(value)) {
+								value += '.' + ext;
+								editor.setValue(value);
+							}
+							Ext.Ajax.request({
+								url: XrEditor.Global.urls.IMAGE_UTILITY,
+								method: 'GET',
+								params: {
+									action: 'rename',
+									node: editor.activeRecord.data.node,
+									name: value
+								},
+								success: function(response){
+									var data = Ext.decode(response.responseText);
+									//console.log(data);
+									if(data.error) {
+										XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+										editor.setValue(startValue);
+										return;
+									}
+								}
+							});
+							return true;
+						}/*,
+						complete: function(editor, value) {
+							console.log('complete', editor, value);
+						}*/
+					}
+				})
 			],
 			prepareData: function(data) {
 				Ext.apply(data, {
@@ -148,25 +189,22 @@ Ext.define('XrEditor.ImageBrowser', {
 	 */
 	_createToolbar: function() {
 		var me = this;
-
 		var config = {
 			items: [{
 				iconCls: 'icon-folder-up',
 				handler: function() {
 					me.folder.node = me.folder.parent;
-					//me.folder.parent = '';
-					me.store.load();
-				}
-			}, {
-				iconCls: 'icon-folder-home',
-				handler: function() {
-					me.folder.node = '';
-					//me.folder.parent = null;
 					me.store.load();
 				}
 			}, {
 				iconCls: 'icon-folder-go',
 				menu: me.subFolderMenu
+			}, {
+				iconCls: 'icon-folder-home',
+				handler: function() {
+					me.folder.node = '';
+					me.store.load();
+				}
 			}, '-', {
 				iconCls: 'icon-refresh',
 				handler: function() {
@@ -197,6 +235,9 @@ Ext.define('XrEditor.ImageBrowser', {
 		}
 		me.subFolderMenu.add(aItems);
 	},
+	/**
+	 * @override
+	 */
 	afterRender: function() {
 		this.store.load();
 	}

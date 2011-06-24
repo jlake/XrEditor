@@ -174,14 +174,14 @@ Ext.define('XrEditor.FileBrowser', {
 			var nodeType = button.initialConfig.nodeType || 'folder';
 			Ext.MessageBox.prompt('Input', 'New folder/file name:', function(btn, text){
 				if(btn != 'ok') return;
-				if(/[^\w]/.test(text.replace(/\./g, ''))) {
-					XrEditor.Util.popupMsg('Inputed name is invalid!', 'Error', 'ERROR');
+				if(!text || !/^[\w.-]+$/.test(text)) {
+					XrEditor.Util.popupMsg('Invalid input!', 'Error', 'ERROR');
 					return;
 				}
 				var iconCls = '';
 				if(nodeType && nodeType != 'folder') {
-					var pattern = new RegExp('.' + nodeType + '$');
-					if(!pattern.test(pattern)) {
+					var pattern = new RegExp('.' + nodeType + '$', 'i');
+					if(!pattern.test(text)) {
 						text += '.' + nodeType;
 					}
 					iconCls = 'doc-type-' + nodeType;
@@ -213,12 +213,12 @@ Ext.define('XrEditor.FileBrowser', {
 			//var selectedNode = me.getSelectionModel().getLastselectedNode();
 			var selectedNode = me.selections[0];
 			if(!selectedNode) return;
-			var nodeType = selectedNode.data.leaf ? XrEditor.Util.getFileExtension(selectedNode.data.text) : 'folder';
+			var nodeType = selectedNode.data.leaf ? XrEditor.Util.getFileExtension(selectedNode.data.text, true) : 'folder';
 			Ext.MessageBox.prompt('Rename', 'New name:', function(btn, text){
 				if(btn != 'ok') return;
 				if(nodeType && nodeType != 'folder') {
-					var pattern = new RegExp('.' + nodeType + '$');
-					if(!pattern.test(pattern)) {
+					var pattern = new RegExp('.' + nodeType + '$', 'i');
+					if(!pattern.test(text)) {
 						text += '.' + nodeType;
 					}
 				}

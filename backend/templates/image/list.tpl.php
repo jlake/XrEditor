@@ -12,14 +12,16 @@ foreach ($folders as $i => $folder) {
 ?>
 </tr><tr>
 <?php
-foreach ($images as $i => $image) {
+foreach ($pageItems as $i => $image) {
     echo '<td align="center" valign="bottom"><img src="'.$image['thumburl'].'" /><br />' . $image['name'] . '</td>';
     if($i > 0 && $i % 5 == 0) {
         echo '</tr><tr>';
     }
 }
 ?>
-</tr></table><br />
+</tr></table>
+<?php include(realpath(dirname(__FILE__).'/../paginator.tpl.php')); ?>
+<br />
 <?php if(!empty($error)) { ?>
 <b>Error:</b><br />
 <div class="error">

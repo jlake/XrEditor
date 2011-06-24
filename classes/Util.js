@@ -65,9 +65,9 @@ XrEditor.Util = function() {
 		/**
 		 * get file extension
 		 */
-		getFileExtension: function(sName) {
-			var sExt = (/[.]/.exec(sName)) ? /[^.]+$/.exec(sName) : '';
-			return (sExt + '').toLowerCase();
+		getFileExtension: function(sName, bLower) {
+			var sExt = (/[.]/.exec(sName)) ? /[^.]+$/.exec(sName) + '' : '';
+			return bLower ? sExt.toLowerCase(): sExt;
 		}
 	};
 }();

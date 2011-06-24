@@ -1,13 +1,14 @@
 <?php
-class components_file_Utility extends k_Component {
+class components_image_Utility extends k_Component {
     private $_result = array(
         'error' => false
     );
 
     function execute() {
-        $fm = new xreditor_Filemanager( EDITOR_DOCROOT );
+        $fm = new xreditor_Imagemanager( EDITOR_IMGROOT );
         $action = $this->query('action');
         $this->_result['action'] = $action;
+        $parent = '';
         switch($action) {
             case 'add':
                 $parent = $this->query('parent');
@@ -15,18 +16,18 @@ class components_file_Utility extends k_Component {
                 $type = $this->query('type');
                 if(!$fm->createNode($parent, $name, $type)) {
                     $this->_result['error'] = 'add child failed';
-                } else {
-                        $key = $this->getCacheKey($node);
                 }
                 break;
             case 'remove':
                 $node = $this->query('node');
+                $parent = $fm->getParentNode($node);
                 if(!$fm->removeNode($node)) {
                     $this->_result['error'] = 'remove node failed';
                 }
                 break;
             case 'rename':
                 $node = $this->query('node');
+                $parent = $fm->getParentNode($node);
                 $name = $this->query('name');
                 if(!$fm->renameNode($node, $name)) {
                     $this->_result['error'] = 'rename node failed';
@@ -41,17 +42,25 @@ class components_file_Utility extends k_Component {
                 break;
             case 'save':
                 $node = $this->query('node');
+                $parent = $fm->getParentNode($node);
                 $contents = $this->query('contents', '');
                 if(!$fm->putContents($node, $contents)) {
                     $this->_result['error'] = 'save file failed';
                 }
                 break;
         }
+        if(empty($parent)) {
+            $parent = '.';
+        }
+        $cache = new xreditor_Filecache( CACHE_PATH );
+        $key = $fm->getCacheKey($parent);
+        $this->debug('delete cache '.$key);
+        $cache->delete($key);
         return parent::execute();
     }
 
     function renderHtml() {
-        $t = new k_Template("templates/file/utility.tpl.php");
+        $t = new k_Template("templates/image/utility.tpl.php");
         return $t->render($this, $this->_result);
     }
 

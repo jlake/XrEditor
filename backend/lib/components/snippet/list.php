@@ -4,7 +4,6 @@ class components_snippet_List extends k_Component {
     const RANGE_SIZE = 10;
 
     private $_baseUrl = '';
-
     private $_page = 0;
     private $_pageCount = 0;
     private $_pageItems = array();
@@ -62,10 +61,17 @@ class components_snippet_List extends k_Component {
         $this->_pageItems = xreditor_Db::getResult($dataSql);
         $this->_totalItemCount = intval(xreditor_Db::getValue($countSql));
         $this->_pageCount = ceil($this->_totalItemCount / $limit);
-        $halfSize = floor(self::RANGE_SIZE / 2);
-        $this->_startPage = ($this->_page > $halfSize) ? ($this->_page - $halfSize) : $this->_page;
-        $this->_endPage = $this->_startPage + self::RANGE_SIZE;
-        if($this->_endPage > $this->_pageCount) {
+        if($this->_pageCount > self::RANGE_SIZE) {
+            $halfRange = floor(self::RANGE_SIZE / 2);
+            if($this->_page > ($this->_pageCount - $halfRange)) {
+                $this->_startPage = $this->_pageCount - self::RANGE_SIZE;
+                $this->_endPage = $this->_pageCount;
+            } else {
+                $this->_startPage = $this->_page - $halfRange;
+                $this->_endPage = $this->_page + $halfRange;
+            }
+        } else {
+            $this->_startPage = 1;
             $this->_endPage = $this->_pageCount;
         }
 

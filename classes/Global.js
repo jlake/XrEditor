@@ -17,10 +17,11 @@ XrEditor.Global = {
 		FILE_CONTENTS: 'backend/file/contents.json',
 		FILE_UTILITY: 'backend/file/utility.json',
 		IMAGE_LIST: 'backend/image/list.json',
+		IMAGE_UTILITY: 'backend/image/utility.json',
 		SNIPPET_LIST: 'backend/snippet/list.json',
 		SNIPPET_DETAIL: 'backend/snippet/detail.json'
 	},
-	pageSize: 30,
+	pageSize: 10,
 	imageUriRoot: '/xreditor/images',
 	currentEditor: null
 };

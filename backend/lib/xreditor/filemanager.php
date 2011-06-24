@@ -45,7 +45,7 @@ class xreditor_Filemanager {
     /** 
     * find node's children (folders & files)
     */
-    function findChildren($node, $keyword = '', $filter = '') {
+    public function findChildren($node, $keyword = '', $filter = '') {
         $nodes = array();
         if(strpos($node, '..') !== false){
             return $nodes;
@@ -112,7 +112,7 @@ class xreditor_Filemanager {
     /** 
     * get parent node
     */
-    public function getParentNode($node) {
+    public static function getParentNode($node) {
         return substr($node, 0, strrpos($node, '/'));
     }
 

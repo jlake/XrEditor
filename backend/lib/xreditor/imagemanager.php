@@ -1,9 +1,16 @@
 <?php
 class xreditor_Imagemanager extends xreditor_Filemanager {
    /** 
+    * get cache key
+    */
+    public function getCacheKey($node) {
+        return 'image_files_'.$node;
+    }
+
+   /** 
     * find all children for a node
     */
-    function findChildren($node, $keyword = '', $filter = '/\.(jpg|gif|png|tiff|jpeg)$/i') {
+    public function findChildren($node, $keyword = '', $filter = '/\.(jpg|gif|png|tiff|jpeg)$/i') {
         $result = array(
             'node' => $node,
             'parent' => $this->getParentNode($node),
@@ -16,7 +23,7 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
             $pattern = '/'.str_replace('/', '\/', $keyword).'/i';
         }
         $cache = new xreditor_Filecache( CACHE_PATH );
-        $key = 'image_files_'.$node;
+        $key = $this->getCacheKey($node);
         $cacheData = $cache->get($key);
         if(!empty($cacheData)) {
             $result['folders'] = $cacheData['folders'];

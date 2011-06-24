@@ -1,6 +1,6 @@
 <h1>Snippets List</h1>
 <br />
-<?php include('paginator.tpl.php'); ?>
+<?php include(realpath(dirname(__FILE__).'/../paginator.tpl.php')); ?>
 <table>
 <tr>
     <th>Id</th>
@@ -21,4 +21,4 @@
 </tr>
 <?php } ?>
 </table>
-<?php include('paginator.tpl.php'); ?>
+<?php include(realpath(dirname(__FILE__).'/../paginator.tpl.php')); ?>
