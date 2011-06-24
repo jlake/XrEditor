@@ -42,13 +42,16 @@ Ext.define('XrEditor.Editor', {
 			autoDestroy: true,
 			items: aItems,
 			listeners: {
-				tabchange: function(panel, newCard, oldCard, opts) {
+				tabchange: function(editor, newCard, oldCard, opts) {
 					if(newCard.itemId == 'code') {
 						if(this.htmlEditor) this.codeEditor.setCode(this.htmlEditor.getHtml());
 					} else {
 						this.htmlEditor.setHtml(this.codeEditor.getCode());
 						//this.htmlEditor.initListeners();
 					}
+				},
+				activate: function(editor, opts) {
+					XrEditor.Global.currentEditor = editor;
 				}
 			}
 		});
