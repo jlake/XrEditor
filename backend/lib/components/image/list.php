@@ -14,8 +14,8 @@ class components_image_List extends k_Component {
     function execute() {
         $node = $this->query('node', '.');
         $keyword = $this->query('keyword', '');
-        $fm = new xreditor_Filemanager( EDITOR_IMGROOT );
-        $this->_result = $fm->findImageFiles($node, $keyword);
+        $fm = new xreditor_Imagemanager( EDITOR_IMGROOT );
+        $this->_result = $fm->findChildren($node, $keyword);
         foreach($this->_result['images'] as &$image) {
             $this->debug($image['name']);
             $image['thumburl'] = $this->url('thumb.image', array(

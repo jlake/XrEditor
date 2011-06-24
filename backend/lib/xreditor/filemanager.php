@@ -2,7 +2,7 @@
 class xreditor_Filemanager {
     protected $_rootPath = '/tmp';
 
-   /** 
+    /** 
     * Constructor 
     */
     public function __construct($rootPath = null) { 
@@ -11,7 +11,7 @@ class xreditor_Filemanager {
         } 
     }
 
-   /** 
+    /** 
     * get file extension
     */
     public static function getExtension($fileName) {
@@ -19,7 +19,7 @@ class xreditor_Filemanager {
         return strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
     }
 
-   /** 
+    /** 
     * from php manual page 
     */
     public static function formatBytes($val, $digits = 3, $mode = 'SI', $bB = 'B') { //$mode == 'SI'|'IEC', $bB == 'b'|'B'
@@ -42,8 +42,8 @@ class xreditor_Filemanager {
         return round($val, $digits) . ' ' . $symbols[$i] . $bB;
     }
 
-   /** 
-    * find all children for a node
+    /** 
+    * find node's children (folders & files)
     */
     function findChildren($node, $filter = '', $keyword = '') {
         $nodes = array();
@@ -87,7 +87,7 @@ class xreditor_Filemanager {
         return $nodes;
     }
 
-   /** 
+    /**
     * delete directory recursively
     */
     public static function rmdirRecursively($dir) {
@@ -109,14 +109,14 @@ class xreditor_Filemanager {
         return rmdir($dir);
     }
 
-   /** 
+    /** 
     * get parent node
     */
     public function getParentNode($node) {
         return substr($node, 0, strrpos($node, '/'));
     }
 
-    /**
+     /**
      * create node
      *
      * @param string $parentNode        parent node
@@ -138,7 +138,7 @@ class xreditor_Filemanager {
         return touch($path);
     }
 
-    /**
+     /**
      * remove node
      *
      * @param string $node        node
@@ -156,7 +156,7 @@ class xreditor_Filemanager {
         }
     }
 
-    /**
+     /**
      * rename node
      *
      * @param string $node        node
@@ -172,7 +172,7 @@ class xreditor_Filemanager {
         return rename($oldPath, $newPath);
     }
 
-    /**
+     /**
      * move node
      *
      * @param string $node        node
@@ -191,7 +191,7 @@ class xreditor_Filemanager {
         return false;
     }
 
-   /** 
+    /** 
     * get node's contents
     */
     public function getContents($node) {
@@ -207,7 +207,7 @@ class xreditor_Filemanager {
         }
     }
 
-   /** 
+    /** 
     * save node's contents
     */
     public function putContents($node, $contents, $encode = null) {
@@ -230,7 +230,7 @@ class xreditor_Filemanager {
         }
     }
 
-   /** 
+    /** 
     * find image files
     */
     public function findImageFiles($node, $keyword = '') {
@@ -277,7 +277,7 @@ class xreditor_Filemanager {
                     'node' => $fileNode,
                     'name' => $fileName,
                     'lastmod' => $f->getMTime(),
-                    'url' => IMAGE_URL.'/shared/folder-24.png'
+                    'url' => FRONT_BASEURL.'/images/shared/folder-24.png'
                 );
             } else {
                 if(!preg_match('/\.(jpg|gif|png|tiff|jpeg)$/i', $fileName)) continue;

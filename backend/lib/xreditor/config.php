@@ -1,9 +1,9 @@
 <?php
-class pdo_Config {
-    public static function getConfig($env) {
+class xreditor_Config {
+    public static function getDbConfig($env) {
         if($env == 'development') {
             return array(
-                'dbname' => APP_ROOT . '/var/db/appdata.db3',
+                'dbname' => BACKEND_ROOT . '/var/db/appdata.db3',
                 'username' => null,
                 'password' => null,
                 'database' => 'sqlite',
@@ -11,7 +11,7 @@ class pdo_Config {
             );
         } else if($env == 'production') {
             return array(
-                'dbname' => APP_ROOT . '/var/db/appdata.db3',
+                'dbname' => BACKEND_ROOT . '/var/db/appdata.db3',
                 'username' => null,
                 'password' => null,
                 'database' => 'sqlite',

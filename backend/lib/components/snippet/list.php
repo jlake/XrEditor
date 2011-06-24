@@ -41,15 +41,15 @@ class components_snippet_List extends k_Component {
         $url .= (strpos($url, '?') === FALSE) ? '?' : '&';
         $this->_baseUrl = $url;
 
-        $config = pdo_Config::getConfig(APP_ENV);
-        pdo_Db::setConnectionInfo($config['dbname'], $config['username'], $config['password'],  $config['database']);
+        $config = xreditor_Config::getDbConfig(APP_ENV);
+        xreditor_Db::setConnectionInfo($config['dbname'], $config['username'], $config['password'],  $config['database']);
 
         $dataSql = "SELECT id, lang, title, tags, lastmod FROM snippets";
         $countSql = "SELECT count(1) FROM snippets";
 
         if(!empty($this->_filter)) {
             $filter = json_decode($this->_filter);
-            $whereExpr = ' WHERE ' . pdo_Db::arrayToWhereExpr($filter);
+            $whereExpr = ' WHERE ' . xreditor_Db::arrayToWhereExpr($filter);
             $dataSql .= $whereExpr;
             $countSql .= $whereExpr;
         }
@@ -59,9 +59,8 @@ class components_snippet_List extends k_Component {
             $dataSql .= $orderBy;
         }
         $dataSql .= " LIMIT $limit OFFSET $offset";
-$this->debug($dataSql);
-        $this->_pageItems = pdo_Db::getResult($dataSql);
-        $this->_totalItemCount = intval(pdo_Db::getValue($countSql));
+        $this->_pageItems = xreditor_Db::getResult($dataSql);
+        $this->_totalItemCount = intval(xreditor_Db::getValue($countSql));
         $this->_pageCount = ceil($this->_totalItemCount / $limit);
         $halfSize = floor(self::RANGE_SIZE / 2);
         $this->_startPage = ($this->_page > $halfSize) ? ($this->_page - $halfSize) : $this->_page;

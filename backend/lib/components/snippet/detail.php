@@ -8,12 +8,12 @@ class components_snippet_Detail extends k_Component {
     function execute() {
         $id = $this->query('id', '');
 
-        $config = pdo_Config::getConfig(APP_ENV);
-        pdo_Db::setConnectionInfo($config['dbname'], $config['username'], $config['password'],  $config['database']);
+        $config = xreditor_Config::getDbConfig(APP_ENV);
+        xreditor_Db::setConnectionInfo($config['dbname'], $config['username'], $config['password'],  $config['database']);
 
         $dataSql = "SELECT * FROM snippets";
 
-        $this->_detail = pdo_Db::getRow("SELECT * FROM snippets WHERE id = ? ", array($id));
+        $this->_detail = xreditor_Db::getRow("SELECT * FROM snippets WHERE id = ? ", array($id));
         return parent::execute();
     }
 
