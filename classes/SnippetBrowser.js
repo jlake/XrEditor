@@ -102,26 +102,6 @@ Ext.define('XrEditor.SnippetBrowser', {
 				}
 			}
 		});
-		this.contextMenu = Ext.create('Ext.menu.Menu', {
-			id: 'contextbrowser_contextmenu',
-			//plain: true,
-			//floating: true,
-			items: [{
-				text: 'Add',
-				iconCls: 'icon-plus-circle',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('insert', 'Editor');
-					me.hideContextMenu();
-				}
-			}, {
-				text: 'Remove',
-				iconCls: 'icon-minus-circle',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('delete', 'Editor');
-					me.hideContextMenu();
-				}
-			}]
-		});
 		this.callParent(arguments);
 	},
 	/**
@@ -142,6 +122,30 @@ Ext.define('XrEditor.SnippetBrowser', {
 		var newFileMenu = Ext.create('Ext.menu.Menu', {
 			items: aItems
 		});
+		this.contextMenu = Ext.create('Ext.menu.Menu', {
+			id: 'contextbrowser_contextmenu',
+			//plain: true,
+			//floating: true,
+			items: [{
+				text: 'New',
+				iconCls: 'icon-file-add',
+				menu: newFileMenu
+			}, {
+				text: 'Rename',
+				iconCls: 'icon-rename',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('rename', 'Snippet');
+					//me.hideContextMenu();
+				}
+			}, {
+				text: 'Delete',
+				iconCls: 'icon-file-delete',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('delete', 'Snippet');
+					//me.hideContextMenu();
+				}
+			}]
+		});
 		var config = {
 			items: [{
 				iconCls: 'icon-file-add',
@@ -149,6 +153,12 @@ Ext.define('XrEditor.SnippetBrowser', {
 			}, {
 				iconCls: 'icon-file-delete',
 				handler: function() {
+				}
+			}, {
+				iconCls: 'icon-rename',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('rename', 'Snippet');
+					//me.hideContextMenu();
 				}
 			}, {
 				iconCls: 'icon-file-edit',
@@ -164,12 +174,21 @@ Ext.define('XrEditor.SnippetBrowser', {
 		};
 		return Ext.create('widget.toolbar', config);
 	},
+	/**
+	 * cshow context menu
+	 */
 	showContextMenu: function(pos) {
 		if(this.contextMenu) this.contextMenu.showAt(pos);
 	},
+	/**
+	 * hide context menu
+	 */
 	hideContextMenu: function() {
 		if(this.contextMenu) this.contextMenu.hide();
 	},
+	/**
+	 * set editor frame
+	 */
 	setEditorFrame: function(obj) {
 		this.editorFrame = obj;
 	}

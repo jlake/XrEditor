@@ -11,6 +11,7 @@ Ext.define('XrEditor.ImageBrowser', {
 	title: 'Images',
 	store: null,
 	subFolderMenu: null,
+	contextMenu: null,
 	searchField: null,
 	folder: {
 		node: '',
@@ -155,6 +156,12 @@ Ext.define('XrEditor.ImageBrowser', {
 					this.up('panel').setTitle('Simple DataView (' + l + ' item' + s + ' selected)');
 				},
 				*/
+				itemcontextmenu: function(view, record, item, index, e, options) {
+					e.stopEvent();
+					var pos = e.getXY();
+					me.showContextMenu(pos);
+					return false;
+				},
 				itemdblclick: function(view, record, item, index, e, opts) {
 					//console.log(record.data);
 					if(record.data.type == 'dir') {
@@ -189,6 +196,26 @@ Ext.define('XrEditor.ImageBrowser', {
 	 */
 	_createToolbar: function() {
 		var me = this;
+		this.contextMenu = Ext.create('Ext.menu.Menu', {
+			id: 'contextbrowser_contextmenu',
+			//plain: true,
+			//floating: true,
+			items: [{
+				text: 'Rename',
+				iconCls: 'icon-rename',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('rename', 'Image');
+					//me.hideContextMenu();
+				}
+			}, {
+				text: 'Delete',
+				iconCls: 'icon-minus-circle',
+				handler: function(widget, e) {
+					XrEditor.Util.slideMsg('delete', 'Image');
+					//me.hideContextMenu();
+				}
+			}]
+		});
 		var config = {
 			items: [{
 				iconCls: 'icon-folder-up',
@@ -240,5 +267,17 @@ Ext.define('XrEditor.ImageBrowser', {
 	 */
 	afterRender: function() {
 		this.store.load();
+	},
+	/**
+	 * cshow context menu
+	 */
+	showContextMenu: function(pos) {
+		if(this.contextMenu) this.contextMenu.showAt(pos);
+	},
+	/**
+	 * hide context menu
+	 */
+	hideContextMenu: function() {
+		if(this.contextMenu) this.contextMenu.hide();
 	}
 });
