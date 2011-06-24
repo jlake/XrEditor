@@ -102,7 +102,7 @@ Ext.define('XrEditor.ImageBrowser', {
 				Ext.apply(data, {
 					shortName: Ext.util.Format.ellipsis(data.name, 15),
 					sizeString: Ext.util.Format.fileSize(data.size),
-					dateString: Ext.util.Format.date(data.lastmod, "m/d/Y g:i a")
+					dateString: Ext.util.Format.date(data.lastmod, "Y-m-d g:i:s")
 				});
 				return data;
 			},

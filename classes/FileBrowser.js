@@ -94,6 +94,29 @@ Ext.define('XrEditor.FileBrowser', {
 						}
 					});
 				},
+				itemappend: function(node, newNode, index, opts) {
+					//console.log('itemappend', node, newNode, index, opts);
+					if(newNode.data.newflg) {
+						Ext.Ajax.request({
+							url: XrEditor.Global.urls.FILE_UTILITY,
+							method: 'GET',
+							params: {
+								action: 'add',
+								parent: node.data.id,
+								type: newNode.data.type,
+								name: newNode.data.text
+							},
+							success: function(response){
+								var data = Ext.decode(response.responseText);
+								if(data.error) {
+									XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+									newNode.remove(true);
+									return;
+								}
+							}
+						});
+					}
+				},
 				itemmove: function(node, oldParent, newParent, index, opts) {
 					if(oldParent.id == newParent.id) return;
 					Ext.Ajax.request({
@@ -111,9 +134,30 @@ Ext.define('XrEditor.FileBrowser', {
 								XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
 								return;
 							}
-							me.store.load();
 						}
 					});
+				},
+				itemremove: function(node, childNode, opts) {
+					//console.log('itemremove', node, childNode, opts);
+					if(childNode.data.delflg) {
+						Ext.Ajax.request({
+							url: XrEditor.Global.urls.FILE_UTILITY,
+							method: 'GET',
+							params: {
+								action: 'remove',
+								node: childNode.data.id
+							},
+							success: function(response){
+								var data = Ext.decode(response.responseText);
+								//console.log(data);
+								if(data.error) {
+									XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+									node.appendNode(childNode);
+									return;
+								}
+							}
+						});
+					}
 				}
 			}
 		});
@@ -124,68 +168,52 @@ Ext.define('XrEditor.FileBrowser', {
 	 */
 	_createToolbar: function() {
 		var me = this;
-		var _createNode = function(button, e) {
-			//var selected = me.getSelectionModel().getLastSelected();
-			var selected = me.selections[0];
-			var nodeType = button.initialConfig.nodeType;
-			Ext.MessageBox.prompt('Input', 'New folder name:', function(btn, text){
+		var _appendNode = function(button, e) {
+			var selectedNode = me.selections[0] || me.getRootNode();
+			if(selectedNode.data.leaf) return;
+			var nodeType = button.initialConfig.nodeType || 'folder';
+			Ext.MessageBox.prompt('Input', 'New folder/file name:', function(btn, text){
 				if(btn != 'ok') return;
+				if(/[^\w]/.test(text.replace(/\./g, ''))) {
+					XrEditor.Util.popupMsg('Inputed name is invalid!', 'Error', 'ERROR');
+					return;
+				}
+				var iconCls = '';
 				if(nodeType && nodeType != 'folder') {
 					var pattern = new RegExp('.' + nodeType + '$');
 					if(!pattern.test(pattern)) {
 						text += '.' + nodeType;
 					}
+					iconCls = 'doc-type-' + nodeType;
 				}
-				Ext.Ajax.request({
-					url: XrEditor.Global.urls.FILE_UTILITY,
-					method: 'GET',
-					params: {
-						action: 'add',
-						parent: (selected && !selected.data.leaf) ? selected.data.id : '.',
-						type: nodeType,
-						name: text
-					},
-					success: function(response){
-						var data = Ext.decode(response.responseText);
-						if(data.error) {
-							XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
-							return;
-						}
-						me.store.load();
-					}
+				selectedNode.appendChild({
+					newflg: true,
+					id: selectedNode.data.id + '/' + text,
+					type: nodeType,
+					text: text,
+					qtip: 'Last Modified: ' + Ext.util.Format.date(Ext.Date.now(), "Y-m-d g:i:s"),
+					leaf: false,
+					cls: nodeType, 
+					iconCls: iconCls
 				});
 			});
-		};
-		var _deleteNode = function(button, e) {
-			//var selected = me.getSelectionModel().getLastSelected();
-			var selected = me.selections[0];
-			if(!selected) return;
-			Ext.MessageBox.confirm('Confirm', 'Are you sure to delete "' + selected.data.text +  '" ? ', function(btn) {
-				if(btn != 'yes') return;
-				Ext.Ajax.request({
-					url: XrEditor.Global.urls.FILE_UTILITY,
-					method: 'GET',
-					params: {
-						action: 'remove',
-						node: selected.data.id
-					},
-					success: function(response){
-						var data = Ext.decode(response.responseText);
-						//console.log(data);
-						if(data.error) {
-							XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
-							return;
-						}
-						me.store.load();
-					}
-				});
+		}
+		var _removeNode = function(button, e) {
+			//var selectedNode = me.getSelectionModel().getLastselectedNode();
+			var selectedNode = me.selections[0];
+			if(!selectedNode) return;
+			Ext.MessageBox.confirm('Confirm', 'Are you sure to delete "' + selectedNode.data.text +  '" ? ', function(btn) {
+				if(btn == 'yes') {
+					selectedNode.data.delflg = true;
+					selectedNode.remove();
+				}
 			});
 		};
 		var _renameNode = function(button, e) {
-			//var selected = me.getSelectionModel().getLastSelected();
-			var selected = me.selections[0];
-			if(!selected) return;
-			var nodeType = selected.data.leaf ? XrEditor.Util.getFileExtension(selected.data.text) : 'folder';
+			//var selectedNode = me.getSelectionModel().getLastselectedNode();
+			var selectedNode = me.selections[0];
+			if(!selectedNode) return;
+			var nodeType = selectedNode.data.leaf ? XrEditor.Util.getFileExtension(selectedNode.data.text) : 'folder';
 			Ext.MessageBox.prompt('Rename', 'New name:', function(btn, text){
 				if(btn != 'ok') return;
 				if(nodeType && nodeType != 'folder') {
@@ -199,7 +227,7 @@ Ext.define('XrEditor.FileBrowser', {
 					method: 'GET',
 					params: {
 						action: 'rename',
-						node: selected.data.id,
+						node: selectedNode.data.id,
 						name: text
 					},
 					success: function(response){
@@ -209,23 +237,25 @@ Ext.define('XrEditor.FileBrowser', {
 							XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
 							return;
 						}
-						me.store.load();
+						// because there is no setText function
+						selectedNode.data.text = text;
+						selectedNode.parentNode.replaceChild(selectedNode, selectedNode);
 					}
 				});
-			}, this, false, selected.data.text);
+			}, this, false, selectedNode.data.text);
 		};
 		var aMenuItems = [{
 			iconCls: 'icon-folder',
 			text: 'Folder',
 			nodeType: 'folder',
-			handler: _createNode
+			handler: _appendNode
 		}];
 		for(var k in XrEditor.Global.fileTypes) {
 			aMenuItems.push({
 				iconCls: 'icon-doc-' + k,
 				text: XrEditor.Global.fileTypes[k],
 				nodeType: k,
-				handler: _createNode
+				handler: _appendNode
 			});
 		}
 
@@ -247,22 +277,22 @@ Ext.define('XrEditor.FileBrowser', {
 			}, {
 				text: 'Delete',
 				iconCls: 'icon-minus-circle',
-				handler: _deleteNode
+				handler: _removeNode
 			}]
 		});
-
 		var config = {
 			items: [{
 				iconCls: 'icon-plus-circle',
 				menu: oNewMenu
 			}, {
 				iconCls: 'icon-minus-circle',
-				handler: _deleteNode
+				handler: _removeNode
 			}, {
 				iconCls: 'icon-rename',
 				handler: _renameNode
 			}, '->', {
 				handler: function() {
+					
 					me.store.load();
 				},
 				iconCls: 'icon-refresh'
