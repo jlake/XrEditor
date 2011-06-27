@@ -20,10 +20,10 @@ defined('EDITOR_DOCROOT')
     || define('EDITOR_DOCROOT',  BACKEND_ROOT . '/var/docroot');
 
 defined('EDITOR_IMGROOT')
-    || define('EDITOR_IMGROOT',  BACKEND_ROOT . '/var/docroot/images');
+    || define('EDITOR_IMGROOT',  BACKEND_ROOT . '/var/images');
 
 defined('EDITOR_IMGURL')
-    || define('EDITOR_IMGURL',  BACKEND_BASEURL . '/var/docroot/images');
+    || define('EDITOR_IMGURL',  BACKEND_BASEURL . '/var/images');
 
 //echo BACKEND_ROOT;
 set_include_path(implode(PATH_SEPARATOR, array(

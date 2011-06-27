@@ -58,17 +58,30 @@ Ext.define('XrEditor.HtmlEditor', {
 			{type: 'button', cmd: 'justifyRight', title: '右揃え', toggle: false},
 			{type: '-'},
 			{type: 'button', cmd: 'hr', title: '水平線', toggle: false},
-			/*
-			{type: 'menu', cmd: 'heading', title: 'ヘッディング', items: [
-				{value: 'H1', text: 'H1'},
-				{value: 'H2', text: 'H2'},
-				{value: 'H3', text: 'H3'},
-				{value: 'H4', text: 'H4'},
-				{value: 'H5', text: 'H5'},
-				{value: 'H6', text: 'H6'}
+			{type: '-'},
+			{type: 'button', cmd: 'link', title: 'リンク作成'},
+			{type: 'button', cmd: 'unlink', title: 'リンク解除'},
+			{type: '-'},
+			{type: 'button', cmd: 'insertimage', title: '画像挿入'},
+			{type: '/'},
+			{type: 'combo', cmd: 'fontName', title: 'フォント', emptyText: 'Font', size: 120, items: [
+				{value:'andale mono,sans-serif', text: 'Andale Mono'},
+				{value:'arial,helvetica,sans-serif', text: 'Arial'},
+				{value:'arial black,gadget,sans-serif', text: 'Arial Black'},
+				{value:'book antiqua,palatino,sans-serif', text: 'Book Antiqua'},
+				{value:'comic sans ms,cursive', text: 'Comic Sans MS'},
+				{value:'courier new,courier,monospace', text: 'Courier New'},
+				{value:'georgia,palatino,serif', text: 'Georgia'},
+				{value:'helvetica,sans-serif', text: 'Helvetica'},
+				{value:'impact,sans-serif', text: 'Impact'},
+				{value:'lucida console,monaco,monospace', text: 'Lucida console'},
+				{value:'lucida sans unicode,lucida grande,sans-serif', text: 'Lucida grande'},
+				{value:'tahoma,sans-serif', text: 'Tahoma'},
+				{value:'times new roman,times,serif', text: 'Times New Roman'},
+				{value:'trebuchet ms,lucida grande,verdana,sans-serif', text: 'Trebuchet MS'},
+				{value:'verdana,geneva,sans-serif', text: 'Verdana'}
 			]},
-			*/
-			{type: 'combo', cmd: 'formatBlock', title: 'ヘッディング', emptyText: 'Format', items: [
+			{type: 'combo', cmd: 'formatBlock', title: 'フォマット', emptyText: 'Format', size: 70, items: [
 				{value: 'H1', text: 'H1'},
 				{value: 'H2', text: 'H2'},
 				{value: 'H3', text: 'H3'},
@@ -78,11 +91,9 @@ Ext.define('XrEditor.HtmlEditor', {
 				{value: 'PRE', text: 'PRE'},
 				{value: 'ADDRESS', text: 'ADDRESS'}
 			]},
-			{type: '/'},
-			{type: 'button', cmd: 'link', title: 'リンク作成'},
-			{type: 'button', cmd: 'unlink', title: 'リンク解除'},
 			{type: '-'},
-			{type: 'button', cmd: 'insertimage', title: '画像挿入'}
+			{type: 'colormenu', cmd: 'foreColor', title: '文字色'},
+			{type: 'colormenu', cmd: 'backColor', title: '背景色'}
 		];
 		var aTbConfigs = [];
 		var oTbLine = {
@@ -108,6 +119,17 @@ Ext.define('XrEditor.HtmlEditor', {
 				case '<-':
 					// separator
 					oTbLine.items.push(oBtn.type);
+					break;
+				case 'button':
+					oTbLine.items.push({
+						cmd: oBtn.cmd,
+						tooltip: oBtn.title,
+						iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
+						enableToggle: oBtn.toggle,
+						handler: function(btn, e) {
+							me.sendCommand(btn.initialConfig.cmd);
+						}
+					});
 					break;
 				case 'menu':
 					var menuItems = [];
@@ -154,15 +176,18 @@ Ext.define('XrEditor.HtmlEditor', {
 						}
 					}));
 					break;
-				case 'button':
+				case 'colormenu':
 					oTbLine.items.push({
 						cmd: oBtn.cmd,
 						tooltip: oBtn.title,
 						iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
-						enableToggle: oBtn.toggle,
-						handler: function(btn, e) {
-							me.sendCommand(btn.initialConfig.cmd);
-						}
+						cls: 'x-btn-icon',
+						menu: Ext.create('Ext.menu.ColorPicker', {
+							cmd: oBtn.cmd,
+							handler: function(menu, color){
+								me.sendCommand(menu.initialConfig.cmd, color);
+							}
+						})
 					});
 					break;
 				default:
