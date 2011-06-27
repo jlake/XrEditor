@@ -44,7 +44,10 @@ Ext.define('XrEditor.Editor', {
 			listeners: {
 				tabchange: function(editor, newCard, oldCard, opts) {
 					if(newCard.itemId == 'code') {
-						if(this.htmlEditor) this.codeEditor.setCode(this.htmlEditor.getHtml());
+						if(this.htmlEditor) {
+							var sHtml = XrEditor.Html.formatXhtml(this.htmlEditor.getHtml());
+							this.codeEditor.setCode(sHtml);
+						}
 					} else {
 						this.htmlEditor.setHtml(this.codeEditor.getCode());
 						//this.htmlEditor.initListeners();

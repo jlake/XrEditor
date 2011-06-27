@@ -39,7 +39,7 @@ Ext.define('XrEditor.EditorFrame', {
 				iconCls: 'icon-saveall'
 			}, '->', {
 				handler: this.showHelp,
-				text: 'Help',
+				text: 'About',
 				iconCls: 'icon-help'
 			}]
 		};
@@ -62,6 +62,8 @@ Ext.define('XrEditor.EditorFrame', {
 	 * show help message
 	 */
 	showHelp: function() {
-		XrEditor.Util.popupMsg('XrEditor ' + XrEditor.Global.version, 'メッセージ');
+		var sHtml = '<b>XrEditor ' + XrEditor.Global.version + '</b>'
+			+ '<br /><small>Copyright &copy; 2011 Jlake Ou</small>';
+		XrEditor.Util.popupMsg(sHtml, 'About');
 	}
 });

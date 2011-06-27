@@ -39,6 +39,10 @@
 	line-height: 24px;
 }
 
+.x-form-color-trigger {
+	background-image: url(../images/shared/color-trigger.gif);
+}
+
 /* Common icons */
 .icon-help {
 	background-image:url(../images/shared/question.png) !important;
@@ -138,76 +142,76 @@
 
 /* data view */
 .images-view .x-panel-body {
-    background: white;
-    font: 11px Arial, Helvetica, sans-serif;
+	background: white;
+	font: 11px Arial, Helvetica, sans-serif;
 }
 .images-view .thumb {
-    background: #dddddd;
-    padding: 3px;
-    padding-bottom: 0;
+	background: #dddddd;
+	padding: 3px;
+	padding-bottom: 0;
 }
 
 .x-quirks .images-view .thumb {
-    padding-bottom: 3px;
+	padding-bottom: 3px;
 }
 /*
 .images-view .thumb img {
-    height: 60px;
-    width: 80px;
+	height: 60px;
+	width: 80px;
 }
 */
 .images-view .thumb-wrap {
-    float: left;
-    margin: 4px;
-    margin-right: 0;
-    padding: 5px;
+	float: left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
 }
 .images-view .thumb-wrap span {
-    display: block;
-    overflow: hidden;
-    text-align: center;
-    width: 86px; /* for IE */
+	display: block;
+	overflow: hidden;
+	text-align: center;
+	width: 86px; /* for IE */
 }
 
 .images-view .x-item-over {
-    border:1px solid #dddddd;
-    background: #efefef url(over.gif) repeat-x left top;
-    padding: 4px;
+	border:1px solid #dddddd;
+	background: #efefef url(over.gif) repeat-x left top;
+	padding: 4px;
 }
 
 .images-view .x-item-selected {
-    background: #eff5fb url(selected.gif) no-repeat right bottom;
-    border:1px solid #99bbe8;
-    padding: 4px;
+	background: #eff5fb url(selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
 }
 .images-view .x-item-selected .thumb {
-    background:transparent;
+	background:transparent;
 }
 
 .images-view .loading-indicator {
-    font-size:11px;
-    background-image:url('../images/shared/loading.gif');
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left:20px;
-    margin:10px;
+	font-size:11px;
+	background-image:url('../images/shared/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:10px;
 }
 
 .x-view-selector {
-    position:absolute;
-    left:0;
-    top:0;
-    width:0;
-    border:1px dotted;
-    opacity: .5;
-    -moz-opacity: .5;
-    filter:alpha(opacity=50);
-    zoom:1;
-    background-color:#c3daf9;
-    border-color:#3399bb;
+	position:absolute;
+	left:0;
+	top:0;
+	width:0;
+	border:1px dotted;
+	opacity: .5;
+	-moz-opacity: .5;
+	filter:alpha(opacity=50);
+	zoom:1;
+	background-color:#c3daf9;
+	border-color:#3399bb;
 }
 
 .ext-strict .ext-ie .x-tree .x-panel-bwrap {
-    position:relative;
-    overflow:hidden;
+	position:relative;
+	overflow:hidden;
 }

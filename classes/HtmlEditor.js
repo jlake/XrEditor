@@ -333,10 +333,9 @@ Ext.define('XrEditor.HtmlEditor', {
 		return this.doc.body.innerHTML;
 	},
 
-	setHtml: function(sCode) {
+	setHtml: function(sHtml) {
 		if(!this.doc) return;
 		this.doc.open();
-		var sHtml = XrEditor.Html.formatXhtml(sCode);
 
 		this.doc.write(sHtml);
 		this.bindHelperCss();
