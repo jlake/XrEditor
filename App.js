@@ -47,9 +47,8 @@ Ext.define('XrEditor.App', {
 			items: [{
 				region: 'north',
 				split: true,
-				height: 50,
-				bodyStyle: 'padding: 5px;',
-				html: '<h1>XrEditor</h1>'
+				height: 60,
+				html: '<img src="' + XrEditor.Global.baseUrl +'/images/shared/logo.png" />'
 			},{
 				region: 'west',
 				title: _('file browser'),
