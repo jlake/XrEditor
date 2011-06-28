@@ -100,67 +100,68 @@ Ext.define('XrEditor.Selection', {
 		*/
 		var me = this;
 		var win;
-		var sizeField = Ext.create('Ext.form.NumberField', {
-			fieldLabel: 'Size',
-			name: 'size',
-			//hideTrigger: true,
-			value: '',
-			minValue: 1,
-			maxValue: 125
-		});
-		var widthField = Ext.create('Ext.form.NumberField', {
-			fieldLabel: 'Width',
-			name: 'width',
-			value: '100',
-			minValue: 1,
-			maxValue: 125
-		});
-		var colorField = Ext.create('Ext.ux.form.ColorField', {
-			fieldLabel: 'Color',
-			name: 'color',
-			value: ''
-		});
-		var alignField = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Align',
-			name: 'align',
-			store: Ext.create('Ext.data.Store', {
-				fields: ['value', 'text'],
-				data: [
-					{value: '', text: 'None'},
-					{value: 'left', text: 'Left'},
-					{value: 'center', text: 'Center'},
-					{value: 'right', text: 'Right'}
-				]
-			}),
-			valueField: 'value',
-			displayField: 'text',
-			mode: 'local',
-			triggerAction: 'all',
-			emptyText: '',
-			editable: false
-			//width: 70
-		});
-		var formPanel = new Ext.form.FormPanel({
-			frame: true,
-			width: '100%',
-			height: '100%',
-			bodyStyle: 'padding:10px',
-			labelWidth: 100,
-			autoScroll: true,
-			bodyBorder: false,
-			collapsible: false,
-			//defaults: {width: 70, listWidth:180},
-			items: [
-				sizeField,
-				widthField,
-				colorField,
-				alignField
-			]
-		});
-		var key = arguments.callee.name;
+		//var key = arguments.callee.name;
+		var key = '_hr';
 		if(XrEditor.Global.winCache[key]) {
 			win = XrEditor.Global.winCache[key];
 		} else {
+			var sizeField = Ext.create('Ext.form.NumberField', {
+				fieldLabel: 'Size',
+				name: 'size',
+				//hideTrigger: true,
+				value: '',
+				minValue: 1,
+				maxValue: 125
+			});
+			var widthField = Ext.create('Ext.form.NumberField', {
+				fieldLabel: 'Width',
+				name: 'width',
+				value: '100',
+				minValue: 1,
+				maxValue: 125
+			});
+			var colorField = Ext.create('Ext.ux.form.ColorField', {
+				fieldLabel: 'Color',
+				name: 'color',
+				value: ''
+			});
+			var alignField = Ext.create('Ext.form.ComboBox', {
+				fieldLabel: 'Align',
+				name: 'align',
+				store: Ext.create('Ext.data.Store', {
+					fields: ['value', 'text'],
+					data: [
+						{value: '', text: 'None'},
+						{value: 'left', text: 'Left'},
+						{value: 'center', text: 'Center'},
+						{value: 'right', text: 'Right'}
+					]
+				}),
+				valueField: 'value',
+				displayField: 'text',
+				mode: 'local',
+				triggerAction: 'all',
+				emptyText: '',
+				editable: false
+				//width: 70
+			});
+			var formPanel = new Ext.form.FormPanel({
+				frame: true,
+				width: '100%',
+				height: '100%',
+				bodyStyle: 'padding:10px',
+				labelWidth: 100,
+				autoScroll: true,
+				bodyBorder: false,
+				collapsible: false,
+				//defaults: {width: 70, listWidth:180},
+				items: [
+					sizeField,
+					widthField,
+					colorField,
+					alignField
+				]
+			});
 			win = new Ext.Window({
 				title: _('hr'),
 				width: 350,
@@ -205,57 +206,59 @@ Ext.define('XrEditor.Selection', {
 	},
 	_linkImpl: function(mValue) {
 		var me = this;
-		var hrefField = Ext.create('Ext.form.TextField', {
-			fieldLabel: 'Link URL',
-			name: 'href',
-			//hideTrigger: true,
-			value: 'http://'
-		});
-		var titleField = Ext.create('Ext.form.TextField', {
-			fieldLabel: 'Title',
-			name: 'title',
-			value: ''
-		});
-		var targetField = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Target',
-			name: 'target',
-			store: Ext.create('Ext.data.Store', {
-				fields: ['value', 'text'],
-				data: [
-					{value: '', text: _('default')},
-					{value: '_blank', text: _('new window')},
-					{value: '_self', text: _('current frame(window)')},
-					{value: '_parent', text: _('parrent frame')},
-					{value: '_top', text: _('top window')}
-				]
-			}),
-			valueField: 'value',
-			displayField: 'text',
-			mode: 'local',
-			triggerAction: 'all',
-			emptyText: '',
-			editable: false
-		});
-		var formPanel = new Ext.form.FormPanel({
-			frame: true,
-			width: '100%',
-			height: '100%',
-			bodyStyle: 'padding:10px',
-			labelWidth: 100,
-			autoScroll: true,
-			bodyBorder: false,
-			collapsible: false,
-			defaults: {width: 300, listWidth:300},
-			items: [
-				hrefField,
-				titleField,
-				targetField
-			]
-		});
-		var key = arguments.callee.name;
+		var win;
+		//var key = arguments.callee.name;
+		var key = '_link';
 		if(XrEditor.Global.winCache[key]) {
 			win = XrEditor.Global.winCache[key];
 		} else {
+			var hrefField = Ext.create('Ext.form.TextField', {
+				fieldLabel: 'Link URL',
+				name: 'href',
+				//hideTrigger: true,
+				value: 'http://'
+			});
+			var titleField = Ext.create('Ext.form.TextField', {
+				fieldLabel: 'Title',
+				name: 'title',
+				value: ''
+			});
+			var targetField = Ext.create('Ext.form.ComboBox', {
+				fieldLabel: 'Target',
+				name: 'target',
+				store: Ext.create('Ext.data.Store', {
+					fields: ['value', 'text'],
+					data: [
+						{value: '', text: _('default')},
+						{value: '_blank', text: _('new window')},
+						{value: '_self', text: _('current frame(window)')},
+						{value: '_parent', text: _('parrent frame')},
+						{value: '_top', text: _('top window')}
+					]
+				}),
+				valueField: 'value',
+				displayField: 'text',
+				mode: 'local',
+				triggerAction: 'all',
+				emptyText: '',
+				editable: false
+			});
+			var formPanel = new Ext.form.FormPanel({
+				frame: true,
+				width: '100%',
+				height: '100%',
+				bodyStyle: 'padding:10px',
+				labelWidth: 100,
+				autoScroll: true,
+				bodyBorder: false,
+				collapsible: false,
+				defaults: {width: 300, listWidth:300},
+				items: [
+					hrefField,
+					titleField,
+					targetField
+				]
+			});
 			win = new Ext.Window({
 				title: _('link'),
 				width: 350,
@@ -299,36 +302,38 @@ Ext.define('XrEditor.Selection', {
 	},
 	_insertimageImpl: function(mValue) {
 		var me = this;
-		var srcField = Ext.create('Ext.form.TextField', {
-			fieldLabel: 'Image URL',
-			name: 'src',
-			//hideTrigger: true,
-			value: 'http://'
-		});
-		var titleField = Ext.create('Ext.form.TextField', {
-			fieldLabel: 'Title',
-			name: 'title',
-			value: ''
-		});
-		var formPanel = new Ext.form.FormPanel({
-			frame: true,
-			width: '100%',
-			height: '100%',
-			bodyStyle: 'padding:10px',
-			labelWidth: 100,
-			autoScroll: true,
-			bodyBorder: false,
-			collapsible: false,
-			defaults: {width: 300, listWidth:300},
-			items: [
-				srcField,
-				titleField
-			]
-		});
-		var key = arguments.callee.name;
+		var win;
+		//var key = arguments.callee.name;
+		var key = '_insertimage';
 		if(XrEditor.Global.winCache[key]) {
 			win = XrEditor.Global.winCache[key];
 		} else {
+			var srcField = Ext.create('Ext.form.TextField', {
+				fieldLabel: 'Image URL',
+				name: 'src',
+				//hideTrigger: true,
+				value: 'http://'
+			});
+			var titleField = Ext.create('Ext.form.TextField', {
+				fieldLabel: 'Title',
+				name: 'title',
+				value: ''
+			});
+			var formPanel = new Ext.form.FormPanel({
+				frame: true,
+				width: '100%',
+				height: '100%',
+				bodyStyle: 'padding:10px',
+				labelWidth: 100,
+				autoScroll: true,
+				bodyBorder: false,
+				collapsible: false,
+				defaults: {width: 300, listWidth:300},
+				items: [
+					srcField,
+					titleField
+				]
+			});
 			win = new Ext.Window({
 				title: _('insertimage'),
 				width: 350,
