@@ -2,6 +2,8 @@
 	'message': '消息',
 	'about': '关于 XrEditor',
 	'version {0}': '版本 {0}',
+	'ok': 'OK',
+	'cancel': '取消',
 	'file browser': '文件浏览器',
 	'toolbox': '工具箱',
 	'save': '保存',
@@ -32,5 +34,11 @@
 	'fontname': '字体',
 	'formatblock': '格式化',
 	'forecolor': '文字色',
-	'backcolor': '背景色'
+	'backcolor': '背景色'，
+	'insert horizontal line': '插入横线',
+	'default': '默认',
+	'new window': '新窗口',
+	'current frame(window)': '当前Frame(窗口)',
+	'parrent frame': '父Frame',
+	'top window': '顶层窗口'
 }

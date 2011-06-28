@@ -23,5 +23,6 @@ XrEditor.Global = {
 		SNIPPET_DETAIL: 'backend/snippet/detail.json'
 	},
 	pageSize: 10,
+	winCache: {},
 	currentEditor: null
 };

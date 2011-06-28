@@ -43,7 +43,7 @@ Ext.define('XrEditor.FileBrowser', {
 			autoScroll: true,
 			border: false,
 			store: store,
-			rootVisible: false,
+			//rootVisible: false,
 			viewConfig: {
 				plugins: {
 					ptype: 'treeviewdragdrop',
@@ -134,6 +134,13 @@ Ext.define('XrEditor.FileBrowser', {
 								XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
 								return;
 							}
+							node.data.id = newParent.data.id + '/' + node.data.text;
+							// TO-DO: cascade update children's id
+							if(!node.isLeaf()) {
+								node.cascadeBy(function(child) {
+									child.data.id = child.parentNode.data.id + '/' + child.data.text;
+								});
+							}
 						}
 					});
 				},
@@ -170,7 +177,7 @@ Ext.define('XrEditor.FileBrowser', {
 		var me = this;
 		var _appendNode = function(button, e) {
 			var selectedNode = me.selections[0] || me.getRootNode();
-			if(selectedNode.data.leaf) return;
+			if(selectedNode.isLeaf()) return;
 			var nodeType = button.initialConfig.nodeType || 'folder';
 			Ext.MessageBox.prompt('Input', 'New folder/file name:', function(btn, text){
 				if(btn != 'ok') return;

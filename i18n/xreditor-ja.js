@@ -2,6 +2,8 @@
 	'message': 'メッセージ',
 	'about': 'XrEditor について',
 	'version {0}': 'バージョ {0}',
+	'ok': 'ＯＫ',
+	'cancel': 'キャンセル',
 	'file browser': 'ファイルブラウザ',
 	'toolbox': 'ツールボックス',
 	'save': '保存',
@@ -32,6 +34,12 @@
 	'fontname': 'フォント',
 	'formatblock': 'フォマット',
 	'forecolor': '文字色',
-	'backcolor': '背景色'
+	'backcolor': '背景色',
+	'insert horizontal line': '水平線作成',
+	'create link': 'リンク作成',
+	'default': 'デフォールト',
+	'new window': '新規のウィンドウ',
+	'current frame(window)': '現在のフレーム（ウィンドウ）',
+	'parrent frame': '親フレーム',
+	'top window': 'トップウィンドウ'
 }
-

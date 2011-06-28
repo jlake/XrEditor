@@ -81,8 +81,25 @@ Ext.define('XrEditor.Selection', {
 		}
 		return retValue
 	},
+	outerHTML: function(node){
+		return node.outerHTML || (
+			function(n){
+				var div = document.createElement('div'), h;
+				div.appendChild( n.cloneNode(true) );
+				h = div.innerHTML;
+				div = null;
+				return h;
+			})(node);
+	},
 	_hrImpl: function(mValue) {
+		/*
+		if(Ext.isIE){
+			return this.insertHtml('<hr />');
+		}
+		return this.config.doc.execCommand("inserthorizontalrule", false, mValue);
+		*/
 		var me = this;
+		var win;
 		var sizeField = Ext.create('Ext.form.NumberField', {
 			fieldLabel: 'Size',
 			name: 'size',
@@ -140,50 +157,216 @@ Ext.define('XrEditor.Selection', {
 				alignField
 			]
 		});
-		var win = new Ext.Window({
-			title: '水平線作成',
-			width: 350,
-			height: 210,
-			layout: 'fit',
-			closeAction: 'hide',
-			buttonAlign:'center',
-			items: formPanel,
-			buttons: [{
-				text: 'ＯＫ',
-				handler: function(){
-					var hrAttrs = '';
-					var values = formPanel.getValues();
-					for(name in values) {
-						if(values[name]) {
-							if(name == 'width') values[name] += '%';
-							hrAttrs += ' ' + name +'="' + values[name] + '"';
+		var key = arguments.callee.name;
+		if(XrEditor.Global.winCache[key]) {
+			win = XrEditor.Global.winCache[key];
+		} else {
+			win = new Ext.Window({
+				title: _('hr'),
+				width: 350,
+				height: 210,
+				layout: 'fit',
+				closeAction: 'hide',
+				buttonAlign:'center',
+				items: formPanel,
+				buttons: [{
+					text: _('ok'),
+					handler: function(){
+						var sAttr = '';
+						var values = formPanel.getValues();
+						for(name in values) {
+							if(values[name]) {
+								if(name == 'width') values[name] += '%';
+								sAttr += ' ' + name +'="' + values[name] + '"';
+							}
 						}
+						var sHtml = '<hr' + sAttr + '/>';
+						me.insertHtml(sHtml);
+						win.hide();
 					}
-					var sHtml = '<hr' + hrAttrs + '/>';
-					me.insertHtml(sHtml);
-					win.hide();
+				},{
+					text: _('cancel'),
+					handler: function(){
+						win.hide()
+					}
+				}],
+				listeners: {
+					show: function() {
+						sizeField.setValue('');
+						widthField.setValue('100');
+						colorField.setValue('');
+						alignField.setValue('');
+					}
 				}
-			},{
-				text: 'キャンセル',
-				handler: function(){
-					win.hide()
-				}
-			}],
-			listeners: {
-				show: function() {
-					sizeField.setValue('');
-					widthField.setValue('');
-					colorField.setValue('');
-					alignField.setValue('');
-				}
-			}
-		});
-		win.show();
-		/*
-		if(Ext.isIE){
-			return this.insertHtml('<hr />');
+			});
+			XrEditor.Global.winCache[key] = win;
 		}
-		return this.config.doc.execCommand("inserthorizontalrule", false, mValue);
-		*/
+		win.show();
+	},
+	_linkImpl: function(mValue) {
+		var me = this;
+		var hrefField = Ext.create('Ext.form.TextField', {
+			fieldLabel: 'Link URL',
+			name: 'href',
+			//hideTrigger: true,
+			value: 'http://'
+		});
+		var titleField = Ext.create('Ext.form.TextField', {
+			fieldLabel: 'Title',
+			name: 'title',
+			value: ''
+		});
+		var targetField = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Target',
+			name: 'target',
+			store: Ext.create('Ext.data.Store', {
+				fields: ['value', 'text'],
+				data: [
+					{value: '', text: _('default')},
+					{value: '_blank', text: _('new window')},
+					{value: '_self', text: _('current frame(window)')},
+					{value: '_parent', text: _('parrent frame')},
+					{value: '_top', text: _('top window')}
+				]
+			}),
+			valueField: 'value',
+			displayField: 'text',
+			mode: 'local',
+			triggerAction: 'all',
+			emptyText: '',
+			editable: false
+		});
+		var formPanel = new Ext.form.FormPanel({
+			frame: true,
+			width: '100%',
+			height: '100%',
+			bodyStyle: 'padding:10px',
+			labelWidth: 100,
+			autoScroll: true,
+			bodyBorder: false,
+			collapsible: false,
+			defaults: {width: 300, listWidth:300},
+			items: [
+				hrefField,
+				titleField,
+				targetField
+			]
+		});
+		var key = arguments.callee.name;
+		if(XrEditor.Global.winCache[key]) {
+			win = XrEditor.Global.winCache[key];
+		} else {
+			win = new Ext.Window({
+				title: _('link'),
+				width: 350,
+				height: 200,
+				layout: 'fit',
+				closeAction: 'hide',
+				buttonAlign:'center',
+				items: formPanel,
+				buttons: [{
+					text: _('ok'),
+					handler: function(){
+						var sAttr = '';
+						var values = formPanel.getValues();
+						for(name in values) {
+							if(values[name]) {
+								sAttr += ' ' + name +'="' + values[name] + '"';
+							}
+						}
+						var node = me.range.cloneContents();
+						var sHtml = '<a' + sAttr + '>' + me.outerHTML(node).replace(/<\/*a[^>]*>/gi, '') + '</a>';
+						me.insertHtml(sHtml);
+						win.hide();
+					}
+				},{
+					text: _('cancel'),
+					handler: function(){
+						win.hide()
+					}
+				}],
+				listeners: {
+					show: function() {
+						hrefField.setValue('http://');
+						titleField.setValue('');
+						targetField.setValue('');
+					}
+				}
+			});
+			XrEditor.Global.winCache[key] = win;
+		}
+		win.show();
+	},
+	_insertimageImpl: function(mValue) {
+		var me = this;
+		var srcField = Ext.create('Ext.form.TextField', {
+			fieldLabel: 'Image URL',
+			name: 'src',
+			//hideTrigger: true,
+			value: 'http://'
+		});
+		var titleField = Ext.create('Ext.form.TextField', {
+			fieldLabel: 'Title',
+			name: 'title',
+			value: ''
+		});
+		var formPanel = new Ext.form.FormPanel({
+			frame: true,
+			width: '100%',
+			height: '100%',
+			bodyStyle: 'padding:10px',
+			labelWidth: 100,
+			autoScroll: true,
+			bodyBorder: false,
+			collapsible: false,
+			defaults: {width: 300, listWidth:300},
+			items: [
+				srcField,
+				titleField
+			]
+		});
+		var key = arguments.callee.name;
+		if(XrEditor.Global.winCache[key]) {
+			win = XrEditor.Global.winCache[key];
+		} else {
+			win = new Ext.Window({
+				title: _('insertimage'),
+				width: 350,
+				height: 200,
+				layout: 'fit',
+				closeAction: 'hide',
+				buttonAlign:'center',
+				items: formPanel,
+				buttons: [{
+					text: _('ok'),
+					handler: function(){
+						var sAttr = '';
+						var values = formPanel.getValues();
+						for(name in values) {
+							if(values[name]) {
+								sAttr += ' ' + name +'="' + values[name] + '"';
+							}
+						}
+						var node = me.range.cloneContents();
+						var sHtml = '<img' + sAttr + ' />';
+						me.insertHtml(sHtml);
+						win.hide();
+					}
+				},{
+					text: _('cancel'),
+					handler: function(){
+						win.hide()
+					}
+				}],
+				listeners: {
+					show: function() {
+						srcField.setValue('http://');
+						titleField.setValue('');
+					}
+				}
+			});
+			XrEditor.Global.winCache[key] = win;
+		}
+		win.show();
 	}
 });

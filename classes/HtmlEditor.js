@@ -47,14 +47,14 @@ Ext.define('XrEditor.HtmlEditor', {
 		var aBtnConfigs = [
 			{type: 'button', cmd: 'bold', toggle: false},
 			{type: 'button', cmd: 'italic', toggle: false},
-			{type: 'button', cmd: 'underLine', toggle: false},
-			{type: 'button', cmd: 'strikeThrough', toggle: false},
-			{type: 'button', cmd: 'subScript', toggle: false},
-			{type: 'button', cmd: 'superScript', toggle: false},
+			{type: 'button', cmd: 'underline', toggle: false},
+			{type: 'button', cmd: 'strikethrough', toggle: false},
+			{type: 'button', cmd: 'subscript', toggle: false},
+			{type: 'button', cmd: 'superscript', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'justifyLeft', toggle: false},
-			{type: 'button', cmd: 'justifyCenter', toggle: false},
-			{type: 'button', cmd: 'justifyRight', toggle: false},
+			{type: 'button', cmd: 'justifyleft', toggle: false},
+			{type: 'button', cmd: 'justifycenter', toggle: false},
+			{type: 'button', cmd: 'justifyright', toggle: false},
 			{type: '-'},
 			{type: 'button', cmd: 'hr', toggle: false},
 			{type: '-'},
@@ -80,7 +80,7 @@ Ext.define('XrEditor.HtmlEditor', {
 				{value:'trebuchet ms,lucida grande,verdana,sans-serif', text: 'Trebuchet MS'},
 				{value:'verdana,geneva,sans-serif', text: 'Verdana'}
 			]},
-			{type: 'combo', cmd: 'formatBlock', emptyText: 'Format', size: 70, items: [
+			{type: 'combo', cmd: 'formatblock', emptyText: 'Format', size: 70, items: [
 				{value: 'H1', text: 'H1'},
 				{value: 'H2', text: 'H2'},
 				{value: 'H3', text: 'H3'},
@@ -91,8 +91,8 @@ Ext.define('XrEditor.HtmlEditor', {
 				{value: 'ADDRESS', text: 'ADDRESS'}
 			]},
 			{type: '-'},
-			{type: 'colormenu', cmd: 'foreColor'},
-			{type: 'colormenu', cmd: 'backColor'}
+			{type: 'colormenu', cmd: 'forecolor'},
+			{type: 'colormenu', cmd: 'backcolor'}
 		];
 		var aTbConfigs = [];
 		var oTbLine = {
