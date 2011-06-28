@@ -61,7 +61,7 @@ Ext.define('XrEditor.SnippetBrowser', {
 				sortable: true,
 				dataIndex: 'lang',
 				renderer: function(value) {
-					return '<img src="' + XrEditor.Global.imageUriRoot + '/shared/folder_page.png" />&nbsp;' + value;
+					return '<img src="' + XrEditor.Global.baseUrl + '/images/shared/folder_page.png" />&nbsp;' + value;
 				}
 			},{
 				text: 'Title',

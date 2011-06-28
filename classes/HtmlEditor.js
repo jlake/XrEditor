@@ -15,7 +15,6 @@ Ext.define('XrEditor.HtmlEditor', {
 	iframe: null,
 	doc: null,
 	win: null,
-	cssPath: '/xreditor/css',
 
 	contextMenu: null,
 	selection: null,
@@ -320,12 +319,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 
 	bindHelperCss: function() {
-		var header = this.doc.getElementsByTagName('head')[0];
-		var link = this.doc.createElement('link');
-		link.setAttribute('rel', 'stylesheet');
-		link.setAttribute('type', 'text/css');
-		link.setAttribute('href', this.cssPath + '/editor-helper.css');
-		header.appendChild(link);
+		XrEditor.Util.appendCss(XrEditor.Global.baseUrl + '/css/editor-helper.css', this.doc);
 	},
 
 	getHtml: function() {

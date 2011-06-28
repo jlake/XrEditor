@@ -15,6 +15,7 @@ Ext.Loader.setConfig({
 Ext.require([
 	'XrEditor.Global',
 	'XrEditor.Util',
+	'XrEditor.Locale',
 	'XrEditor.FileBrowser',
 	'XrEditor.EditorFrame',
 	'XrEditor.Editor',
@@ -96,5 +97,7 @@ Ext.define('XrEditor.App', {
 Ext.onReady(function(){
 	Ext.tip.QuickTipManager.init();
 	Ext.Ajax.timeout = 60000;
+	XrEditor.Locale.setLang(XrEditor.Global.lang);
+	XrEditor.Util.appendScript('http://cdn.sencha.io/ext-4.0.2a/locale/ext-lang-' + XrEditor.Global.lang + '.js');
 	Ext.create('XrEditor.App');
 });

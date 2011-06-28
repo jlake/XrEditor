@@ -6,7 +6,8 @@
  */
 XrEditor.Global = {
 	version: '0.1',
-	//lang: 'jp',
+	baseUrl: '/xreditor',
+	lang: 'ja',
 	fileTypes: {
 		js: 'JavaScript',
 		css: 'CSS',
@@ -22,6 +23,5 @@ XrEditor.Global = {
 		SNIPPET_DETAIL: 'backend/snippet/detail.json'
 	},
 	pageSize: 10,
-	imageUriRoot: '/xreditor/images',
 	currentEditor: null
 };

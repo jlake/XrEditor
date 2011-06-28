@@ -1,6 +1,5 @@
 /**
  * @class XrEditor.Util
- * @extends Object
  *
  * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
@@ -68,6 +67,26 @@ XrEditor.Util = function() {
 		getFileExtension: function(sName, bLower) {
 			var sExt = (/[.]/.exec(sName)) ? /[^.]+$/.exec(sName) + '' : '';
 			return bLower ? sExt.toLowerCase(): sExt;
+		},
+		appendCss: function(cssUrl, doc) {
+			doc = doc || document;
+			if(header = doc.getElementsByTagName('head')[0]) {
+				var el = doc.createElement('link');
+				el.setAttribute('rel', 'stylesheet');
+				el.setAttribute('type', 'text/css');
+				el.setAttribute('href', cssUrl);
+				header.appendChild(el);
+			}
+		},
+		appendScript: function(scriptUrl, doc) {
+			doc = doc || document;
+			if(header = doc.getElementsByTagName('head')[0]) {
+				var el = doc.createElement('script');
+				el.setAttribute('charset', 'utf-8');
+				el.setAttribute('type', 'text/javascript');
+				el.setAttribute('src', scriptUrl);
+				header.appendChild(el);
+			}
 		}
 	};
 }();
