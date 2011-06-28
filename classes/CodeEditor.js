@@ -45,19 +45,19 @@ Ext.define('XrEditor.CodeEditor', {
 		var me = this;
 		var config = {
 			items: [{
-				tooltip: 'Undo',
+				tooltip: _('undo'),
 				iconCls: 'icon-undo',
 				handler: function() {
 					me.editor.undo();
 				}
 			}, {
-				tooltip: 'Redo',
+				tooltip: _('redo'),
 				iconCls: 'icon-redo',
 				handler: function() {
 					me.editor.redo();
 				}
 			}, '-', {
-				tooltip: 'Search & Replace',
+				tooltip: _('search & replace'),
 				iconCls: 'icon-magnifier',
 				handler: function() {
 					me.searchReplace();
@@ -88,6 +88,7 @@ Ext.define('XrEditor.CodeEditor', {
 		this.editor = CodeMirror(this.body.dom, {
 			value: this.config.code,
 			mode: sMode,
+			lineNumbers: true,
 			theme: 'default'
 		});
 		Ext.get(this.editor.getWrapperElement()).applyStyles('background:#ffe;width:100%;height:100%;');
@@ -119,7 +120,7 @@ Ext.define('XrEditor.CodeEditor', {
 		var editor = me.editor;
 		var cursor = null;
 		var findText = new Ext.form.TextField({
-			fieldLabel: '検索する文字列',
+			fieldLabel: _('search string'),
 			value: '',
 			anchor: '100%',
 			listeners: {
@@ -129,7 +130,7 @@ Ext.define('XrEditor.CodeEditor', {
 			}
 		});
 		var replaceText = new Ext.form.TextField({
-			fieldLabel: '置換後の文字列',
+			fieldLabel: _('replace with string'),
 			value: '',
 			anchor: '100%'
 		});
@@ -168,7 +169,7 @@ Ext.define('XrEditor.CodeEditor', {
 					editor.replaceRange(replace, cursor.from(), cursor.to());
 					cnt++;
 				}
-				XrEditor.Util.slideMsg(cnt + '個、置換しました。', 'Editor');
+				XrEditor.Util.slideMsg(_('{0} occurrences have been replaced', [cnt]), _('message'));
 			} else {
 				if(cursor) {
 					editor.replaceRange(replace, cursor.from(), cursor.to());
@@ -192,7 +193,7 @@ Ext.define('XrEditor.CodeEditor', {
 			]
 		});
 		me.searchWin = me.searchWin || new Ext.Window({
-			title: '文字列検索',
+			title: _('search & replace'),
 			closable: true,
 			width: 360,
 			height: 160,
@@ -203,22 +204,22 @@ Ext.define('XrEditor.CodeEditor', {
 			layout: 'fit',
 			items: formPanel,
 			buttons: [{
-				text: '次を検索',
+				text: _('find next'),
 				handler: function(){
 					search(findText.getValue());
 				}
 			}, {
-				text: '置換',
+				text: _('replace'),
 				handler: function(){
 					replace(findText.getValue(), replaceText.getValue(), false);
 				}
 			}, {
-				text: 'すべて置換',
+				text: _('replace all'),
 				handler: function(){
 					replace(findText.getValue(), replaceText.getValue(), true);
 				}
 			}, {
-				text: '閉じる',
+				text: _('close'),
 				handler: function(){
 					me.searchWin.close();
 				}

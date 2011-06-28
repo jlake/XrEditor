@@ -45,25 +45,25 @@ Ext.define('XrEditor.HtmlEditor', {
 		var me = this;
 		// toolbar button configs
 		var aBtnConfigs = [
-			{type: 'button', cmd: 'bold', title: '太字', toggle: false},
-			{type: 'button', cmd: 'italic', title: '斜体', toggle: false},
-			{type: 'button', cmd: 'underLine', title: '下線', toggle: false},
-			{type: 'button', cmd: 'strikeThrough', title: '取り消し線', toggle: false},
-			{type: 'button', cmd: 'subScript', title: '添え字', toggle: false},
-			{type: 'button', cmd: 'superScript', title: '上付き文字', toggle: false},
+			{type: 'button', cmd: 'bold', toggle: false},
+			{type: 'button', cmd: 'italic', toggle: false},
+			{type: 'button', cmd: 'underLine', toggle: false},
+			{type: 'button', cmd: 'strikeThrough', toggle: false},
+			{type: 'button', cmd: 'subScript', toggle: false},
+			{type: 'button', cmd: 'superScript', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'justifyLeft', title: '左揃え', toggle: false},
-			{type: 'button', cmd: 'justifyCenter', title: '中央揃え', toggle: false},
-			{type: 'button', cmd: 'justifyRight', title: '右揃え', toggle: false},
+			{type: 'button', cmd: 'justifyLeft', toggle: false},
+			{type: 'button', cmd: 'justifyCenter', toggle: false},
+			{type: 'button', cmd: 'justifyRight', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'hr', title: '水平線', toggle: false},
+			{type: 'button', cmd: 'hr', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'link', title: 'リンク作成'},
-			{type: 'button', cmd: 'unlink', title: 'リンク解除'},
+			{type: 'button', cmd: 'link'},
+			{type: 'button', cmd: 'unlink'},
 			{type: '-'},
-			{type: 'button', cmd: 'insertimage', title: '画像挿入'},
+			{type: 'button', cmd: 'insertimage'},
 			{type: '/'},
-			{type: 'combo', cmd: 'fontName', title: 'フォント', emptyText: 'Font', size: 120, items: [
+			{type: 'combo', cmd: 'fontName', emptyText: 'Font', size: 120, items: [
 				{value:'andale mono,sans-serif', text: 'Andale Mono'},
 				{value:'arial,helvetica,sans-serif', text: 'Arial'},
 				{value:'arial black,gadget,sans-serif', text: 'Arial Black'},
@@ -80,7 +80,7 @@ Ext.define('XrEditor.HtmlEditor', {
 				{value:'trebuchet ms,lucida grande,verdana,sans-serif', text: 'Trebuchet MS'},
 				{value:'verdana,geneva,sans-serif', text: 'Verdana'}
 			]},
-			{type: 'combo', cmd: 'formatBlock', title: 'フォマット', emptyText: 'Format', size: 70, items: [
+			{type: 'combo', cmd: 'formatBlock', emptyText: 'Format', size: 70, items: [
 				{value: 'H1', text: 'H1'},
 				{value: 'H2', text: 'H2'},
 				{value: 'H3', text: 'H3'},
@@ -91,8 +91,8 @@ Ext.define('XrEditor.HtmlEditor', {
 				{value: 'ADDRESS', text: 'ADDRESS'}
 			]},
 			{type: '-'},
-			{type: 'colormenu', cmd: 'foreColor', title: '文字色'},
-			{type: 'colormenu', cmd: 'backColor', title: '背景色'}
+			{type: 'colormenu', cmd: 'foreColor'},
+			{type: 'colormenu', cmd: 'backColor'}
 		];
 		var aTbConfigs = [];
 		var oTbLine = {
@@ -122,7 +122,7 @@ Ext.define('XrEditor.HtmlEditor', {
 				case 'button':
 					oTbLine.items.push({
 						cmd: oBtn.cmd,
-						tooltip: oBtn.title,
+						tooltip: _(oBtn.cmd),
 						iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
 						enableToggle: oBtn.toggle,
 						handler: function(btn, e) {
@@ -145,7 +145,7 @@ Ext.define('XrEditor.HtmlEditor', {
 					}
 					oTbLine.items.push({
 						cmd: oBtn.cmd,
-						tooltip: oBtn.title,
+						tooltip: _(oBtn.cmd),
 						iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
 						cls: 'x-btn-icon',
 						menu: Ext.create('Ext.menu.Menu', {
@@ -178,7 +178,7 @@ Ext.define('XrEditor.HtmlEditor', {
 				case 'colormenu':
 					oTbLine.items.push({
 						cmd: oBtn.cmd,
-						tooltip: oBtn.title,
+						tooltip: _(oBtn.cmd),
 						iconCls: 'icon-edit-' + oBtn.cmd.toLowerCase(),
 						cls: 'x-btn-icon',
 						menu: Ext.create('Ext.menu.ColorPicker', {

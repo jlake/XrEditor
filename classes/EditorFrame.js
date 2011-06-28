@@ -8,7 +8,7 @@ Ext.define('XrEditor.EditorFrame', {
 	extend: 'Ext.tab.Panel',
 	alias: 'widget.xreditorframe',
 	
-	title: 'Editor Frame Panel',
+	//title: 'Editor Frame',
 
 	initComponent: function() {
 		var editor = new XrEditor.Editor({
@@ -31,15 +31,15 @@ Ext.define('XrEditor.EditorFrame', {
 		var config = {
 			items: [{
 				handler: this.saveOne,
-				text: 'save',
+				text: _('save'),
 				iconCls: 'icon-save'
 			}, {
 				handler: this.saveAll,
-				text: 'save all',
+				text: _('save all'),
 				iconCls: 'icon-saveall'
 			}, '->', {
 				handler: this.showHelp,
-				text: 'About',
+				text: _('about'),
 				iconCls: 'icon-help'
 			}]
 		};
@@ -50,20 +50,20 @@ Ext.define('XrEditor.EditorFrame', {
 	 * save current document
 	 */
 	saveOne: function() {
-		XrEditor.Util.slideMsg('save one', 'Editor');
+		XrEditor.Util.slideMsg(_('save one'));
 	},
 	/**
 	 * save all documents
 	 */
 	saveAll: function() {
-		XrEditor.Util.slideMsg('save all', 'Editor');
+		XrEditor.Util.slideMsg(_('save all'));
 	},
 	/**
 	 * show help message
 	 */
 	showHelp: function() {
-		var sHtml = '<b>XrEditor ' + XrEditor.Global.version + '</b>'
+		var sHtml = '<b>XrEditor ' + _('version {0}', [XrEditor.Global.version]) + '</b>'
 			+ '<br /><small>Copyright &copy; 2011 Jlake Ou</small>';
-		XrEditor.Util.popupMsg(sHtml, 'About');
+		XrEditor.Util.popupMsg(sHtml, _('about'));
 	}
 });

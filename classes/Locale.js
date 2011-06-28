@@ -10,18 +10,20 @@ XrEditor.Locale = function() {
 		/**
 		 * set language
 		 */
-		setLang: function(lang) {
+		setLang: function(lang, callback) {
 			lang = lang || 'en';
 			var url = XrEditor.Global.baseUrl + '/i18n/xreditor-' + lang + '.js';
 			Ext.Ajax.request({
 				url: url,
 				success: function(response, opts) {
-					eval(response.responseText);
-					_dict = XrEditor.Message;
+					eval('_dict=(' + response.responseText + ')');
+					_dict = _dict || {};
+					if(callback) callback();
 				},
 				failure: function() {
 					XrEditor.Util.popupMsg('Failed to load locale file.', 'Error', 'Failure');
 					_dict = {};
+					if(callback) callback();
 				},
 				scope: this 
 			});
@@ -30,21 +32,21 @@ XrEditor.Locale = function() {
 		 * translate
 		 */
 		translate: function (str, replaceList) {
-			var localStr = _dict[str] || str;
+			var localStr = _dict[str] || _dict[str.toLowerCase()] || str;
 			if(replaceList) {
-				return XrEditor.i18n.replaceTmpl(localStr, replaceList);
+				return XrEditor.Locale.replaceTmpl(localStr, replaceList);
 			}
 			return localStr;
 		},
 		/**
-		 * replace %xxx% strings in template
+		 * replace {N} marks in template
 		 */
 		replaceTmpl: function (tmpl, replaceList) {
-			return tmpl.replace(/%(.*?)%/g, function($0, $1){
+			return tmpl.replace(/\{(.*?)\}/g, function($0, $1){
 				return replaceList[$1] || '';
 			});
 		}
 	};
 }();
 
-var _T = XrEditor.Locale.translate;
+var _ = XrEditor.Locale.translate;

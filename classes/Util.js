@@ -68,6 +68,9 @@ XrEditor.Util = function() {
 			var sExt = (/[.]/.exec(sName)) ? /[^.]+$/.exec(sName) + '' : '';
 			return bLower ? sExt.toLowerCase(): sExt;
 		},
+		/**
+		 * append css link to document
+		 */
 		appendCss: function(cssUrl, doc) {
 			doc = doc || document;
 			if(header = doc.getElementsByTagName('head')[0]) {
@@ -78,6 +81,9 @@ XrEditor.Util = function() {
 				header.appendChild(el);
 			}
 		},
+		/**
+		 * append script to document
+		 */
 		appendScript: function(scriptUrl, doc) {
 			doc = doc || document;
 			if(header = doc.getElementsByTagName('head')[0]) {

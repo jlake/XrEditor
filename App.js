@@ -52,7 +52,7 @@ Ext.define('XrEditor.App', {
 				html: '<h1>XrEditor</h1>'
 			},{
 				region: 'west',
-				title: 'File browser',
+				title: _('file browser'),
 				collapsible: true,
 				split: true,
 				width: 280,
@@ -75,7 +75,7 @@ Ext.define('XrEditor.App', {
 				}
 			},{
 				region: 'east',
-				title: 'Toolbox',
+				title: _('toolbox'),
 				collapsible: true,
 				floatable: true,
 				split: true,
@@ -97,7 +97,8 @@ Ext.define('XrEditor.App', {
 Ext.onReady(function(){
 	Ext.tip.QuickTipManager.init();
 	Ext.Ajax.timeout = 60000;
-	XrEditor.Locale.setLang(XrEditor.Global.lang);
 	XrEditor.Util.appendScript('http://cdn.sencha.io/ext-4.0.2a/locale/ext-lang-' + XrEditor.Global.lang + '.js');
-	Ext.create('XrEditor.App');
+	XrEditor.Locale.setLang(XrEditor.Global.lang, function(){
+		Ext.create('XrEditor.App');
+	});
 });
