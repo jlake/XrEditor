@@ -162,7 +162,6 @@ Ext.define('XrEditor.ImageBrowser', {
 					return false;
 				},
 				itemdblclick: function(view, record, item, index, e, opts) {
-					console.log(record.data);
 					if(editor = XrEditor.Global.currentEditor) {
 						if(editor.activeTab.sendCommand) {
 							editor.activeTab.sendCommand('insertimage', record.data.url);
@@ -268,6 +267,7 @@ Ext.define('XrEditor.ImageBrowser', {
 	 */
 	afterRender: function() {
 		this.store.load();
+		this.callParent(arguments);
 	},
 	/**
 	 * cshow context menu

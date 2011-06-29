@@ -12,7 +12,7 @@ XrEditor.Util = function() {
 		 * show loading mask
 		 */
 		showLoadingMask: function(sMsg, el, sSize, n){
-			sMsg = sMsg || 'Loading';
+			sMsg = sMsg || 'Loading...';
 			el = el || document.body;
 			n = n || 0;
 			var config = {

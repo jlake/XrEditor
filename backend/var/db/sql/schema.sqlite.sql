@@ -68,3 +68,33 @@ INSERT INTO snippets (id, lang, title, tags, code, memo)
 		"body{background-color: #FFF0F0;}",
 		"this is a test"
 	);
+
+INSERT INTO snippets (id, lang, title, tags, code, memo)
+	VALUES (
+		NULL,
+		"html",
+		"Hello World (H1)",
+		"test,js",
+		"<h1>Hello World</h1>",
+		"this is a test"
+	);
+
+INSERT INTO snippets (id, lang, title, tags, code, memo)
+	VALUES (
+		NULL,
+		"html",
+		"Hello World (H2)",
+		"test,js",
+		"<h2>Hello World</h2>",
+		"this is a test"
+	);
+
+INSERT INTO snippets (id, lang, title, tags, code, memo)
+	VALUES (
+		NULL,
+		"html",
+		"Hello World (H3)",
+		"test,js",
+		"<h3>Hello World</h3>",
+		"this is a test"
+	);

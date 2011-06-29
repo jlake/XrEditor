@@ -5,12 +5,14 @@
  * Copyright(c) 2011 Jlake Ou (ouzhiwei@gmail.com)
  */
 Ext.define('XrEditor.SnippetBrowser', {
-	extend: 'Ext.grid.Panel',
+	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrimagebrowser',
 
 	selectedNode: null,
 	contextMenu: null,
 	editorFrame: null,
+	listGrid: null,
+	codeEditor: null,
 	initComponent: function() {
 		var me = this;
 		Ext.define('SnippetItem', {
@@ -45,10 +47,9 @@ Ext.define('XrEditor.SnippetBrowser', {
 				}
 			}
 		});
-		Ext.apply(this, {
-			title: this.title || _('snippets'),
-			dockedItems: [this._createToolbar()],
-			height: '100%',
+		me.listGrid = Ext.create('Ext.grid.Panel', {
+			//height: '100%',
+			region: 'center',
 			autoScroll: true,
 			border: false,
 			store: store,
@@ -87,19 +88,57 @@ Ext.define('XrEditor.SnippetBrowser', {
 					this.showContextMenu(pos);
 					return false;
 				},
-				itemdblclick: function(view, record, item, index, e, options) {
+				itemclick: function(view, record, item, index, e, options) {
 					Ext.Ajax.request({
 						url: XrEditor.Global.urls.SNIPPET_DETAIL,
+						method: 'GET',
 						params: {
-							node: record.data.id
+							id: record.data.id
 						},
-						success: function(response){
+						success: function(response) {
 							var data = Ext.decode(response.responseText);
-							console.log(data);
+							if(!data.detail) return;
+							me.codeEditor.setCode(data.detail.code);
 						}
 					});
+				},
+				itemdblclick: function(view, record, item, index, e, options) {
+					if(editor = XrEditor.Global.currentEditor) {
+						Ext.Ajax.request({
+							url: XrEditor.Global.urls.SNIPPET_DETAIL,
+							method: 'GET',
+							params: {
+								id: record.data.id
+							},
+							success: function(response){
+								var data = Ext.decode(response.responseText);
+								if(!data.detail) return;
+								if(editor.activeTab.sendCommand) {
+									editor.activeTab.sendCommand('inserthtml', data.detail.code);
+								} else if(editor.activeTab.insertCode) {
+									editor.activeTab.insertCode(data.detail.code);
+								}
+							}
+						});
+					}
 				}
 			}
+		});
+		me.codeEditor = Ext.create('XrEditor.CodeEditor', {
+			region: 'south',
+			split: true,
+			height: 360,
+			minHeight: 180,
+			maxHeight: 600
+		});
+		Ext.apply(this, {
+			title: this.title || _('snippets'),
+			dockedItems: [this._createToolbar()],
+			height: '100%',
+			layout: {
+				type: 'border'
+			},
+			items: [me.listGrid, me.codeEditor]
 		});
 		this.callParent(arguments);
 	},

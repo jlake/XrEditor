@@ -122,6 +122,12 @@ Ext.define('XrEditor.Selection', {
 			})(node);
 	},
 	/**
+	 * implement for command 'inserthtml'
+	 */
+	_inserthtmlImpl: function(mValue) {
+		return this.insertHtml(mValue);
+	},
+	/**
 	 * implement for command 'hr'
 	 */
 	_hrImpl: function(mValue) {

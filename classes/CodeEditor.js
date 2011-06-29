@@ -70,6 +70,7 @@ Ext.define('XrEditor.CodeEditor', {
 	 * override afterRender method
 	 */
 	afterRender: function() {
+		this.callParent(arguments);
 		var sMode = '';
 		switch(this.config.fileType) {
 			case 'js':
@@ -111,6 +112,17 @@ Ext.define('XrEditor.CodeEditor', {
 	 */
 	setCode: function(sCode) {
 		if(this.editor) this.editor.setValue(sCode);
+	},
+	/**
+	 * insert code
+	 */
+	insertCode: function(sCode) {
+		if(!this.editor) return;
+		/*
+		if(cursor = this.editor.getCursor()) {
+			this.editor.replaceRange(sCode, cursor, cursor);
+		} */
+		this.editor.replaceSelection(sCode);
 	},
 	/**
 	 * Search & replace

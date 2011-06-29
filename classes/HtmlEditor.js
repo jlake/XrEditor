@@ -230,6 +230,7 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 
 	afterRender: function() {
+		this.callParent(arguments);
 		this.iframe = this.createIframe();
 		this.body.appendChild(this.iframe);
 
@@ -268,7 +269,6 @@ Ext.define('XrEditor.HtmlEditor', {
 			}]
 		});
 		this.bindContextMenu();
-		return this.callParent(arguments);
 	},
 
 	showContextMenu: function(pos) {
