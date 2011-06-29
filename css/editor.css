@@ -73,14 +73,14 @@
 	background-image:url(../images/editor/edit-list.png) !important;
 }
 
-.icon-edit-link {
+.icon-edit-createlink {
 	background-image:url(../images/editor/link.png) !important;
 }
 
 .icon-edit-unlink {
 	background-image:url(../images/editor/link_break.png) !important;
 }
-.icon-edit-insertimage {
+.icon-edit-insertimg {
 	background-image:url(../images/editor/picture.png) !important;
 }
 

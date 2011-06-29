@@ -13,7 +13,7 @@ Ext.define('XrEditor.EditorFrame', {
 	initComponent: function() {
 		var editor = new XrEditor.Editor({
 			nodeId: '_blank',
-			code: '<h1>Hello World!</h1>',
+			code: '<h1>Hello World!</h1>To insert image, just double click on it!',
 			fileType: 'html'
 		});
 		Ext.apply(this, {
