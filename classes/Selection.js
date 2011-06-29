@@ -238,13 +238,13 @@ Ext.define('XrEditor.Selection', {
 		win.show();
 	},
 	/**
-	 * implement for command 'link'
+	 * implement for command 'createlink'
 	 */
-	_linkImpl: function(mValue) {
+	_createlinkImpl: function(mValue) {
 		var me = this;
 		var win;
 		//var key = arguments.callee.name;
-		var key = '_link';
+		var key = '_createlink';
 		if(XrEditor.Global.winCache[key]) {
 			win = XrEditor.Global.winCache[key];
 		} else {
@@ -337,13 +337,13 @@ Ext.define('XrEditor.Selection', {
 		win.show();
 	},
 	/**
-	 * implement for command 'insertimage'
+	 * implement for command 'insertimg'
 	 */
-	_insertimageImpl: function(mValue) {
+	_insertimgImpl: function(mValue) {
 		var me = this;
 		var win;
 		//var key = arguments.callee.name;
-		var key = '_insertimage';
+		var key = '_insertimg';
 		if(XrEditor.Global.winCache[key]) {
 			win = XrEditor.Global.winCache[key];
 		} else {

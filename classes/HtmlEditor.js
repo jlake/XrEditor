@@ -67,10 +67,10 @@ Ext.define('XrEditor.HtmlEditor', {
 			{type: 'button', cmd: 'insertunorderedlist', toggle: false},
 			{type: 'button', cmd: 'hr', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'link', toggle: false},
+			{type: 'button', cmd: 'createlink', toggle: false},
 			{type: 'button', cmd: 'unlink', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'insertimage', toggle: false},
+			{type: 'button', cmd: 'insertimg', toggle: false},
 			{type: '/'},
 			{type: 'combo', cmd: 'fontname', emptyText: 'Font', size: 120, items: [
 				{value:'andale mono,sans-serif', text: 'Andale Mono'},

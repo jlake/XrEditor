@@ -86,7 +86,7 @@ Ext.define('XrEditor.ImageBrowser', {
 			tpl: [
 				'<tpl for=".">',
 					'<div class="thumb-wrap" id="{name}">',
-					'<span class="thumb"><img src="{thumburl}" width="'+ me.config.thumbWidth + '" height="'+ me.config.thumbHeight + '" title="{name}" url="{url}"></span>',
+					'<span class="thumb"><img src="{thumburl}" width="'+ me.config.thumbWidth + '" height="'+ me.config.thumbHeight + '" title="{name}"></span>',
 					'<br /><span class="x-editable">{shortName}</span></div>',
 				'</tpl>',
 				'<div class="x-clear"></div>'
@@ -162,10 +162,11 @@ Ext.define('XrEditor.ImageBrowser', {
 					return false;
 				},
 				itemdblclick: function(view, record, item, index, e, opts) {
-					//console.log(record.data);
-					if(record.data.type == 'dir') {
-						me.folder.node = record.data.node;
-						me.store.load();
+					console.log(record.data);
+					if(editor = XrEditor.Global.currentEditor) {
+						if(editor.activeTab.sendCommand) {
+							editor.activeTab.sendCommand('insertimage', record.data.url);
+						}
 					}
 				}
 			}

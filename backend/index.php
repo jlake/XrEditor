@@ -24,7 +24,7 @@ defined('EDITOR_IMGROOT')
 
 defined('EDITOR_IMGURL')
     || define('EDITOR_IMGURL',  BACKEND_BASEURL . '/var/images');
-
+ 
 //echo BACKEND_ROOT;
 set_include_path(implode(PATH_SEPARATOR, array(
     BACKEND_ROOT.'/lib',
