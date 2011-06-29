@@ -11,4 +11,5 @@ For example:
 -------------------------------------------------
 $ chmod -R a+rw ./backend/log ./backend/var
 
-This is [demo](http://example.com/ "XrEditor Demo")
+Demo:
+http://earsea.com/xreditor/
