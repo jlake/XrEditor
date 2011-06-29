@@ -39,7 +39,7 @@ Ext.define('XrEditor.EditorFrame', {
 				iconCls: 'icon-saveall'
 			}, '->', {
 				handler: this.showHelp,
-				text: _('about'),
+				text: _('about xreditor'),
 				iconCls: 'icon-help'
 			}]
 		};

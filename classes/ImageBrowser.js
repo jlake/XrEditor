@@ -8,7 +8,6 @@ Ext.define('XrEditor.ImageBrowser', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.xrimagebrowser',
 
-	title: 'Images',
 	store: null,
 	subFolderMenu: null,
 	contextMenu: null,
@@ -177,6 +176,7 @@ Ext.define('XrEditor.ImageBrowser', {
 			width: 170
 		});
 		Ext.apply(this, {
+			title: this.title || _('images'),
 			dockedItems: [this._createToolbar()],
 			border: false,
 			height: '100%',
@@ -186,7 +186,7 @@ Ext.define('XrEditor.ImageBrowser', {
 				store: store,
 				displayInfo: true,
 				displayMsg: '{0} - {1} of {2}',
-				emptyMsg: "No items to display"
+				emptyMsg: _('no items to display')
 			}),
 		});
 		this.callParent(arguments);

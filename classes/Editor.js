@@ -13,7 +13,6 @@ Ext.define('XrEditor.Editor', {
 	htmlEditor: null,
 	codeEditor: null,
 
-	title: 'Untiltled',
 	config: {
 		id: '',
 		nodeId: '',
@@ -35,6 +34,7 @@ Ext.define('XrEditor.Editor', {
 		aItems.push(this.codeEditor);
 		
 		Ext.apply(this, {
+			title: this.title || 'Untitled',
 			height: '100%',
 			iconCls: 'icon-doc-' + this.config.fileType,
 			closable: true,
@@ -45,7 +45,7 @@ Ext.define('XrEditor.Editor', {
 				tabchange: function(editor, newCard, oldCard, opts) {
 					if(newCard.itemId == 'code') {
 						if(this.htmlEditor) {
-							var sHtml = XrEditor.Html.formatXhtml(this.htmlEditor.getHtml());
+							var sHtml = XrEditor.Html.xhtmlFormat(this.htmlEditor.getHtml());
 							this.codeEditor.setCode(sHtml);
 						}
 					} else {

@@ -9,7 +9,6 @@ Ext.define('XrEditor.HtmlEditor', {
 	alias: 'widget.xrhtmleditor',
 
 	itemId: 'html',
-	title: 'Design',
 	iconCls: 'icon-design',
 
 	iframe: null,
@@ -24,14 +23,22 @@ Ext.define('XrEditor.HtmlEditor', {
 		code: '',
 		fileType: ''
 	},
+
+	/**
+	 * @override
+	 */
 	constructor: function(config) {
 		this.initConfig(config);
 		this.callParent(arguments);
 		return this;
 	},
 
+	/**
+	 * @override
+	 */
 	initComponent: function(){
 		Ext.apply(this, {
+			title: this.title || _('design'),
 			autoScroll: false,
 			dockedItems: [this._createToolbar()]
 		});
@@ -56,14 +63,16 @@ Ext.define('XrEditor.HtmlEditor', {
 			{type: 'button', cmd: 'justifycenter', toggle: false},
 			{type: 'button', cmd: 'justifyright', toggle: false},
 			{type: '-'},
+			{type: 'button', cmd: 'insertorderedlist', toggle: false},
+			{type: 'button', cmd: 'insertunorderedlist', toggle: false},
 			{type: 'button', cmd: 'hr', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'link'},
-			{type: 'button', cmd: 'unlink'},
+			{type: 'button', cmd: 'link', toggle: false},
+			{type: 'button', cmd: 'unlink', toggle: false},
 			{type: '-'},
-			{type: 'button', cmd: 'insertimage'},
+			{type: 'button', cmd: 'insertimage', toggle: false},
 			{type: '/'},
-			{type: 'combo', cmd: 'fontName', emptyText: 'Font', size: 120, items: [
+			{type: 'combo', cmd: 'fontname', emptyText: 'Font', size: 120, items: [
 				{value:'andale mono,sans-serif', text: 'Andale Mono'},
 				{value:'arial,helvetica,sans-serif', text: 'Arial'},
 				{value:'arial black,gadget,sans-serif', text: 'Arial Black'},

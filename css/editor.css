@@ -65,6 +65,14 @@
 	background-image:url(../images/editor/edit-alignment-right.png) !important;
 }
 
+.icon-edit-insertorderedlist {
+	background-image:url(../images/editor/edit-list-order.png) !important;
+}
+
+.icon-edit-insertunorderedlist {
+	background-image:url(../images/editor/edit-list.png) !important;
+}
+
 .icon-edit-link {
 	background-image:url(../images/editor/link.png) !important;
 }

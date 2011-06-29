@@ -16,7 +16,7 @@ XrEditor.Locale = function() {
 			Ext.Ajax.request({
 				url: url,
 				success: function(response, opts) {
-					eval('_dict=(' + response.responseText + ')');
+					eval('(_dict=' + response.responseText + ')');
 					_dict = _dict || {};
 					if(callback) callback();
 				},

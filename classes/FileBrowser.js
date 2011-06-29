@@ -51,7 +51,7 @@ Ext.define('XrEditor.FileBrowser', {
 				}
 			},
 			loadMask: {
-				msg: 'Loading...'
+				msg: _('loading') + '...'
 			},
 			listeners: {
 				selectionchange: function(view, selections, opts) {

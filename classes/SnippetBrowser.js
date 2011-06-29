@@ -8,8 +8,6 @@ Ext.define('XrEditor.SnippetBrowser', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.xrimagebrowser',
 
-	title: 'Snippets',
-
 	selectedNode: null,
 	contextMenu: null,
 	editorFrame: null,
@@ -48,27 +46,28 @@ Ext.define('XrEditor.SnippetBrowser', {
 			}
 		});
 		Ext.apply(this, {
+			title: this.title || _('snippets'),
 			dockedItems: [this._createToolbar()],
 			height: '100%',
 			autoScroll: true,
 			border: false,
 			store: store,
 			loadMask: {
-				msg: 'Loading...'
+				msg: _('loading') + '...'
 			},
 			columns: [{
-				text: 'Language',
+				text: _('language'),
 				sortable: true,
 				dataIndex: 'lang',
 				renderer: function(value) {
 					return '<img src="' + XrEditor.Global.baseUrl + '/images/shared/folder_page.png" />&nbsp;' + value;
 				}
 			},{
-				text: 'Title',
+				text: _('title'),
 				sortable: true,
 				dataIndex: 'title'
 			},{
-				text: 'Last Modified',
+				text: _('last modified'),
 				dataIndex: 'lastmod',
 				sortable: true
 			}],
@@ -76,7 +75,7 @@ Ext.define('XrEditor.SnippetBrowser', {
 				store: store,
 				displayInfo: true,
 				displayMsg: '{0} - {1} of {2}',
-				emptyMsg: "No items to display"
+				emptyMsg: _('no items to display')
 			}),
 			listeners: {
 				beforerender: function(view) {

@@ -12,10 +12,16 @@ Ext.define('XrEditor.Selection', {
 		doc: {},
 		win: {}
 	},
+	/**
+	 * Constructor
+	 */
 	constructor: function(config) {
 		this.initConfig(config);
 		return this;
 	},
+	/**
+	 * save selection
+	 */
 	saveSelection: function() {
 		if(!this.doc) return;
 		if (this.config.win.getSelection) {
@@ -29,6 +35,9 @@ Ext.define('XrEditor.Selection', {
 			this.range = null;
 		}
 	},
+	/**
+	 * restore selection
+	 */
 	restoreSelection: function() {
 		if (!this.range) return;
 		if (this.config.win.getSelection) {
@@ -39,6 +48,9 @@ Ext.define('XrEditor.Selection', {
 			this.range.select();
 		}
 	},
+	/**
+	 * insert html at current selection
+	 */
 	insertHtml: function(sHtml) {
 		if(!this.range) return;
 		if(Ext.isIE) {
@@ -60,6 +72,9 @@ Ext.define('XrEditor.Selection', {
 			}
 		}
 	},
+	/**
+	 * execute editor command
+	 */
 	execCommand: function(sCmd, mValue) {
 		//console.log('execCommand', sCmd, mValue);
 		if(!this.range) return;
@@ -81,6 +96,21 @@ Ext.define('XrEditor.Selection', {
 		}
 		return retValue
 	},
+	/**
+	 * find parent node
+	 */
+	findParentNode: function(tagName, node) {
+		while (node.tagName != "HTML") {
+			if (node.tagName == tagName){
+				return node;
+			}
+			node = node.parentNode;
+		}
+		return null;
+	},
+	/**
+	 * get node's outter html 
+	 */
 	outerHTML: function(node){
 		return node.outerHTML || (
 			function(n){
@@ -91,6 +121,9 @@ Ext.define('XrEditor.Selection', {
 				return h;
 			})(node);
 	},
+	/**
+	 * implement for command 'hr'
+	 */
 	_hrImpl: function(mValue) {
 		/*
 		if(Ext.isIE){
@@ -204,6 +237,9 @@ Ext.define('XrEditor.Selection', {
 		}
 		win.show();
 	},
+	/**
+	 * implement for command 'link'
+	 */
 	_linkImpl: function(mValue) {
 		var me = this;
 		var win;
@@ -300,6 +336,9 @@ Ext.define('XrEditor.Selection', {
 		}
 		win.show();
 	},
+	/**
+	 * implement for command 'insertimage'
+	 */
 	_insertimageImpl: function(mValue) {
 		var me = this;
 		var win;

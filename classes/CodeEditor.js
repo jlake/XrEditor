@@ -12,7 +12,6 @@ Ext.define('XrEditor.CodeEditor', {
 	border: true,
 
 	itemId: 'code',
-	title: 'Code',
 	iconCls: 'icon-code',
 
 	wrapper: null,
@@ -33,6 +32,7 @@ Ext.define('XrEditor.CodeEditor', {
 
 	initComponent: function(){
 		Ext.apply(this, {
+			title: this.title || _('code'),
 			dockedItems: [this._createToolbar()],
 			items: []
 		});
