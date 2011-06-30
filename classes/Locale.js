@@ -11,7 +11,6 @@ XrEditor.Locale = function() {
 		 * set language
 		 */
 		setLang: function(lang, callback) {
-			lang = lang || 'en';
 			var url = XrEditor.Global.baseUrl + '/i18n/xreditor-' + lang + '.js';
 			Ext.Ajax.request({
 				url: url,

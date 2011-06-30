@@ -2,6 +2,21 @@
  * style sheets for app
 */
 
+
+/* Common */
+.locale-flags {
+	float: right;
+}
+
+.flag-image {
+	padding: 3px;
+	cursor: pointer;
+}
+
+.x-form-color-trigger {
+	background-image: url(../images/shared/color-trigger.gif);
+}
+
 /* Message Box */
 .msg .x-box-mc {
 	font-size:14px;
@@ -39,11 +54,7 @@
 	line-height: 24px;
 }
 
-.x-form-color-trigger {
-	background-image: url(../images/shared/color-trigger.gif);
-}
-
-/* Common icons */
+/* Icon */
 .icon-help {
 	background-image:url(../images/shared/question.png) !important;
 }

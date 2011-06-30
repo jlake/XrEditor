@@ -43,7 +43,7 @@
 	'fontname': '字体',
 	'formatblock': '格式化',
 	'forecolor': '文字色',
-	'backcolor': '背景色'，
+	'backcolor': '背景色',
 	'insert horizontal line': '插入横线',
 	'create link': '生成链接',
 	'insert block': '挿入区块',

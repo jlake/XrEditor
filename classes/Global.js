@@ -7,7 +7,11 @@
 XrEditor.Global = {
 	version: '0.1',
 	baseUrl: '/xreditor',
-	lang: 'ja',
+	languages: {
+		en: {title: 'English', flag: 'us.png'},
+		ja: {title: '日本語', flag: 'jp.png'},
+		zh_CN: {title: '简体中文', flag: 'cn.png'}
+	},
 	fileTypes: {
 		js: 'JavaScript',
 		css: 'CSS',

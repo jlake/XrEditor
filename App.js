@@ -38,6 +38,15 @@ Ext.define('XrEditor.App', {
 		var fileBrowser = new XrEditor.FileBrowser();
 		fileBrowser.setEditorFrame(editorFrame);
 		var toolBox = new XrEditor.Toolbox();
+		var sFlagHtml = '<span class="locale-flags">';
+		for(var k in XrEditor.Global.languages) {
+			var oLang =  XrEditor.Global.languages[k];
+			sFlagHtml += '<img class="flag-image" src="' + XrEditor.Global.baseUrl +'/images/flag/' + oLang.flag + '"'
+						+ ' lang="' + k + '"'
+						+ ' title="' + oLang.title + '"'
+						+ ' />';
+		}
+		sFlagHtml += '</span>';
 		Ext.apply(this, {
 			id: 'app-viewport',
 			layout: {
@@ -48,7 +57,16 @@ Ext.define('XrEditor.App', {
 				region: 'north',
 				split: true,
 				height: 60,
-				html: '<img src="' + XrEditor.Global.baseUrl +'/images/shared/logo.png" />'
+				html: '<img src="' + XrEditor.Global.baseUrl +'/images/shared/logo.png" />' + sFlagHtml,
+				listeners: {
+					afterrender: function(panel) {
+						Ext.select('.flag-image', panel.body).on('click', function(e, el, o) {
+							var lang = Ext.get(el).getAttribute('lang');
+							Ext.util.Cookies.set('lang', lang);
+							location.reload();
+						});
+					}
+				}
 			},{
 				region: 'west',
 				title: _('file browser'),
@@ -97,8 +115,9 @@ Ext.onReady(function(){
 	XrEditor.Util.showLoadingMask();
 	Ext.tip.QuickTipManager.init();
 	Ext.Ajax.timeout = 60000;
-	XrEditor.Util.appendJs('http://cdn.sencha.io/ext-4.0.2a/locale/ext-lang-' + XrEditor.Global.lang + '.js');
-	XrEditor.Locale.setLang(XrEditor.Global.lang, function(){
+	var lang = Ext.util.Cookies.get('lang') || 'en';
+	XrEditor.Util.appendJs('http://cdn.sencha.io/ext-4.0.2a/locale/ext-lang-' + lang + '.js');
+	XrEditor.Locale.setLang(lang, function(){
 		XrEditor.Util.hideLoadingMask();
 		Ext.create('XrEditor.App');
 	});
