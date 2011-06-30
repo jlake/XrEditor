@@ -15,8 +15,9 @@ Ext.define('XrEditor.HtmlEditor', {
 	doc: null,
 	win: null,
 
-	contextMenu: null,
 	selection: null,
+	contextMenu: null,
+	targetEl: null,
 
 	config: {
 		nodeId: '',
@@ -218,15 +219,15 @@ Ext.define('XrEditor.HtmlEditor', {
 	},
 
 	createIframe: function() {
-		var iframe = document.createElement('iframe');
-		iframe.setAttribute('id', 'iframe-' + this.id);
-		iframe.setAttribute('frameBorder', '0');
-		iframe.setAttribute('scrolling', 'auto');
+		var el = document.createElement('iframe');
+		el.setAttribute('id', 'iframe-' + this.id);
+		el.setAttribute('frameBorder', '0');
+		el.setAttribute('scrolling', 'auto');
 
-		iframe.style.position = 'relative';
-		iframe.style.width = '100%';
-		iframe.style.height = '100%';
-		return iframe;
+		el.style.position = 'relative';
+		el.style.width = '100%';
+		el.style.height = '100%';
+		return el;
 	},
 
 	afterRender: function() {
@@ -245,28 +246,6 @@ Ext.define('XrEditor.HtmlEditor', {
 		this.selection = new XrEditor.Selection({
 			doc: this.doc,
 			win: this.win
-		});
-
-		var me = this;
-		this.contextMenu = Ext.create('Ext.menu.Menu', {
-			id: 'editor_contextmenu',
-			plain: true,
-			//floating: true,
-			items: [{
-				text: 'Insert',
-				iconCls: 'icon-plus',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('insert', 'Editor');
-					me.hideContextMenu();
-				}
-			}, {
-				text: 'Delete',
-				iconCls: 'icon-minus',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('delete', 'Editor');
-					me.hideContextMenu();
-				}
-			}]
 		});
 		this.bindContextMenu();
 	},
@@ -291,24 +270,59 @@ Ext.define('XrEditor.HtmlEditor', {
 		var docEl = Ext.get(this.doc.body)
 		if(!docEl) return;
 		var me = this;
-		docEl.addListener('contextmenu', function(e, el, o) {
+
+		this.contextMenu = this.contextMenu　|| Ext.create('Ext.menu.Menu', {
+			id: 'editor_contextmenu',
+			plain: true,
+			items: [{
+				text: _('insert block'),
+				iconCls: 'icon-plus',
+				handler: function(widget, e) {
+					me.sendCommand('insertblock', me.targetEl);
+				}
+			}, {
+				text: _('delete'),
+				iconCls: 'icon-minus',
+				handler: function(widget, e) {
+					if(me.targetEl) Ext.get(me.targetEl).remove();
+				}
+			}],
+			listeners: {
+				hide: function(menu, opts) {
+					me.targetEl = null;
+					if(!me.doc) return;
+					Ext.Array.each(Sizzle('.xr-redbox', me.doc), function(el, i, els) {
+						Ext.get(el).removeCls('xr-redbox');
+					});
+				}
+			}
+		});
+
+		docEl.on('contextmenu', function(e, el, o) {
 			//console.log('contextmenu');
-			//Ext.get(el).addCls('redbox');
-			Ext.get(el).highlight();
+			Ext.get(el).addCls('xr-redbox');
+			me.targetEl = el;
 			e.stopEvent();
 			var pos = me.getMousePosition(e);
 			me.showContextMenu(pos);
 			return false;
 		});
-		docEl.addListener('blur', function(e, el, o) {
+		docEl.on('blur', function(e, el, o) {
 			me.hideContextMenu();
 		});
-		docEl.addListener('mouseup', function(e, el, o) {
+		docEl.on('mouseup', function(e, el, o) {
 			me.hideContextMenu();
 		});
-		docEl.addListener('focus', function(e, el, o) {
+		docEl.on('focus', function(e, el, o) {
 			me.bindContextMenu();
 		});
+		/*
+		Ext.get(this.iframe).on('activate', function(e, el, o) {
+			console.log('activate', e, el, o);
+			me.bindContextMenu();
+			me.hideContextMenu();
+		});
+		*/
 	},
 
 	setCssMode: function(bFlag) {

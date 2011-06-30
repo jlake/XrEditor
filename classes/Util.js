@@ -84,7 +84,7 @@ XrEditor.Util = function() {
 		/**
 		 * append script to document
 		 */
-		appendScript: function(scriptUrl, doc) {
+		appendJs: function(scriptUrl, doc) {
 			doc = doc || document;
 			if(header = doc.getElementsByTagName('head')[0]) {
 				var el = doc.createElement('script');

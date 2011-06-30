@@ -19,7 +19,7 @@ class components_file_List extends k_Component {
         $this->_node = $this->query('node', '.');
         $keyword = $this->query('keyword', '');
         $fm = new xreditor_Filemanager( EDITOR_DOCROOT );
-        $this->_children = $fm->findChildren($this->_node, $keyword, '/\.(html|js|css)$/i');
+        $this->_children = $fm->findChildren($this->_node, $keyword, '/\.(html|js|css|xml)$/i');
         $this->_parent = $fm->getParentNode($this->_node);
         return parent::execute();
     }

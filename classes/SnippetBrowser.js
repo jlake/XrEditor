@@ -98,6 +98,7 @@ Ext.define('XrEditor.SnippetBrowser', {
 						success: function(response) {
 							var data = Ext.decode(response.responseText);
 							if(!data.detail) return;
+							me.codeEditor.setMode(me.codeEditor.getModeByExt(data.detail.lang));
 							me.codeEditor.setCode(data.detail.code);
 						}
 					});

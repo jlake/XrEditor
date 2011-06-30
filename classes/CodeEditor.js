@@ -69,10 +69,9 @@ Ext.define('XrEditor.CodeEditor', {
 	/**
 	 * override afterRender method
 	 */
-	afterRender: function() {
-		this.callParent(arguments);
+	getModeByExt: function(sExt) {
 		var sMode = '';
-		switch(this.config.fileType) {
+		switch(sExt) {
 			case 'js':
 				sMode = 'javascript';
 				break;
@@ -82,10 +81,19 @@ Ext.define('XrEditor.CodeEditor', {
 			case 'xml':
 				sMode = 'xml';
 				break;
+			case 'html':
 			default:
 				sMode = 'htmlmixed';
 				break;
 		}
+		return sMode;
+	},
+	/**
+	 * override afterRender method
+	 */
+	afterRender: function() {
+		this.callParent(arguments);
+		var sMode = this.getModeByExt(this.config.fileType);
 		this.editor = CodeMirror(this.body.dom, {
 			value: this.config.code,
 			mode: sMode,
@@ -93,11 +101,13 @@ Ext.define('XrEditor.CodeEditor', {
 			theme: 'default'
 		});
 		Ext.get(this.editor.getWrapperElement()).applyStyles('background:#ffe;width:100%;height:100%;');
+		//this.editor.refresh();
 	},
 	/**
 	 * set editor's mode
 	 */
 	setMode: function(sMode) {
+		if (sMode == 'html') sMode = 'htmlmixed';
 		this.editor.setOption('mode', sMode);
 		this.editor.refresh();
 	},

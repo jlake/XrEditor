@@ -117,6 +117,7 @@ Ext.define('XrEditor.Selection', {
 				var div = document.createElement('div'), h;
 				div.appendChild( n.cloneNode(true) );
 				h = div.innerHTML;
+				Ext.get(div).remove();
 				div = null;
 				return h;
 			})(node);
@@ -124,18 +125,18 @@ Ext.define('XrEditor.Selection', {
 	/**
 	 * implement for command 'inserthtml'
 	 */
-	_inserthtmlImpl: function(mValue) {
-		return this.insertHtml(mValue);
+	_inserthtmlImpl: function(sHtml) {
+		return this.insertHtml(sHtml);
 	},
 	/**
 	 * implement for command 'hr'
 	 */
-	_hrImpl: function(mValue) {
+	_hrImpl: function() {
 		/*
 		if(Ext.isIE){
 			return this.insertHtml('<hr />');
 		}
-		return this.config.doc.execCommand("inserthorizontalrule", false, mValue);
+		return this.config.doc.execCommand("inserthorizontalrule", false);
 		*/
 		var me = this;
 		var win;
@@ -246,7 +247,7 @@ Ext.define('XrEditor.Selection', {
 	/**
 	 * implement for command 'createlink'
 	 */
-	_createlinkImpl: function(mValue) {
+	_createlinkImpl: function() {
 		var me = this;
 		var win;
 		//var key = arguments.callee.name;
@@ -325,18 +326,17 @@ Ext.define('XrEditor.Selection', {
 						win.hide();
 					}
 				},{
+					text: _('reset'),
+					handler: function(){
+						formPanel.getForm().reset()
+						hrefField.setValue('http://');
+					}
+				},{
 					text: _('cancel'),
 					handler: function(){
 						win.hide()
 					}
-				}],
-				listeners: {
-					show: function() {
-						hrefField.setValue('http://');
-						titleField.setValue('');
-						targetField.setValue('');
-					}
-				}
+				}]
 			});
 			XrEditor.Global.winCache[key] = win;
 		}
@@ -345,7 +345,7 @@ Ext.define('XrEditor.Selection', {
 	/**
 	 * implement for command 'insertimg'
 	 */
-	_insertimgImpl: function(mValue) {
+	_insertimgImpl: function() {
 		var me = this;
 		var win;
 		//var key = arguments.callee.name;
@@ -380,7 +380,7 @@ Ext.define('XrEditor.Selection', {
 				]
 			});
 			win = new Ext.Window({
-				title: _('insertimage'),
+				title: _('insertimg'),
 				width: 350,
 				height: 200,
 				layout: 'fit',
@@ -403,17 +403,127 @@ Ext.define('XrEditor.Selection', {
 						win.hide();
 					}
 				},{
+					text: _('reset'),
+					handler: function(){
+						formPanel.getForm().reset()
+						srcField.setValue('http://');
+					}
+				},{
 					text: _('cancel'),
 					handler: function(){
 						win.hide()
 					}
-				}],
-				listeners: {
-					show: function() {
-						srcField.setValue('http://');
-						titleField.setValue('');
+				}]
+			});
+			XrEditor.Global.winCache[key] = win;
+		}
+		win.show();
+	},
+	/**
+	 * implement for command 'createlink'
+	 */
+	_insertblockImpl: function(el) {
+		var me = this;
+		me.targetEl = el;
+		var win;
+		//var key = arguments.callee.name;
+		var key = '_insertblock';
+		if(XrEditor.Global.winCache[key]) {
+			win = XrEditor.Global.winCache[key];
+		} else {
+			var positionField = Ext.create('Ext.form.FieldContainer', {
+				fieldLabel : _('position'),
+				defaultType: 'radiofield',
+				defaults: {
+					flex: 1
+				},
+				layout: 'hbox',
+				items: [{
+					boxLabel: _('above'),
+					name: 'position',
+					inputValue: 'a'
+				}, {
+					boxLabel: _('below'),
+					name: 'position',
+					inputValue: 'b',
+				}]
+			});
+			var tagField = Ext.create('Ext.form.ComboBox', {
+				fieldLabel: _('tag'),
+				name: 'tag',
+				store: Ext.create('Ext.data.Store', {
+					fields: ['value', 'text'],
+					data: [
+						{value: 'div', text: 'div'},
+						{value: 'p', text: 'p'},
+						{value: 'form', text: 'form'},
+						{value: 'ul', text: 'ul'},
+						{value: 'ol', text: 'ol'},
+						{value: 'dl', text: 'dl'}
+					]
+				}),
+				valueField: 'value',
+				displayField: 'text',
+				mode: 'local',
+				triggerAction: 'all',
+				emptyText: '',
+				editable: true,
+				typeAhead: true,
+				value: 'div'
+			});
+			var formPanel = new Ext.form.FormPanel({
+				frame: true,
+				width: '100%',
+				height: '100%',
+				bodyStyle: 'padding:10px',
+				labelWidth: 100,
+				autoScroll: true,
+				bodyBorder: false,
+				collapsible: false,
+				defaults: {width: 300, listWidth:300},
+				items: [
+					positionField,
+					tagField,
+				]
+			});
+			win = new Ext.Window({
+				title: _('insert block'),
+				width: 350,
+				height: 200,
+				layout: 'fit',
+				closeAction: 'hide',
+				buttonAlign: 'center',
+				items: formPanel,
+				buttons: [{
+					text: _('ok'),
+					handler: function(){
+						var values = formPanel.getValues();
+						if(!values.tag) return;
+						var sText = 'some text';
+						if(values.tag == 'ul' || values.tag == 'ol') {
+							sText = '<li>item 1</li>';
+						} else if(values.tag == 'dl') {
+							sText = '<dt>title 1</dt><dd>detail 1</dd>';
+						}
+						var sHtml = '<' + values.tag + '>' + sText + '</' + values.tag + '>';
+						if(values.position == 'b') {
+							Ext.core.DomHelper.insertAfter(me.targetEl, sHtml);
+						} else {
+							Ext.core.DomHelper.insertBefore(me.targetEl, sHtml);
+						}
+						win.hide();
 					}
-				}
+				},{
+					text: _('reset'),
+					handler: function(){
+						formPanel.getForm().reset()
+					}
+				},{
+					text: _('cancel'),
+					handler: function(){
+						win.hide()
+					}
+				}]
 			});
 			XrEditor.Global.winCache[key] = win;
 		}

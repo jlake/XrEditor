@@ -11,6 +11,7 @@ XrEditor.Global = {
 	fileTypes: {
 		js: 'JavaScript',
 		css: 'CSS',
+		xml: 'XML',
 		html: 'HTML'
 	},
 	urls: {
