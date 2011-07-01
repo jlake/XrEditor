@@ -123,13 +123,13 @@ Ext.define('XrEditor.Selection', {
 			})(node);
 	},
 	/**
-	 * implement for command 'inserthtml'
+	 * implement command 'inserthtml'
 	 */
 	_inserthtmlImpl: function(sHtml) {
 		return this.insertHtml(sHtml);
 	},
 	/**
-	 * implement for command 'hr'
+	 * implement command 'hr'
 	 */
 	_hrImpl: function() {
 		/*
@@ -150,15 +150,13 @@ Ext.define('XrEditor.Selection', {
 				name: 'size',
 				//hideTrigger: true,
 				value: '',
-				minValue: 1,
-				maxValue: 125
+				minValue: 1
 			});
 			var widthField = Ext.create('Ext.form.NumberField', {
 				fieldLabel: 'Width',
 				name: 'width',
 				value: '100',
-				minValue: 1,
-				maxValue: 125
+				minValue: 1
 			});
 			var colorField = Ext.create('Ext.ux.form.ColorField', {
 				fieldLabel: 'Color',
@@ -189,7 +187,7 @@ Ext.define('XrEditor.Selection', {
 				frame: true,
 				width: '100%',
 				height: '100%',
-				bodyStyle: 'padding:10px',
+				bodyPadding: 10,
 				labelWidth: 100,
 				autoScroll: true,
 				bodyBorder: false,
@@ -213,8 +211,8 @@ Ext.define('XrEditor.Selection', {
 				buttons: [{
 					text: _('ok'),
 					handler: function(){
-						var sAttr = '';
 						var values = formPanel.getValues();
+						var sAttr = '';
 						for(name in values) {
 							if(values[name]) {
 								if(name == 'width') values[name] += '%';
@@ -245,7 +243,7 @@ Ext.define('XrEditor.Selection', {
 		win.show();
 	},
 	/**
-	 * implement for command 'createlink'
+	 * implement command 'createlink'
 	 */
 	_createlinkImpl: function() {
 		var me = this;
@@ -290,12 +288,16 @@ Ext.define('XrEditor.Selection', {
 				frame: true,
 				width: '100%',
 				height: '100%',
-				bodyStyle: 'padding:10px',
-				labelWidth: 100,
+				bodyPadding: 10,
 				autoScroll: true,
 				bodyBorder: false,
 				collapsible: false,
-				defaults: {width: 300, listWidth:300},
+				fieldDefaults: {
+					labelAlign: 'right',
+					labelWidth: 70,
+					width: 300,
+					msgTarget: 'qtip'
+				},
 				items: [
 					hrefField,
 					titleField,
@@ -313,8 +315,8 @@ Ext.define('XrEditor.Selection', {
 				buttons: [{
 					text: _('ok'),
 					handler: function(){
-						var sAttr = '';
 						var values = formPanel.getValues();
+						var sAttr = '';
 						for(name in values) {
 							if(values[name]) {
 								sAttr += ' ' + name +'="' + values[name] + '"';
@@ -343,7 +345,7 @@ Ext.define('XrEditor.Selection', {
 		win.show();
 	},
 	/**
-	 * implement for command 'insertimg'
+	 * implement command 'insertimg'
 	 */
 	_insertimgImpl: function() {
 		var me = this;
@@ -368,12 +370,16 @@ Ext.define('XrEditor.Selection', {
 				frame: true,
 				width: '100%',
 				height: '100%',
-				bodyStyle: 'padding:10px',
-				labelWidth: 100,
+				bodyPadding: 10,
 				autoScroll: true,
 				bodyBorder: false,
 				collapsible: false,
-				defaults: {width: 300, listWidth:300},
+				fieldDefaults: {
+					labelAlign: 'right',
+					labelWidth: 70,
+					width: 300,
+					msgTarget: 'qtip'
+				},
 				items: [
 					srcField,
 					titleField
@@ -390,8 +396,8 @@ Ext.define('XrEditor.Selection', {
 				buttons: [{
 					text: _('ok'),
 					handler: function(){
-						var sAttr = '';
 						var values = formPanel.getValues();
+						var sAttr = '';
 						for(name in values) {
 							if(values[name]) {
 								sAttr += ' ' + name +'="' + values[name] + '"';
@@ -420,7 +426,7 @@ Ext.define('XrEditor.Selection', {
 		win.show();
 	},
 	/**
-	 * implement for command 'createlink'
+	 * implement command 'createlink'
 	 */
 	_insertblockImpl: function(el) {
 		var me = this;
@@ -435,12 +441,18 @@ Ext.define('XrEditor.Selection', {
 				fieldLabel : _('position'),
 				defaultType: 'radiofield',
 				defaults: {
-					flex: 1
+					flex: 1,
 				},
 				layout: 'hbox',
+				fieldDefaults: {
+					hideLabel: true,
+					width: 70,
+					msgTarget: 'qtip'
+				},
 				items: [{
 					boxLabel: _('above'),
 					name: 'position',
+					checked: true,
 					inputValue: 'a'
 				}, {
 					boxLabel: _('below'),
@@ -451,6 +463,8 @@ Ext.define('XrEditor.Selection', {
 			var tagField = Ext.create('Ext.form.ComboBox', {
 				fieldLabel: _('tag'),
 				name: 'tag',
+				width: 150,
+				listWidth: 150,
 				store: Ext.create('Ext.data.Store', {
 					fields: ['value', 'text'],
 					data: [
@@ -467,20 +481,22 @@ Ext.define('XrEditor.Selection', {
 				mode: 'local',
 				triggerAction: 'all',
 				emptyText: '',
-				editable: true,
-				typeAhead: true,
+				editable: false,
 				value: 'div'
 			});
 			var formPanel = new Ext.form.FormPanel({
 				frame: true,
 				width: '100%',
 				height: '100%',
-				bodyStyle: 'padding:10px',
-				labelWidth: 100,
+				bodyPadding: 10,
 				autoScroll: true,
 				bodyBorder: false,
 				collapsible: false,
-				defaults: {width: 300, listWidth:300},
+				fieldDefaults: {
+					labelAlign: 'right',
+					labelWidth: 70,
+					msgTarget: 'qtip'
+				},
 				items: [
 					positionField,
 					tagField,
@@ -510,6 +526,160 @@ Ext.define('XrEditor.Selection', {
 							Ext.core.DomHelper.insertAfter(me.targetEl, sHtml);
 						} else {
 							Ext.core.DomHelper.insertBefore(me.targetEl, sHtml);
+						}
+						win.hide();
+					}
+				},{
+					text: _('reset'),
+					handler: function(){
+						formPanel.getForm().reset()
+					}
+				},{
+					text: _('cancel'),
+					handler: function(){
+						win.hide()
+					}
+				}]
+			});
+			XrEditor.Global.winCache[key] = win;
+		}
+		win.show();
+	},
+	/**
+	 * implement command 'inserttable'
+	 */
+	_inserttableImpl: function() {
+		var me = this;
+		var win;
+		//var key = arguments.callee.name;
+		var key = '_inserttable';
+		if(XrEditor.Global.winCache[key]) {
+			win = XrEditor.Global.winCache[key];
+		} else {
+			var fieldGroup1 = Ext.create('Ext.form.FieldContainer', {
+				defaults: {
+					flex: 0,
+					labelAlign: 'right',
+					labelWidth: 70,
+					width: 140,
+					msgTarget: 'qtip'
+				},
+				layout: 'hbox',
+				items: [{
+					xtype: 'numberfield',
+					fieldLabel: _('rows'),
+					name: 'rows',
+					value: '2',
+					minValue: 1
+				}, {
+					xtype: 'numberfield',
+					fieldLabel: _('columns'),
+					name: 'columns',
+					value: '2',
+					minValue: 1
+				}]
+			});
+			var fieldGroup2 = Ext.create('Ext.form.FieldContainer', {
+				defaults: {
+					flex: 0,
+					labelAlign: 'right',
+					labelWidth: 70,
+					msgTarget: 'qtip'
+				},
+				layout: 'hbox',
+				items: [{
+					xtype: 'numberfield',
+					fieldLabel: _('border'),
+					name: 'border',
+					value: '',
+					width: 140
+				}, {
+					xtype: 'label',
+					width: 40,
+					text: 'px'
+				}]
+			});
+			var fieldGroup3 = Ext.create('Ext.form.FieldContainer', {
+				defaults: {
+					flex: 0,
+					labelAlign: 'right',
+					labelWidth: 70,
+					msgTarget: 'qtip'
+				},
+				layout: 'hbox',
+				items: [{
+					xtype: 'numberfield',
+					fieldLabel: _('width'),
+					name: 'width',
+					width: 140,
+					value: ''
+				}, {
+					hideLabel: true,
+					xtype: 'combo',
+					name: 'width_unit',
+					width: 50,
+					listWidth: 50,
+					store: Ext.create('Ext.data.Store', {
+						fields: ['value', 'text'],
+						data: [
+							{value: '%', text: '%'},
+							{value: 'px', text: 'px'},
+						]
+					}),
+					valueField: 'value',
+					displayField: 'text',
+					mode: 'local',
+					triggerAction: 'all',
+					emptyText: '',
+					editable: false,
+					value: '%'
+				}]
+			});
+			var formPanel = new Ext.form.FormPanel({
+				frame: true,
+				width: '100%',
+				height: '100%',
+				bodyPadding: 10,
+				autoScroll: true,
+				bodyBorder: false,
+				collapsible: false,
+				items: [
+					fieldGroup1,
+					fieldGroup2,
+					fieldGroup3
+				]
+			});
+			win = new Ext.Window({
+				title: _('insert table'),
+				width: 350,
+				height: 200,
+				layout: 'fit',
+				closeAction: 'hide',
+				buttonAlign: 'center',
+				items: formPanel,
+				buttons: [{
+					text: _('ok'),
+					handler: function(){
+						var values = formPanel.getValues();
+						//console.log(values);
+						var sAttr = '';
+						if(values.border) {
+							sAttr += ' border="' + values.border + '"';
+						}
+						if(values.width) {
+							sAttr += ' width="' + values.width + values.width_unit + '"';
+						}
+						if(values.rows > 0 && values.columns > 0) {
+							var sHtml = '<table' + sAttr + '>\n';
+							for(var i=0; i<values.rows; i++) {
+								sHtml += '<tr>\n';
+								for(var j=0; j<values.columns; j++) {
+									sHtml += '<td>&nbsp;</td>\n';
+								}
+								sHtml += '</tr>\n';
+							}
+							sHtml += '</table>';
+							me.insertHtml(sHtml);
 						}
 						win.hide();
 					}

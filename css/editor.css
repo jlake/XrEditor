@@ -91,3 +91,7 @@
 .icon-edit-backcolor {
 	background-image:url(../images/editor/paint-can-color.png) !important;
 }
+
+.icon-edit-inserttable {
+	background-image:url(../images/editor/table.png) !important;
+}

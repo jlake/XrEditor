@@ -78,7 +78,7 @@ Ext.define('XrEditor.FileBrowser', {
 						success: function(response){
 							var data = Ext.decode(response.responseText);
 							if(data.error) {
-								XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+								XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
 								return;
 							}
 							var editor = new XrEditor.Editor({
@@ -94,24 +94,27 @@ Ext.define('XrEditor.FileBrowser', {
 						}
 					});
 				},
-				itemappend: function(node, newNode, index, opts) {
-					//console.log('itemappend', node, newNode, index, opts);
+				itemappend: function(parentNode, newNode, index, opts) {
+					//console.log('itemappend', parentNode, newNode, index, opts);
 					if(newNode.data.newflg) {
 						Ext.Ajax.request({
 							url: XrEditor.Global.urls.FILE_UTILITY,
 							method: 'GET',
 							params: {
 								action: 'add',
-								parent: node.data.id,
+								parent: parentNode.data.id,
 								type: newNode.data.type,
 								name: newNode.data.text
 							},
 							success: function(response){
 								var data = Ext.decode(response.responseText);
 								if(data.error) {
-									XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+									XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
 									newNode.remove(true);
 									return;
+								}
+								if(!parentNode.isExpanded()) {
+									parentNode.expand();
 								}
 							}
 						});
@@ -131,7 +134,7 @@ Ext.define('XrEditor.FileBrowser', {
 							var data = Ext.decode(response.responseText);
 							//console.log(data);
 							if(data.error) {
-								XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+								XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
 								return;
 							}
 							node.data.id = newParent.data.id + '/' + node.data.text;
@@ -158,7 +161,7 @@ Ext.define('XrEditor.FileBrowser', {
 								var data = Ext.decode(response.responseText);
 								//console.log(data);
 								if(data.error) {
-									XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+									XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
 									node.appendNode(childNode);
 									return;
 								}
@@ -179,27 +182,29 @@ Ext.define('XrEditor.FileBrowser', {
 			var selectedNode = me.selections[0] || me.getRootNode();
 			if(selectedNode.isLeaf()) return;
 			var nodeType = button.initialConfig.nodeType || 'folder';
-			Ext.MessageBox.prompt('Input', 'New folder/file name:', function(btn, text){
+			Ext.MessageBox.prompt(_('input'), _('new name'), function(btn, text){
 				if(btn != 'ok') return;
 				if(!text || !/^[\w.-]+$/.test(text)) {
-					XrEditor.Util.popupMsg('Invalid input!', 'Error', 'ERROR');
+					XrEditor.Util.popupMsg('Invalid input!', _('error'), 'ERROR');
 					return;
 				}
 				var iconCls = '';
-				if(nodeType && nodeType != 'folder') {
+				var isLeaf = false;
+				if(nodeType != 'folder') {
+					iconCls = 'icon-doc-' + nodeType;
+					isLeaf = true;
 					var pattern = new RegExp('.' + nodeType + '$', 'i');
 					if(!pattern.test(text)) {
 						text += '.' + nodeType;
 					}
-					iconCls = 'doc-type-' + nodeType;
 				}
 				selectedNode.appendChild({
 					newflg: true,
 					id: selectedNode.data.id + '/' + text,
 					type: nodeType,
 					text: text,
-					qtip: 'Last Modified: ' + Ext.util.Format.date(Ext.Date.now(), "Y-m-d g:i:s"),
-					leaf: false,
+					qtip: _('last modified') + ': ' + Ext.util.Format.date(Ext.Date.now(), "Y-m-d g:i:s"),
+					leaf: isLeaf,
 					cls: nodeType, 
 					iconCls: iconCls
 				});
@@ -209,7 +214,7 @@ Ext.define('XrEditor.FileBrowser', {
 			//var selectedNode = me.getSelectionModel().getLastselectedNode();
 			var selectedNode = me.selections[0];
 			if(!selectedNode) return;
-			Ext.MessageBox.confirm('Confirm', 'Are you sure to delete "' + selectedNode.data.text +  '" ? ', function(btn) {
+			Ext.MessageBox.confirm(_('confirm'), _('are you sure to delete {0}', ['"' + selectedNode.data.text +  '"']) + '?', function(btn) {
 				if(btn == 'yes') {
 					selectedNode.data.delflg = true;
 					selectedNode.remove();
@@ -221,7 +226,7 @@ Ext.define('XrEditor.FileBrowser', {
 			var selectedNode = me.selections[0];
 			if(!selectedNode) return;
 			var nodeType = selectedNode.data.leaf ? XrEditor.Util.getFileExtension(selectedNode.data.text, true) : 'folder';
-			Ext.MessageBox.prompt('Rename', 'New name:', function(btn, text){
+			Ext.MessageBox.prompt(_('rename'), _('new name') + ':', function(btn, text){
 				if(btn != 'ok') return;
 				if(nodeType && nodeType != 'folder') {
 					var pattern = new RegExp('.' + nodeType + '$', 'i');
@@ -241,7 +246,7 @@ Ext.define('XrEditor.FileBrowser', {
 						var data = Ext.decode(response.responseText);
 						//console.log(data);
 						if(data.error) {
-							XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
+							XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
 							return;
 						}
 						// because there is no setText function

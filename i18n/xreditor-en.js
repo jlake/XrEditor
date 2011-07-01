@@ -47,6 +47,9 @@
 	'insert horizontal line': 'Insert horizontal line',
 	'create link': 'Create link',
 	'insert block': 'Insert block',
+	'insert table': 'Insert table',
+	'select': 'Tag',
+	'tag': 'Tag',
 	'delete': 'Delete',
 	'position': 'Position',
 	'above': 'Above',
@@ -60,6 +63,20 @@
 	'title': 'Title',
 	'last modified': 'Last modified',
 	'{0} occurrences have been replaced': '{0} occurrences have been replaced',
-	'no items to display': 'No items to display'
+	'no items to display': 'No items to display',
+	'file': 'File',
+	'folder': 'Folder',
+	'input': 'Input',
+	'rename': 'Rename',
+	'confirm': 'Confirm',
+	'error': 'Error',
+	'new name': 'New name',
+	'are you sure to delete {0}': 'Are you sure to delete {0}',
+	'invalid input': 'Invalid input',
+	'rows': 'Rows',
+	'columns': 'Columns',
+	'border': 'Border',
+	'width': 'Width',
+	'height': 'Height'
 }
 

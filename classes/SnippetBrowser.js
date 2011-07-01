@@ -172,14 +172,14 @@ Ext.define('XrEditor.SnippetBrowser', {
 			}, {
 				text: 'Rename',
 				iconCls: 'icon-rename',
-				handler: function(widget, e) {
+				handler: function(item, e) {
 					XrEditor.Util.slideMsg('rename', 'Snippet');
 					//me.hideContextMenu();
 				}
 			}, {
 				text: 'Delete',
 				iconCls: 'icon-file-delete',
-				handler: function(widget, e) {
+				handler: function(item, e) {
 					XrEditor.Util.slideMsg('delete', 'Snippet');
 					//me.hideContextMenu();
 				}
@@ -195,7 +195,7 @@ Ext.define('XrEditor.SnippetBrowser', {
 				}
 			}, {
 				iconCls: 'icon-rename',
-				handler: function(widget, e) {
+				handler: function(item, e) {
 					XrEditor.Util.slideMsg('rename', 'Snippet');
 					//me.hideContextMenu();
 				}

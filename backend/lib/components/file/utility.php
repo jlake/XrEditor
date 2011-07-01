@@ -15,8 +15,6 @@ class components_file_Utility extends k_Component {
                 $type = $this->query('type');
                 if(!$fm->createNode($parent, $name, $type)) {
                     $this->_result['error'] = 'add child failed';
-                } else {
-                        $key = $this->getCacheKey($node);
                 }
                 break;
             case 'remove':

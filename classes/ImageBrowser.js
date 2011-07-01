@@ -12,6 +12,7 @@ Ext.define('XrEditor.ImageBrowser', {
 	subFolderMenu: null,
 	contextMenu: null,
 	searchField: null,
+	labelEditor: null,
 	folder: {
 		node: '',
 		parent: '',
@@ -80,6 +81,43 @@ Ext.define('XrEditor.ImageBrowser', {
 			}
 		});
 		me.store = store;
+		me.labelEditor = Ext.create('Ext.ux.DataView.LabelEditor', {
+			dataIndex: 'name',
+			listeners: {
+				beforecomplete: function(editor, value, startValue, opts) {
+					//console.log('beforecomplete', editor, value, startValue, opts);
+					if(!value || !/^[\w.-]+$/.test(value)) {
+						XrEditor.Util.popupMsg('Invalid input!', _('error'), 'ERROR');
+						return false;
+					}
+					var ext = XrEditor.Util.getFileExtension(startValue);
+					var pattern = new RegExp('.' + ext + '$', 'i');
+					if(!pattern.test(value)) {
+						value += '.' + ext;
+						editor.setValue(value);
+					}
+					Ext.Ajax.request({
+						url: XrEditor.Global.urls.IMAGE_UTILITY,
+						method: 'GET',
+						params: {
+							action: 'rename',
+							node: editor.activeRecord.data.node,
+							name: value
+						},
+						success: function(response){
+							var data = Ext.decode(response.responseText);
+							//console.log(data);
+							if(data.error) {
+								XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
+								editor.setValue(startValue);
+								return;
+							}
+						}
+					});
+					return true;
+				}
+			}
+		});
 		var dataView = Ext.create('Ext.view.View', {
 			cls: 'images-view',
 			store: store,
@@ -97,47 +135,8 @@ Ext.define('XrEditor.ImageBrowser', {
 			itemSelector: 'div.thumb-wrap',
 			emptyText: 'No images to display',
 			plugins: [
-				Ext.create('Ext.ux.DataView.DragSelector', {}),
-				Ext.create('Ext.ux.DataView.LabelEditor', {
-					dataIndex: 'name',
-					listeners: {
-						beforecomplete: function(editor, value, startValue, opts) {
-							//console.log('beforecomplete', editor, value, startValue, opts);
-							if(!value || !/^[\w.-]+$/.test(value)) {
-								XrEditor.Util.popupMsg('Invalid input!', 'Error', 'ERROR');
-								return false;
-							}
-							var ext = XrEditor.Util.getFileExtension(startValue);
-							var pattern = new RegExp('.' + ext + '$', 'i');
-							if(!pattern.test(value)) {
-								value += '.' + ext;
-								editor.setValue(value);
-							}
-							Ext.Ajax.request({
-								url: XrEditor.Global.urls.IMAGE_UTILITY,
-								method: 'GET',
-								params: {
-									action: 'rename',
-									node: editor.activeRecord.data.node,
-									name: value
-								},
-								success: function(response){
-									var data = Ext.decode(response.responseText);
-									//console.log(data);
-									if(data.error) {
-										XrEditor.Util.popupMsg(data.error, 'Error', 'ERROR');
-										editor.setValue(startValue);
-										return;
-									}
-								}
-							});
-							return true;
-						}/*,
-						complete: function(editor, value) {
-							console.log('complete', editor, value);
-						}*/
-					}
-				})
+				//Ext.create('Ext.ux.DataView.DragSelector', {}),
+				me.labelEditor
 			],
 			prepareData: function(data) {
 				Ext.apply(data, {
@@ -203,14 +202,14 @@ Ext.define('XrEditor.ImageBrowser', {
 			items: [{
 				text: 'Rename',
 				iconCls: 'icon-rename',
-				handler: function(widget, e) {
-					XrEditor.Util.slideMsg('rename', 'Image');
-					//me.hideContextMenu();
+				handler: function(item, e) {
+					console.log(item, e);
+					//me.labelEditor.onClick(e, Ext.select('.x-editable', e.target));
 				}
 			}, {
 				text: 'Delete',
 				iconCls: 'icon-minus-circle',
-				handler: function(widget, e) {
+				handler: function(item, e) {
 					XrEditor.Util.slideMsg('delete', 'Image');
 					//me.hideContextMenu();
 				}

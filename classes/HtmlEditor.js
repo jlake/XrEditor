@@ -72,6 +72,7 @@ Ext.define('XrEditor.HtmlEditor', {
 			{type: 'button', cmd: 'unlink', toggle: false},
 			{type: '-'},
 			{type: 'button', cmd: 'insertimg', toggle: false},
+			{type: 'button', cmd: 'inserttable', toggle: false},
 			{type: '/'},
 			{type: 'combo', cmd: 'fontname', emptyText: 'Font', size: 120, items: [
 				{value:'andale mono,sans-serif', text: 'Andale Mono'},
@@ -277,13 +278,13 @@ Ext.define('XrEditor.HtmlEditor', {
 			items: [{
 				text: _('insert block'),
 				iconCls: 'icon-plus',
-				handler: function(widget, e) {
+				handler: function(item, e) {
 					me.sendCommand('insertblock', me.targetEl);
 				}
 			}, {
 				text: _('delete'),
 				iconCls: 'icon-minus',
-				handler: function(widget, e) {
+				handler: function(item, e) {
 					if(me.targetEl) Ext.get(me.targetEl).remove();
 				}
 			}],
