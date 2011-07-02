@@ -116,7 +116,7 @@ Ext.onReady(function(){
 	Ext.tip.QuickTipManager.init();
 	Ext.Ajax.timeout = 60000;
 	var lang = Ext.util.Cookies.get('lang') || 'en';
-	XrEditor.Util.appendJs('http://cdn.sencha.io/ext-4.0.2a/locale/ext-lang-' + lang + '.js');
+	XrEditor.Util.appendJs('http://cdn.sencha.io/ext-4.0.2a/locale/ext-lang-' + lang + '.json');
 	XrEditor.Locale.setLang(lang, function(){
 		XrEditor.Util.hideLoadingMask();
 		Ext.create('XrEditor.App');
