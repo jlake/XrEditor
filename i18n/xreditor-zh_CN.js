@@ -76,5 +76,6 @@
 	'columns': '列数',
 	'border': '边幅',
 	'width': '宽度',
-	'height': '高度'
+	'height': '高度',
+	'has been saved': '已被保持'
 }

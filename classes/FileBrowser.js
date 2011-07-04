@@ -64,12 +64,15 @@ Ext.define('XrEditor.FileBrowser', {
 					return false;
 				},
 				itemdblclick: function(view, record, item, index, e, opts) {
-					me.editorFrame.items.each(function(item, index, length) {
-						if(item.initialConfig.nodeId == record.data.id) {
-							me.editorFrame.setActiveTab(item);
+					var bFound = false;
+					me.editorFrame.items.each(function(editor, index, length) {
+						if(editor.initialConfig.nodeId == record.data.id) {
+							me.editorFrame.setActiveTab(editor);
+							bFound = true;
 							return false;
 						}
 					});
+					if(bFound) return;
 					Ext.Ajax.request({
 						url: XrEditor.Global.urls.FILE_CONTENTS,
 						params: {

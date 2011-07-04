@@ -55,7 +55,6 @@ XrEditor.Util = function() {
 			if(!_msgCt){
 				_msgCt = Ext.core.DomHelper.insertFirst(document.body, {id:'msg-div'}, true);
 			}
-			var s = Ext.String.format.apply(String, Array.prototype.slice.call(arguments, 1));
 			var sHtml = '<div class="msg"><h3>' + sTitle + '</h3><p>' + sMsg + '</p></div>';
 			var m = Ext.core.DomHelper.append(_msgCt, sHtml, true);
 			m.hide();

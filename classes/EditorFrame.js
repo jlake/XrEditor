@@ -12,31 +12,51 @@ Ext.define('XrEditor.EditorFrame', {
 
 	initComponent: function() {
 		var editor = new XrEditor.Editor({
-			nodeId: '_blank',
+			nodeId: '',
 			code: '<h1>Hello World!</h1><p>To insert image, just double click on it!</p>',
 			fileType: 'html'
 		});
+		editor.setTitle('*scratch*');
 		Ext.apply(this, {
 			dockedItems: [this._createToolbar()],
 			height: '100%',
 			border: true,
-			items: [editor]
+			items: [editor],
+			listeners: {
+				tabchange: function(frame, newEditor, oldEditor, opts) {
+					var bDisable = (newEditor.config.nodeId == '');
+					Ext.getCmp('tb-save-one').setDisabled(bDisable);
+					Ext.getCmp('tb-save-all').setDisabled(bDisable);
+				}
+			}
 		});
 		this.callParent(arguments);
 	},
+
 	/**
 	 * Create the top toolbar
 	 */
 	_createToolbar: function() {
+		var me = this;
 		var config = {
 			items: [{
-				handler: this.saveOne,
+				id: 'tb-save-one',
 				text: _('save'),
-				iconCls: 'icon-save'
+				iconCls: 'icon-save',
+				disabled: true,
+				handler: function() {
+					me.save(XrEditor.Global.currentEditor);
+				}
 			}, {
-				handler: this.saveAll,
+				id: 'tb-save-all',
 				text: _('save all'),
-				iconCls: 'icon-saveall'
+				iconCls: 'icon-saveall',
+				disabled: true,
+				handler: function() {
+					me.items.each(function(editor, index, length) {
+						me.save(editor);
+					});
+				}
 			}, '->', {
 				handler: this.showHelp,
 				text: _('about xreditor'),
@@ -47,17 +67,29 @@ Ext.define('XrEditor.EditorFrame', {
 	},
 
 	/**
-	 * save current document
+	 * save document
 	 */
-	saveOne: function() {
-		XrEditor.Util.slideMsg(_('save one'));
+	save: function(editor) {
+		if(!editor || editor.config.nodeId == '') return;
+		Ext.Ajax.request({
+			url: XrEditor.Global.urls.FILE_UTILITY,
+			//method: 'GET',
+			params: {
+				action: 'save',
+				node: editor.config.nodeId,
+				contents: editor.getContents()
+			},
+			success: function(response){
+				var data = Ext.decode(response.responseText);
+				if(data.error) {
+					XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
+					return;
+				}
+				XrEditor.Util.slideMsg(editor.config.nodeId + '<br />' + _('has been saved'), _('save'));
+			}
+		});
 	},
-	/**
-	 * save all documents
-	 */
-	saveAll: function() {
-		XrEditor.Util.slideMsg(_('save all'));
-	},
+
 	/**
 	 * show help message
 	 */

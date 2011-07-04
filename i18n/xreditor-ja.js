@@ -76,5 +76,6 @@
 	'columns': '列数',
 	'border': 'ボーダー',
 	'width': '横幅',
-	'height': '縦幅'
+	'height': '縦幅',
+	'has been saved': '保存されました'
 }

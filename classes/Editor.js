@@ -14,7 +14,6 @@ Ext.define('XrEditor.Editor', {
 	codeEditor: null,
 
 	config: {
-		id: '',
 		nodeId: '',
 		code: '',
 		fileType: ''
@@ -55,6 +54,12 @@ Ext.define('XrEditor.Editor', {
 				},
 				activate: function(editor, opts) {
 					XrEditor.Global.currentEditor = editor;
+				},
+				deactivate: function(editor, opts) {
+					XrEditor.Global.currentEditor = null;
+				},
+				remove: function(editor, opts) {
+					XrEditor.Global.currentEditor = null;
 				}
 			}
 		});
@@ -62,5 +67,16 @@ Ext.define('XrEditor.Editor', {
 	},
 	afterrender: function() {
 		editorFrame.doLayout();
+	},
+	/**
+	 * get editor's contents
+	 */
+	getContents: function() {
+		var activeTab = this.getActiveTab();
+		if(activeTab.itemId == 'code') {
+			return this.codeEditor.getCode();
+		} else {
+			return this.htmlEditor.getHtml();
+		}
 	}
 });

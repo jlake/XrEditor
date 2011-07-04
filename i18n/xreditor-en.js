@@ -77,6 +77,7 @@
 	'columns': 'Columns',
 	'border': 'Border',
 	'width': 'Width',
-	'height': 'Height'
+	'height': 'Height',
+	'has been saved': 'has been saved'
 }
 
