@@ -13,6 +13,7 @@ Ext.define('XrEditor.ImageBrowser', {
 	contextMenu: null,
 	searchField: null,
 	labelEditor: null,
+	activeRecord: null,
 	folder: {
 		node: '',
 		parent: '',
@@ -135,7 +136,6 @@ Ext.define('XrEditor.ImageBrowser', {
 			itemSelector: 'div.thumb-wrap',
 			emptyText: 'No images to display',
 			plugins: [
-				//Ext.create('Ext.ux.DataView.DragSelector', {}),
 				me.labelEditor
 			],
 			prepareData: function(data) {
@@ -147,17 +147,10 @@ Ext.define('XrEditor.ImageBrowser', {
 				return data;
 			},
 			listeners: {
-				/*
-				selectionchange: function(view, nodes ){
-					var l = nodes.length,
-						s = l !== 1 ? 's' : '';
-					this.up('panel').setTitle('Simple DataView (' + l + ' item' + s + ' selected)');
-				},
-				*/
-				itemcontextmenu: function(view, record, item, index, e, options) {
+				itemcontextmenu: function(view, record, item, index, e, opts) {
 					e.stopEvent();
-					var pos = e.getXY();
-					me.showContextMenu(pos);
+					me.showContextMenu(e.getXY());
+					me.activeRecord = record;
 					return false;
 				},
 				itemdblclick: function(view, record, item, index, e, opts) {
@@ -166,6 +159,9 @@ Ext.define('XrEditor.ImageBrowser', {
 							editor.activeTab.sendCommand('insertimage', record.data.url);
 						}
 					}
+				},
+				itemremove: function(record, index, opts) {
+					console.log('itemremove', record, index, opts);
 				}
 			}
 		});
@@ -200,18 +196,16 @@ Ext.define('XrEditor.ImageBrowser', {
 			//plain: true,
 			//floating: true,
 			items: [{
-				text: 'Rename',
-				iconCls: 'icon-rename',
-				handler: function(item, e) {
-					console.log(item, e);
-					//me.labelEditor.onClick(e, Ext.select('.x-editable', e.target));
-				}
-			}, {
-				text: 'Delete',
+				text: _('delete'),
 				iconCls: 'icon-minus-circle',
 				handler: function(item, e) {
-					XrEditor.Util.slideMsg('delete', 'Image');
-					//me.hideContextMenu();
+					Ext.MessageBox.confirm(_('confirm'), _('are you sure to delete {0}', ['"' + me.activeRecord.data.name +  '"']) + '?', function(btn) {
+						if(btn == 'yes') {
+							me.activeRecord.data.delflg = true;
+							me.store.remove(me.activeRecord);
+						}
+						me.activeRecord = null;
+					});
 				}
 			}]
 		});

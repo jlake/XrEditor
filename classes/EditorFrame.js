@@ -85,7 +85,7 @@ Ext.define('XrEditor.EditorFrame', {
 					XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
 					return;
 				}
-				XrEditor.Util.slideMsg(editor.config.nodeId + '<br />' + _('has been saved'), _('save'));
+				XrEditor.Util.slideMsg(editor.config.nodeId + '<br />' + _('has been saved'), _('message'));
 			}
 		});
 	},
