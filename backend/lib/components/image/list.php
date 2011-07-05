@@ -42,7 +42,7 @@ class components_image_List extends k_Component {
         $this->_baseUrl = $url;
 
         $fm = new xreditor_Imagemanager( EDITOR_IMGROOT );
-        $children = $fm->findChildren($this->_node, $this->_keyword, $this->query('clearCache', false));
+        $children = $fm->findChildren($this->_node, $this->_keyword, $this->query('clearcache', false));
 
         $this->_folders =  $children['folders'];
         $this->_pageItems =  array_slice($children['images'], $offset, $limit);

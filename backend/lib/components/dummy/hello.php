@@ -1,14 +1,21 @@
 <?php
+
 class components_dummy_Hello extends k_Component {
     private $_msg = '';
     private $_error = '';
 
     function execute() {
         //$this->debug('debug test');
-        $cache = new xreditor_Filecache( CACHE_PATH );
+        //FB::log('This is a log message');
+        $cache = new xreditor_Filecache( BACKEND_CACHEDIR );
         $key = 'cache_test';
-        $dateTime = $cache->get($key);
-        if(!$dateTime) {
+        $dateTime = '';
+        if($this->query('clearcache')) {
+            $result = $cache->clear($key);
+        } else {
+            $dateTime = $cache->get($key);
+        }
+        if(empty($dateTime)) {
             $dateTime = date('Y-m-d H:i:s');
             $cache->set($key, $dateTime);
         }
@@ -16,6 +23,7 @@ class components_dummy_Hello extends k_Component {
         $this->_error = $cache->getLastError();
         return parent::execute();
     }
+
     function renderHtml() {
         $t = new k_Template("templates/dummy/hello.tpl.php");
         return $t->render($this, array(

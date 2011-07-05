@@ -63,7 +63,7 @@ class components_image_Utility extends k_Component {
         if(empty($parent)) {
             $parent = '.';
         }
-        $cache = new xreditor_Filecache( CACHE_PATH );
+        $cache = new xreditor_Filecache( BACKEND_CACHEDIR );
         $key = $fm->getCacheKey($parent);
         $cache->clear($key);
         return parent::execute();

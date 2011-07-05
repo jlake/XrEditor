@@ -67,7 +67,7 @@ Ext.define('XrEditor.ImageBrowser', {
 			},
 			listeners: {
 				beforeload: function(store, operation, opts) {
-					store.proxy.extraParams.clearCache = operation.clearCache || '';
+					store.proxy.extraParams.clearcache = operation.clearcache || '';
 					store.proxy.extraParams.node = me.folder.node;
 				},
 				load: function(store, records, successful, operation, opts) {

@@ -25,7 +25,7 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
         if(!empty($keyword)) {
             $pattern = '/'.str_replace('/', '\/', $keyword).'/i';
         }
-        $cache = new xreditor_Filecache( CACHE_PATH );
+        $cache = new xreditor_Filecache( BACKEND_CACHEDIR );
         $key = $this->getCacheKey($node);
         if($clearCache) {
             $cache->clear($key);
