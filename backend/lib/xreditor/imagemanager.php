@@ -10,7 +10,7 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
    /** 
     * find all children for a node
     */
-    public function findChildren($node, $keyword = '', $filter = '/\.(jpg|gif|png|tiff|jpeg)$/i', $clearCache = false) {
+    public function findChildren($node, $keyword = '', $filter = '', $clearCache = false) {
         $result = array(
             'node' => $node,
             'parent' => $this->getParentNode($node),
@@ -24,6 +24,9 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
         $pattern = '';
         if(!empty($keyword)) {
             $pattern = '/'.str_replace('/', '\/', $keyword).'/i';
+        }
+        if(empty($filter)) {
+            $filter = '/\.(jpg|gif|png|tiff|jpeg)$/i';
         }
         $cache = new xreditor_Filecache( BACKEND_CACHEDIR );
         $key = $this->getCacheKey($node);
@@ -61,6 +64,7 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
                     'url' => FRONT_BASEURL.'/images/shared/folder-24.png'
                 );
             } else {
+                if(!empty($filter) && !preg_match($filter, $fileName)) continue;
                 if(!empty($pattern) && !preg_match($pattern, $fileName)) continue;
                 $ext = self::getExtension($fileName);
                 $result['images'][] = array(

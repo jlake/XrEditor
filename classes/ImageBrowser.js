@@ -249,7 +249,7 @@ Ext.define('XrEditor.ImageBrowser', {
 				iconCls: 'icon-refresh',
 				handler: function() {
 					me.store.load({
-						clearCache: true
+						clearcache: true
 					});
 				}
 			}, '->', me.earchField]

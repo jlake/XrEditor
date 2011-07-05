@@ -41,8 +41,9 @@ class components_image_List extends k_Component {
         $url .= (strpos($url, '?') === FALSE) ? '?' : '&';
         $this->_baseUrl = $url;
 
+        $clearCache = $this->query('clearcache', false);
         $fm = new xreditor_Imagemanager( EDITOR_IMGROOT );
-        $children = $fm->findChildren($this->_node, $this->_keyword, $this->query('clearcache', false));
+        $children = $fm->findChildren($this->_node, $this->_keyword, '/\.(jpg|gif|png|tiff|jpeg)$/i', $clearCache);
 
         $this->_folders =  $children['folders'];
         $this->_pageItems =  array_slice($children['images'], $offset, $limit);
