@@ -3,7 +3,7 @@ The purpose of the project is to implement an online html/code editor based on e
 Require:
 ExtJS 4.0.x
 
-e folders need write permission：
+folders need write permission：
 ./backend/log
 ./backend/var
 
