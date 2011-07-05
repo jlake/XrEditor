@@ -16,6 +16,7 @@ class components_image_List extends k_Component {
     private $_totalItemCount = 0;
     private $_firstItemNumber = 0;
     private $_lastItemNumber = 0;
+
     protected function map($name) {
         switch ($name) {
             case 'list':
@@ -40,9 +41,8 @@ class components_image_List extends k_Component {
         $url .= (strpos($url, '?') === FALSE) ? '?' : '&';
         $this->_baseUrl = $url;
 
-
         $fm = new xreditor_Imagemanager( EDITOR_IMGROOT );
-        $children = $fm->findChildren($this->_node, $this->_keyword);
+        $children = $fm->findChildren($this->_node, $this->_keyword, $this->query('clearCache', false));
 
         $this->_folders =  $children['folders'];
         $this->_pageItems =  array_slice($children['images'], $offset, $limit);
@@ -69,7 +69,6 @@ class components_image_List extends k_Component {
         }
 
         foreach($this->_pageItems as &$image) {
-            //$this->debug($image['name']);
             $image['thumburl'] = $this->url('thumb.image', array(
                     'node' => $image['node'],
                     'w' => $this->query('w', 160),

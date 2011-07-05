@@ -17,7 +17,7 @@ class xreditor_Filecache {
      * Method to get cache file path
      * @return string
      */
-    protected function _getFilePath() {
+    public function _getFilePath() {
         return $this->_cachePath . '/' . preg_replace('/[^\w]+/', '-', $this->_key) . '.cache';
     }
 
@@ -67,14 +67,12 @@ class xreditor_Filecache {
      * @param string $key
      * @return boolean
      */
-    public function delete($key) {
+    public function clear($key) {
         $cacheFile = $this->_getFilePath();;
         if(file_exists($cacheFile)) {
             return unlink($cacheFile);
-        } else {
-            $this->_error = 'Cache file does not exists';
         }
-        return false;
+        return true;
     }
 
     /**

@@ -10,7 +10,7 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
    /** 
     * find all children for a node
     */
-    public function findChildren($node, $keyword = '', $filter = '/\.(jpg|gif|png|tiff|jpeg)$/i') {
+    public function findChildren($node, $keyword = '', $filter = '/\.(jpg|gif|png|tiff|jpeg)$/i', $clearCache = false) {
         $result = array(
             'node' => $node,
             'parent' => $this->getParentNode($node),
@@ -18,24 +18,28 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
             'images' => array(),
             'error' => ''
         );
+        if(strpos($node, '..') !== false){
+            return $result;
+        }
         $pattern = '';
         if(!empty($keyword)) {
             $pattern = '/'.str_replace('/', '\/', $keyword).'/i';
         }
         $cache = new xreditor_Filecache( CACHE_PATH );
         $key = $this->getCacheKey($node);
-        $cacheData = $cache->get($key);
-        if(!empty($cacheData)) {
-            $result['folders'] = $cacheData['folders'];
-            $result['images'] = array();
-            foreach($cacheData['images'] as $image) {
-                if(!empty($pattern) && !preg_match($pattern, $image['name'])) continue;
-                $result['images'][] = $image;
+        if($clearCache) {
+            $cache->clear($key);
+        } else {
+            $cacheData = $cache->get($key);
+            if(!empty($cacheData)) {
+                $result['folders'] = $cacheData['folders'];
+                $result['images'] = array();
+                foreach($cacheData['images'] as $image) {
+                    if(!empty($pattern) && !preg_match($pattern, $image['name'])) continue;
+                    $result['images'][] = $image;
+                }
+                return $result;
             }
-            return $result;
-        }
-        if(strpos($node, '..') !== false){
-            return $result;
         }
         if($node == '.') $node = '';
         $path = $this->_rootPath.$node;
@@ -57,7 +61,6 @@ class xreditor_Imagemanager extends xreditor_Filemanager {
                     'url' => FRONT_BASEURL.'/images/shared/folder-24.png'
                 );
             } else {
-                if(!preg_match($filter, $fileName)) continue;
                 if(!empty($pattern) && !preg_match($pattern, $fileName)) continue;
                 $ext = self::getExtension($fileName);
                 $result['images'][] = array(

@@ -67,6 +67,7 @@ Ext.define('XrEditor.ImageBrowser', {
 			},
 			listeners: {
 				beforeload: function(store, operation, opts) {
+					store.proxy.extraParams.clearCache = operation.clearCache || '';
 					store.proxy.extraParams.node = me.folder.node;
 				},
 				load: function(store, records, successful, operation, opts) {
@@ -161,7 +162,26 @@ Ext.define('XrEditor.ImageBrowser', {
 					}
 				},
 				itemremove: function(record, index, opts) {
-					console.log('itemremove', record, index, opts);
+					//console.log('itemremove', record, index, opts);
+					if(record.data.delflg) {
+						Ext.Ajax.request({
+							url: XrEditor.Global.urls.IMAGE_UTILITY,
+							method: 'GET',
+							params: {
+								action: 'remove',
+								node: record.data.id
+							},
+							success: function(response){
+								var data = Ext.decode(response.responseText);
+								//console.log(data);
+								if(data.error) {
+									XrEditor.Util.popupMsg(data.error, _('error'), 'ERROR');
+									me.store.load();
+									return;
+								}
+							}
+						});
+					}
 				}
 			}
 		});
@@ -228,7 +248,9 @@ Ext.define('XrEditor.ImageBrowser', {
 			}, '-', {
 				iconCls: 'icon-refresh',
 				handler: function() {
-					me.store.load();
+					me.store.load({
+						clearCache: true
+					});
 				}
 			}, '->', me.earchField]
 		};

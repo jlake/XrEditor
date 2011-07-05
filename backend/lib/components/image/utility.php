@@ -65,8 +65,7 @@ class components_image_Utility extends k_Component {
         }
         $cache = new xreditor_Filecache( CACHE_PATH );
         $key = $fm->getCacheKey($parent);
-        $this->debug('delete cache '.$key);
-        $cache->delete($key);
+        $cache->clear($key);
         return parent::execute();
     }
 
