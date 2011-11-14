@@ -70,8 +70,8 @@ class xreditor_Filecache {
     public function clear($key) {
         $this->_key = $key;
         $cacheFile = $this->_getFilePath();;
-$log = new xreditor_Logger(BACKEND_LOGDIR, xreditor_Logger::DEBUG );
-$log->logDebug($cacheFile);
+//$log = new xreditor_Logger(BACKEND_LOGDIR, xreditor_Logger::DEBUG );
+//$log->logDebug($cacheFile);
         if(file_exists($cacheFile)) {
             return unlink($cacheFile);
         }

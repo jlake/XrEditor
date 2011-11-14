@@ -50,7 +50,7 @@
 /* Loading Mask */
 .big-loading-mask div {
 	padding:10px 15px 10px 50px;
-	background: #fbfbfb url( '../images/shared/loading2.gif' ) no-repeat 5px 5px;
+	background: #fbfbfb url(../images/shared/loading2.gif) no-repeat 5px 5px;
 	line-height: 24px;
 }
 
@@ -186,12 +186,12 @@
 
 .images-view .x-item-over {
 	border:1px solid #dddddd;
-	background: #efefef url(over.gif) repeat-x left top;
+	background: #efefef url(../images/shared/over.gif) repeat-x left top;
 	padding: 4px;
 }
 
 .images-view .x-item-selected {
-	background: #eff5fb url(selected.gif) no-repeat right bottom;
+	background: #eff5fb url(../images/shared/selected.gif) no-repeat right bottom;
 	border:1px solid #99bbe8;
 	padding: 4px;
 }
@@ -201,7 +201,7 @@
 
 .images-view .loading-indicator {
 	font-size:11px;
-	background-image:url('../images/shared/loading.gif');
+	background-image:url(../images/shared/loading.gif);
 	background-repeat: no-repeat;
 	background-position: left;
 	padding-left:20px;

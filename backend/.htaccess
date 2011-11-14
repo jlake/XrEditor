@@ -1,3 +1,5 @@
+SetEnv APP_ENV development
+
 RewriteEngine On
 RewriteBase /xreditor/backend/
 RewriteCond %{REQUEST_FILENAME} !-f
