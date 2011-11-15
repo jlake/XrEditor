@@ -40,7 +40,7 @@ class components_snippet_List extends k_Component {
         $url .= (strpos($url, '?') === FALSE) ? '?' : '&';
         $this->_baseUrl = $url;
 
-        $db = Config::$db;
+        $db = AppConfig::$db;
         xreditor_Db::setConnectionInfo($db['dbname'], $db['username'], $db['password'],  $db['database']);
 
         $dataSql = "SELECT id, lang, title, tags, lastmod FROM snippets";

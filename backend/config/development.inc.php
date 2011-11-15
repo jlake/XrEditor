@@ -3,7 +3,7 @@
 date_default_timezone_set('Asia/Tokyo');
 
 // アプリケーション設定
-class Config {
+class AppConfig {
     public static $db = array(
         'database' => 'sqlite',
         'dbname' => "var/db/appdata.db3",
@@ -22,8 +22,4 @@ class Config {
         }
         return array();
     }
-}
-
-// アプリケーション定数
-class AppConst {
 }

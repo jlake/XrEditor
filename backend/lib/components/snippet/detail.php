@@ -8,7 +8,7 @@ class components_snippet_Detail extends k_Component {
     function execute() {
         $id = $this->query('id', '');
 
-        $db = Config::$db;
+        $db = AppConfig::$db;
         xreditor_Db::setConnectionInfo($db['dbname'], $db['username'], $db['password'],  $db['database']);
 
         $dataSql = "SELECT * FROM snippets";
