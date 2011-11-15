@@ -2,15 +2,28 @@
 // 開発環境設定ファイル
 date_default_timezone_set('Asia/Tokyo');
 
+// アプリケーション設定
 class Config {
-    public static function getDbConfig()
+    public static $db = array(
+        'database' => 'sqlite',
+        'dbname' => "var/db/appdata.db3",
+        'username' => null,
+        'password' => null,
+        'host' => 'localhost',
+    );
+
+    public static function getConfig($id)
     {
-        return array(
-            'dbname' => BACKEND_ROOT . '/var/db/appdata.db3',
-            'username' => null,
-            'password' => null,
-            'database' => 'sqlite',
-            'host' => 'localhost',
+        $configs = array(
+            'db' => self::$db,
         );
+        if(isset($configs[$id])) {
+            return $configs[$id];
+        }
+        return array();
     }
+}
+
+// アプリケーション定数
+class AppConst {
 }
