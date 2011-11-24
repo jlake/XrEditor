@@ -38,6 +38,7 @@ class xreditor_Db {
         // Making the connection blank
         // Will connect with provided info on next query execution
         self::$_pdo = null;
+        self::_connect();
     }
 
     /**
@@ -138,13 +139,49 @@ class xreditor_Db {
         self::$_pdo->quote($str);
     }
 
-    public static function arrayToWhereExpr($arr, $joinBy = 'AND')
+    public static function arrayToWhereExpr($kvArr, $joinBy = 'AND')
     {
         $where = array();
-        foreach($filter as $k => $v) {
+        foreach($kvArr as $k => $v) {
             $where[] = $k . '=' . self::$_pdo->quote($v);
         }
         return '(' . implode(" $joinBy ", $where) . ')';
+    }
+
+    /**
+     * save data to table (insert or update)
+     *
+     * @param string $table  table name
+     * @param array $dataArr  data array
+     * @param array $keyArr  key array
+     * @return mixed
+     */
+    public static function saveTableData($table, $dataArr, $keyArr=NULL)
+    {
+        $count = 0;
+        if(!empty($keyArr)) {
+            $whereStr = self::arrayToWhereExpr($keyArr);
+            $count = self::getValue("SELECT COUNT(1) FROM $table WHERE $whereStr");
+        }
+        if($count == 0) {
+            $fields = '';
+            $values = '';
+            $koma = '';
+            foreach($dataArr as $k=>$v) {
+                $fields .= $koma.$k;
+                $values .= $koma.self::$_pdo->quote($v);
+                $koma = ',';
+            }
+            return self::execute("INSERT INTO $table ($fields) VALUES($values)");
+        } else {
+            $values = '';
+            $koma = '';
+            foreach($dataArr as $k=>$v) {
+                $values .= $koma.$k.'='.self::$_pdo->quote($v);
+                $koma = ',';
+            }
+            return self::execute("UPDATE d_users SET $values WHERE $whereStr");
+        }
     }
     /* add by ou -- end -- */
 
