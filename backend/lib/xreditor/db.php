@@ -156,7 +156,7 @@ class xreditor_Db {
      * @param array $keyArr  key array
      * @return mixed
      */
-    public static function saveTableData($table, $dataArr, $keyArr=NULL)
+    public static function saveData($table, $dataArr, $keyArr=NULL)
     {
         $count = 0;
         if(!empty($keyArr)) {
@@ -180,7 +180,7 @@ class xreditor_Db {
                 $values .= $koma.$k.'='.self::$_pdo->quote($v);
                 $koma = ',';
             }
-            return self::execute("UPDATE d_users SET $values WHERE $whereStr");
+            return self::execute("UPDATE $table SET $values WHERE $whereStr");
         }
     }
     /* add by ou -- end -- */
